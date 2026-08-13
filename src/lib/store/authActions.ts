@@ -1,5 +1,5 @@
 import type { StateCreator } from "zustand";
-import type { RABState, User } from "./types";
+import type { RABState } from "./types";
 import { supabase } from "../supabaseClient";
 
 const simpleHash = (str: string): string => {
@@ -31,7 +31,7 @@ export const createAuthActions = (
       return { success: false, error: "Password minimal 6 karakter." };
     }
 
-    const { data, error } = await supabase.auth.signUp({
+    const { error } = await supabase.auth.signUp({
       email: emailLower,
       password: passwordPlain,
       options: {
@@ -45,40 +45,17 @@ export const createAuthActions = (
       return { success: false, error: error.message };
     }
 
-    if (data.user) {
-      const newUser: User = {
-        id: data.user.id,
-        email: emailLower,
-        name: name.trim(),
-        passwordHash: "",
-      };
-      set({ currentUser: newUser });
-    }
-
     return { success: true };
   },
 
   loginUser: async (email, passwordPlain) => {
-    const { data, error } = await supabase.auth.signInWithPassword({
+    const { error } = await supabase.auth.signInWithPassword({
       email: email.trim().toLowerCase(),
       password: passwordPlain,
     });
 
     if (error) {
       return { success: false, error: error.message };
-    }
-
-    if (data.user) {
-      const name = data.user.user_metadata?.display_name || data.user.email?.split("@")[0] || "User";
-      const loggedUser: User = {
-        id: data.user.id,
-        email: data.user.email || "",
-        name,
-        passwordHash: "",
-      };
-
-      set({ currentUser: loggedUser });
-      // The onAuthStateChange listener in page.tsx will fetch, seed, and populate projects
     }
 
     return { success: true };

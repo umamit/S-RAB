@@ -53,7 +53,16 @@ src/
 ## 5. Larangan
 
 - ❌ Jangan buat file dengan 2+ komponen React yang diekspor
-- ❌ Jangan buat file `utils.ts` atau `helpers.ts` yang berisi campuran fungsi tidak berkaitan
+- ❌ Jangan buat file `utils.ts` or `helpers.ts` yang berisi campuran fungsi tidak berkaitan
 - ❌ Jangan melewati batas 150 baris dengan alasan apapun — pecah dulu, baru kerjakan
+
+## 6. Efisiensi Token AI
+
+Untuk menghemat biaya token AI dan menjaga kecepatan respon:
+- ⚡ **Pencarian Terarah**: Jangan melakukan pencarian teks global (grep) atau listing direktori rekursif secara masif jika target file sudah diketahui.
+- ⚡ **Batasi Pembacaan File**: Hanya baca baris kode yang relevan menggunakan rentang baris (`StartLine` dan `EndLine`). Hindari membaca seluruh isi file berukuran besar jika hanya ingin mengedit area kecil.
+- ⚡ **Edit Contiguous**: Gunakan `replace_file_content` untuk melakukan edit kecil yang terlokalisasi, alih-alih menulis ulang seluruh isi file.
+- ⚡ **Konsistensi Perintah**: Jangan menjalankan perintah build (`npm run build`) berulang-ulang tanpa perubahan kode yang substansial.
+- ⚡ **Respon Singkat**: Tulis respon penjelasan sependek dan sejelas mungkin tanpa basa-basi.
 
 <!-- END:project-coding-rules -->
