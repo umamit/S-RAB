@@ -121,7 +121,8 @@ export interface RABState {
   updateGlobalResourcePrice: (projectId: string, name: string, price: number) => void;
 
   // Auth Actions
-  registerUser: (email: string, name: string, passwordPlain: string) => { success: boolean; error?: string };
-  loginUser: (email: string, passwordPlain: string) => { success: boolean; error?: string };
-  logoutUser: () => void;
+  registerUser: (email: string, name: string, passwordPlain: string) => Promise<{ success: boolean; error?: string }>;
+  loginUser: (email: string, passwordPlain: string) => Promise<{ success: boolean; error?: string }>;
+  logoutUser: () => Promise<void>;
+
 }

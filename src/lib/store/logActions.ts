@@ -1,36 +1,40 @@
 import type { StateCreator } from "zustand";
 import type { RABState, DailyLog } from "./types";
 import { calculateAHSPUnitPrice } from "./ahspTemplates";
+import { syncProjectToSupabase } from "../supabaseClient";
 
-// ============================================================
-// Daily Log, Weekly Progress & SSH Price Actions
-// ============================================================
 export const createLogActions = (
   set: Parameters<StateCreator<RABState>>[0],
 ): Pick<RABState, "addDailyLog" | "deleteDailyLog" | "updateWeeklyProgress" | "updateGlobalResourcePrice"> => ({
 
   addDailyLog: (projectId, date, weather, workers, notes) => {
-    set((state) => ({
-      projects: state.projects.map((p) => {
+    set((state) => {
+      const nextProjects = state.projects.map((p) => {
         if (p.id !== projectId) return p;
         const newLog: DailyLog = { id: `log-${Date.now()}`, date, weather, workers, notes };
         return { ...p, dailyLogs: [...(p.dailyLogs || []), newLog] };
-      }),
-    }));
+      });
+      const found = nextProjects.find((p) => p.id === projectId);
+      if (found) syncProjectToSupabase(found);
+      return { projects: nextProjects };
+    });
   },
 
   deleteDailyLog: (projectId, logId) => {
-    set((state) => ({
-      projects: state.projects.map((p) => {
+    set((state) => {
+      const nextProjects = state.projects.map((p) => {
         if (p.id !== projectId) return p;
         return { ...p, dailyLogs: (p.dailyLogs || []).filter((l) => l.id !== logId) };
-      }),
-    }));
+      });
+      const found = nextProjects.find((p) => p.id === projectId);
+      if (found) syncProjectToSupabase(found);
+      return { projects: nextProjects };
+    });
   },
 
   updateWeeklyProgress: (projectId, weekNumber, categoryId, percentage) => {
-    set((state) => ({
-      projects: state.projects.map((p) => {
+    set((state) => {
+      const nextProjects = state.projects.map((p) => {
         if (p.id !== projectId) return p;
         const list = [...(p.weeklyProgress || [])];
         const idx = list.findIndex((w) => w.weekNumber === weekNumber);
@@ -40,13 +44,16 @@ export const createLogActions = (
           list.push({ weekNumber, actualCategoryProgress: { [categoryId]: percentage } });
         }
         return { ...p, weeklyProgress: list };
-      }),
-    }));
+      });
+      const found = nextProjects.find((p) => p.id === projectId);
+      if (found) syncProjectToSupabase(found);
+      return { projects: nextProjects };
+    });
   },
 
   updateGlobalResourcePrice: (projectId, name, price) => {
-    set((state) => ({
-      projects: state.projects.map((proj) => {
+    set((state) => {
+      const nextProjects = state.projects.map((proj) => {
         if (proj.id !== projectId) return proj;
         return {
           ...proj,
@@ -71,7 +78,10 @@ export const createLogActions = (
             })),
           })),
         };
-      }),
-    }));
+      });
+      const found = nextProjects.find((p) => p.id === projectId);
+      if (found) syncProjectToSupabase(found);
+      return { projects: nextProjects };
+    });
   },
 });

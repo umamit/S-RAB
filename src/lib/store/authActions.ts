@@ -1,9 +1,7 @@
 import type { StateCreator } from "zustand";
 import type { RABState, User } from "./types";
+import { supabase, fetchProjectsFromSupabase } from "../supabaseClient";
 
-// ============================================================
-// Auth Actions — register, login, logout
-// ============================================================
 const simpleHash = (str: string): string => {
   let hash = 0;
   for (let i = 0; i < str.length; i++) {
@@ -21,8 +19,7 @@ export const createAuthActions = (
   get: Parameters<StateCreator<RABState>>[1]
 ): Pick<RABState, "registerUser" | "loginUser" | "logoutUser"> => ({
 
-  registerUser: (email, name, passwordPlain) => {
-    const { users } = get();
+  registerUser: async (email, name, passwordPlain) => {
     const emailLower = email.trim().toLowerCase();
     if (!emailLower || !name.trim() || !passwordPlain) {
       return { success: false, error: "Semua kolom wajib diisi." };
@@ -33,34 +30,68 @@ export const createAuthActions = (
     if (passwordPlain.length < 6) {
       return { success: false, error: "Password minimal 6 karakter." };
     }
-    if (users.find((u) => u.email.toLowerCase() === emailLower)) {
-      return { success: false, error: "Email sudah terdaftar. Silakan masuk." };
-    }
-    const newUser: User = {
-      id: `user-${Date.now()}`,
+
+    const { data, error } = await supabase.auth.signUp({
       email: emailLower,
-      name: name.trim(),
-      passwordHash: simpleHash(passwordPlain),
-    };
-    set((state) => ({ users: [...state.users, newUser], currentUser: newUser }));
+      password: passwordPlain,
+      options: {
+        data: {
+          display_name: name.trim(),
+        },
+      },
+    });
+
+    if (error) {
+      return { success: false, error: error.message };
+    }
+
+    if (data.user) {
+      const newUser: User = {
+        id: data.user.id,
+        email: emailLower,
+        name: name.trim(),
+        passwordHash: "",
+      };
+      set({ currentUser: newUser });
+    }
+
     return { success: true };
   },
 
-  loginUser: (email, passwordPlain) => {
-    const { users } = get();
-    const emailLower = email.trim().toLowerCase();
-    const found = users.find((u) => u.email.toLowerCase() === emailLower);
-    if (!found) {
-      return { success: false, error: "Email tidak ditemukan. Daftar akun baru terlebih dahulu." };
+  loginUser: async (email, passwordPlain) => {
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email: email.trim().toLowerCase(),
+      password: passwordPlain,
+    });
+
+    if (error) {
+      return { success: false, error: error.message };
     }
-    if (found.passwordHash !== simpleHash(passwordPlain)) {
-      return { success: false, error: "Password salah. Periksa kembali." };
+
+    if (data.user) {
+      const name = data.user.user_metadata?.display_name || data.user.email?.split("@")[0] || "User";
+      const loggedUser: User = {
+        id: data.user.id,
+        email: data.user.email || "",
+        name,
+        passwordHash: "",
+      };
+
+      set({ currentUser: loggedUser });
+
+      // Fetch projects for this user from Supabase and sync local state
+      const dbProjects = await fetchProjectsFromSupabase();
+      set({
+        projects: dbProjects,
+        activeProjectId: dbProjects.length > 0 ? dbProjects[0].id : null,
+      });
     }
-    set({ currentUser: found, activeProjectId: null });
+
     return { success: true };
   },
 
-  logoutUser: () => {
-    set({ currentUser: null, activeProjectId: null });
+  logoutUser: async () => {
+    await supabase.auth.signOut();
+    set({ currentUser: null, activeProjectId: null, projects: [] });
   },
 });

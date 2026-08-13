@@ -1,5 +1,6 @@
 import type { StateCreator } from "zustand";
 import type { RABState, Project } from "./types";
+import { syncProjectToSupabase, deleteProjectFromSupabase } from "../supabaseClient";
 
 export const createProjectCrud = (
   set: Parameters<StateCreator<RABState>>[0],
@@ -31,6 +32,7 @@ export const createProjectCrud = (
       }],
     };
     set((state) => ({ projects: [...state.projects, newProject], activeProjectId: id }));
+    syncProjectToSupabase(newProject);
     return id;
   },
 
@@ -42,15 +44,26 @@ export const createProjectCrud = (
         : state.activeProjectId;
       return { projects: nextProjects, activeProjectId: nextActiveId };
     });
+    deleteProjectFromSupabase(id);
   },
 
   updateProject: (id, updates) => {
-    set((state) => ({ projects: state.projects.map((p) => p.id === id ? { ...p, ...updates } : p) }));
+    set((state) => {
+      const nextProjects = state.projects.map((p) => p.id === id ? { ...p, ...updates } : p);
+      const found = nextProjects.find((p) => p.id === id);
+      if (found) syncProjectToSupabase(found);
+      return { projects: nextProjects };
+    });
   },
 
   setActiveProject: (id) => { set({ activeProjectId: id }); },
 
   updateProjectDuration: (projectId, durationWeeks) => {
-    set((state) => ({ projects: state.projects.map((p) => p.id === projectId ? { ...p, durationWeeks } : p) }));
+    set((state) => {
+      const nextProjects = state.projects.map((p) => p.id === projectId ? { ...p, durationWeeks } : p);
+      const found = nextProjects.find((p) => p.id === projectId);
+      if (found) syncProjectToSupabase(found);
+      return { projects: nextProjects };
+    });
   },
 });

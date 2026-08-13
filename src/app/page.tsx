@@ -8,6 +8,7 @@ import BudgetSummary from "@/components/BudgetSummary";
 import ProjectEditor from "@/components/ProjectEditor";
 import AddProjectModal from "@/components/AddProjectModal";
 import LoginScreen from "@/components/LoginScreen";
+import { supabase, fetchProjectsFromSupabase } from "@/lib/supabaseClient";
 
 export default function Home() {
   const [isMounted, setIsMounted] = useState(false);
@@ -24,6 +25,40 @@ export default function Home() {
 
   useEffect(() => {
     setIsMounted(true);
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
+      if (session?.user) {
+        const name = session.user.user_metadata?.display_name || session.user.email?.split("@")[0] || "User";
+        const loggedUser = {
+          id: session.user.id,
+          email: session.user.email || "",
+          name,
+          passwordHash: "",
+        };
+
+        const dbProjects = await fetchProjectsFromSupabase();
+
+        useRABStore.setState({
+          currentUser: loggedUser,
+          projects: dbProjects,
+          activeProjectId: dbProjects.length > 0
+            ? (useRABStore.getState().activeProjectId && dbProjects.find(p => p.id === useRABStore.getState().activeProjectId)
+               ? useRABStore.getState().activeProjectId
+               : dbProjects[0].id)
+            : null,
+        });
+      } else {
+        useRABStore.setState({
+          currentUser: null,
+          activeProjectId: null,
+          projects: [],
+        });
+      }
+    });
+
+    return () => {
+      subscription.unsubscribe();
+    };
   }, []);
 
   if (!isMounted) {

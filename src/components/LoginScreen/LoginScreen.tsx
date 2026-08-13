@@ -14,10 +14,10 @@ export default function LoginScreen() {
     await new Promise((r) => setTimeout(r, 350));
 
     if (mode === "login") {
-      const result = loginUser(data.email, data.password);
+      const result = await loginUser(data.email, data.password);
       if (!result.success) setError(result.error || "Login gagal.");
     } else {
-      const result = registerUser(data.email, data.name, data.password);
+      const result = await registerUser(data.email, data.name, data.password);
       if (!result.success) setError(result.error || "Pendaftaran gagal.");
     }
   };

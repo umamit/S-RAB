@@ -1,13 +1,14 @@
 import type { StateCreator } from "zustand";
 import type { RABState, Item } from "./types";
 import { calculateAHSPUnitPrice } from "./ahspTemplates";
+import { syncProjectToSupabase } from "../supabaseClient";
 
 export const createItemCrud = (
   set: Parameters<StateCreator<RABState>>[0],
 ): Pick<RABState, "addItem" | "updateItem" | "deleteItem" | "updateItemAHSP"> => ({
   addItem: (projectId, subProjectId, categoryId, item) => {
-    set((state) => ({
-      projects: state.projects.map((p) => {
+    set((state) => {
+      const nextProjects = state.projects.map((p) => {
         if (p.id !== projectId) return p;
         return {
           ...p,
@@ -24,13 +25,16 @@ export const createItemCrud = (
             };
           }),
         };
-      }),
-    }));
+      });
+      const found = nextProjects.find((p) => p.id === projectId);
+      if (found) syncProjectToSupabase(found);
+      return { projects: nextProjects };
+    });
   },
 
   updateItem: (projectId, subProjectId, categoryId, itemId, itemUpdates) => {
-    set((state) => ({
-      projects: state.projects.map((p) => {
+    set((state) => {
+      const nextProjects = state.projects.map((p) => {
         if (p.id !== projectId) return p;
         return {
           ...p,
@@ -53,13 +57,16 @@ export const createItemCrud = (
             };
           }),
         };
-      }),
-    }));
+      });
+      const found = nextProjects.find((p) => p.id === projectId);
+      if (found) syncProjectToSupabase(found);
+      return { projects: nextProjects };
+    });
   },
 
   deleteItem: (projectId, subProjectId, categoryId, itemId) => {
-    set((state) => ({
-      projects: state.projects.map((p) => {
+    set((state) => {
+      const nextProjects = state.projects.map((p) => {
         if (p.id !== projectId) return p;
         return {
           ...p,
@@ -74,13 +81,16 @@ export const createItemCrud = (
             };
           }),
         };
-      }),
-    }));
+      });
+      const found = nextProjects.find((p) => p.id === projectId);
+      if (found) syncProjectToSupabase(found);
+      return { projects: nextProjects };
+    });
   },
 
   updateItemAHSP: (projectId, subProjectId, categoryId, itemId, ahsp) => {
-    set((state) => ({
-      projects: state.projects.map((p) => {
+    set((state) => {
+      const nextProjects = state.projects.map((p) => {
         if (p.id !== projectId) return p;
         return {
           ...p,
@@ -102,7 +112,10 @@ export const createItemCrud = (
             };
           }),
         };
-      }),
-    }));
+      });
+      const found = nextProjects.find((p) => p.id === projectId);
+      if (found) syncProjectToSupabase(found);
+      return { projects: nextProjects };
+    });
   },
 });
