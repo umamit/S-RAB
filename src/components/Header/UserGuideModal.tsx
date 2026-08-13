@@ -56,7 +56,7 @@ export default function UserGuideModal({ isOpen, onClose }: UserGuideModalProps)
 
   return (
     <dialog ref={dialogRef} closedby="any"
-      className="backdrop:bg-black/60 backdrop:backdrop-blur-sm bg-white dark:bg-zinc-950 text-zinc-950 dark:text-zinc-50 border border-zinc-200 dark:border-zinc-800 rounded-xl p-6 shadow-2xl max-w-4xl w-full max-h-[85vh] overflow-y-auto focus:outline-none transition-all duration-300"
+      className="fixed inset-0 m-auto backdrop:bg-black/60 backdrop:backdrop-blur-sm bg-white dark:bg-zinc-950 text-zinc-950 dark:text-zinc-50 border border-zinc-200 dark:border-zinc-800 rounded-xl p-6 shadow-2xl max-w-4xl w-full max-h-[85vh] overflow-y-auto focus:outline-none transition-all duration-300"
     >
       <div className="flex justify-between items-center mb-4 border-b border-zinc-100 dark:border-zinc-800 pb-3">
         <h3 className="text-lg font-semibold tracking-tight text-zinc-900 dark:text-zinc-50">Buku Panduan S-RAB</h3>
