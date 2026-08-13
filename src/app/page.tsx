@@ -8,7 +8,7 @@ import BudgetSummary from "@/components/BudgetSummary";
 import ProjectEditor from "@/components/ProjectEditor";
 import AddProjectModal from "@/components/AddProjectModal";
 import LoginScreen from "@/components/LoginScreen";
-import { supabase, fetchProjectsFromSupabase } from "@/lib/supabaseClient";
+import { supabase, fetchProjectsFromSupabase, syncProjectToSupabase } from "@/lib/supabaseClient";
 
 export default function Home() {
   const [isMounted, setIsMounted] = useState(false);
@@ -36,7 +36,22 @@ export default function Home() {
           passwordHash: "",
         };
 
-        const dbProjects = await fetchProjectsFromSupabase();
+        let dbProjects = await fetchProjectsFromSupabase();
+
+        // Auto-seed Supabase database with mock data if database is empty for this user
+        if (dbProjects.length === 0) {
+          const { mockProjects } = require("@/lib/store/mockData");
+          const initialProjects = mockProjects.map((p: any) => ({
+            ...p,
+            userId: session.user.id,
+            id: `proj-initial-${Date.now()}`
+          }));
+
+          for (const proj of initialProjects) {
+            await syncProjectToSupabase(proj);
+          }
+          dbProjects = initialProjects;
+        }
 
         useRABStore.setState({
           currentUser: loggedUser,
