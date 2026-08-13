@@ -1,8 +1,11 @@
+"use client";
 import { useState } from "react";
 import { useRABStore } from "@/lib/store";
 import { exportProjectToExcel } from "@/lib/excel-export";
 import confetti from "canvas-confetti";
-import { LogOut } from "lucide-react";
+import { LogOut, BookOpen } from "lucide-react";
+import ProjectSelector from "./Header/ProjectSelector";
+import UserGuideModal from "./Header/UserGuideModal";
 
 interface HeaderProps {
   onOpenNewProjectModal: () => void;
@@ -10,7 +13,7 @@ interface HeaderProps {
 
 export default function Header({ onOpenNewProjectModal }: HeaderProps) {
   const { projects, activeProjectId, deleteProject, setActiveProject, currentUser, logoutUser } = useRABStore();
-  const [isDeleting, setIsDeleting] = useState(false);
+  const [isGuideOpen, setIsGuideOpen] = useState(false);
 
   const activeProject = projects.find((p) => p.id === activeProjectId);
 
@@ -18,7 +21,6 @@ export default function Header({ onOpenNewProjectModal }: HeaderProps) {
     if (!activeProject) return;
     try {
       await exportProjectToExcel(activeProject);
-      // Trigger canvas-confetti for a premium experience
       confetti({
         particleCount: 100,
         spread: 70,
@@ -34,7 +36,6 @@ export default function Header({ onOpenNewProjectModal }: HeaderProps) {
     if (!activeProjectId) return;
     if (confirm("Apakah Anda yakin ingin menghapus proyek ini beserta seluruh data RAB di dalamnya?")) {
       deleteProject(activeProjectId);
-      setIsDeleting(false);
     }
   };
 
@@ -46,48 +47,29 @@ export default function Header({ onOpenNewProjectModal }: HeaderProps) {
           S
         </div>
         <div>
-          <h1 className="font-bold text-md tracking-tight text-zinc-950 dark:text-zinc-50 leading-none">
-            S-RAB
-          </h1>
-          <span className="text-[10px] text-zinc-400 font-medium uppercase tracking-widest">
-            Estimator Platform
-          </span>
+          <h1 className="font-bold text-md tracking-tight text-zinc-950 dark:text-zinc-50 leading-none">S-RAB</h1>
+          <span className="text-[10px] text-zinc-400 font-medium uppercase tracking-widest">Estimator Platform</span>
         </div>
       </div>
 
-      {/* Project Selection / Navigation */}
-      <div className="flex items-center gap-2 max-w-sm w-full sm:w-auto">
-        <label htmlFor="project-select" className="sr-only">Pilih Proyek</label>
-        <select
-          id="project-select"
-          value={activeProjectId || ""}
-          onChange={(e) => setActiveProject(e.target.value || null)}
-          className="flex-1 sm:w-64 px-3 py-1.5 text-sm bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-lg focus:outline-none focus:ring-1 focus:ring-zinc-400 dark:focus:ring-zinc-700 transition-all font-medium"
-        >
-          {projects.map((p) => (
-            <option key={p.id} value={p.id}>
-              {p.name}
-            </option>
-          ))}
-          {projects.length === 0 && (
-            <option value="">Tidak ada proyek</option>
-          )}
-        </select>
-
-        <button
-          onClick={onOpenNewProjectModal}
-          type="button"
-          title="Tambah Proyek Baru"
-          className="p-1.5 border border-zinc-200 dark:border-zinc-800 rounded-lg hover:bg-zinc-50 dark:hover:bg-zinc-900 transition-colors"
-        >
-          <svg className="w-5 h-5 text-zinc-600 dark:text-zinc-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
-          </svg>
-        </button>
-      </div>
+      <ProjectSelector
+        projects={projects}
+        activeProjectId={activeProjectId}
+        onSetActiveProject={setActiveProject}
+        onOpenNewProjectModal={onOpenNewProjectModal}
+      />
 
       {/* Action Buttons */}
       <div className="flex items-center gap-2">
+        <button
+          onClick={() => setIsGuideOpen(true)}
+          type="button"
+          className="flex items-center gap-2 px-3.5 py-1.5 text-sm border border-zinc-200 dark:border-zinc-800 hover:bg-zinc-50 dark:hover:bg-zinc-900 rounded-lg font-semibold transition-colors"
+        >
+          <BookOpen className="w-4 h-4 text-zinc-500" />
+          Buku Panduan
+        </button>
+
         {activeProject && (
           <>
             <button
@@ -130,7 +112,7 @@ export default function Header({ onOpenNewProjectModal }: HeaderProps) {
           {currentUser && (
             <div className="hidden sm:flex flex-col items-end">
               <span className="text-xs font-bold text-zinc-800 dark:text-zinc-200 leading-tight">{currentUser.name}</span>
-              <span className="text-[10px] text-zinc-400 dark:text-zinc-500 leading-tight">{currentUser.email}</span>
+              <span className="text-[10px] text-zinc-400 dark:text-zinc-555 leading-tight">{currentUser.email}</span>
             </div>
           )}
           <button
@@ -143,6 +125,8 @@ export default function Header({ onOpenNewProjectModal }: HeaderProps) {
           </button>
         </div>
       </div>
+
+      <UserGuideModal isOpen={isGuideOpen} onClose={() => setIsGuideOpen(false)} />
     </header>
   );
 }
