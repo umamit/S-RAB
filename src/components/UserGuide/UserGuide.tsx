@@ -9,6 +9,7 @@ import SSHSection from "./SSHSection";
 import AnalogiDapurSection from "./AnalogiDapurSection";
 import BiayaNonFisikSection from "./BiayaNonFisikSection";
 import LangkahPenggunaanSection from "./LangkahPenggunaanSection";
+import AkunDanDataSection from "./AkunDanDataSection";
 
 export default function UserGuide() {
   return (
@@ -23,6 +24,7 @@ export default function UserGuide() {
         </p>
       </div>
 
+      <AkunDanDataSection />
       <RegulasiSection />
       <KoefisienSection />
       <FiturSection />
