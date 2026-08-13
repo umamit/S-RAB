@@ -1,6 +1,6 @@
 import type { StateCreator } from "zustand";
 import type { RABState, User } from "./types";
-import { supabase, fetchProjectsFromSupabase } from "../supabaseClient";
+import { supabase } from "../supabaseClient";
 
 const simpleHash = (str: string): string => {
   let hash = 0;
@@ -78,13 +78,7 @@ export const createAuthActions = (
       };
 
       set({ currentUser: loggedUser });
-
-      // Fetch projects for this user from Supabase and sync local state
-      const dbProjects = await fetchProjectsFromSupabase();
-      set({
-        projects: dbProjects,
-        activeProjectId: dbProjects.length > 0 ? dbProjects[0].id : null,
-      });
+      // The onAuthStateChange listener in page.tsx will fetch, seed, and populate projects
     }
 
     return { success: true };
