@@ -3,13 +3,14 @@ import { useState } from "react";
 import { Project, useRABStore, SubProject } from "@/lib/store";
 import RecapTable, { SubProjectCost } from "./RecapTable";
 import RecapForm from "./RecapForm";
+import ProjectParamsForm from "./ProjectParamsForm";
 
 interface RecapSheetProps {
   project: Project;
 }
 
 export default function RecapSheet({ project }: RecapSheetProps) {
-  const { addSubProject, deleteSubProject, updateSubProjectName, setActiveSubProject } = useRABStore();
+  const { addSubProject, deleteSubProject, updateSubProjectName, setActiveSubProject, updateProject } = useRABStore();
   const [editingSubId, setEditingSubId] = useState<string | null>(null);
   const [editingVal, setEditingVal] = useState("");
 
@@ -31,6 +32,10 @@ export default function RecapSheet({ project }: RecapSheetProps) {
 
   const handleAddSub = (name: string) => {
     addSubProject(project.id, name);
+  };
+
+  const handleSaveParams = (profitRate: number, taxRate: number) => {
+    updateProject(project.id, { profitRate, taxRate });
   };
 
   const handleStartEdit = (id: string, name: string) => {
@@ -83,7 +88,22 @@ export default function RecapSheet({ project }: RecapSheetProps) {
         onSetActiveSub={handleSetActiveSub}
         onDeleteSub={handleDeleteSub}
       />
-      <RecapForm onSubmit={handleAddSub} />
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 pt-6 border-t border-zinc-100 dark:border-zinc-800 print:hidden">
+        <div>
+          <h3 className="text-xs font-bold uppercase tracking-wider text-zinc-400 dark:text-zinc-500 mb-3">Tambah Divisi / Sub-Pekerjaan</h3>
+          <RecapForm onSubmit={handleAddSub} />
+        </div>
+
+        <div>
+          <h3 className="text-xs font-bold uppercase tracking-wider text-zinc-400 dark:text-zinc-500 mb-3">Parameter Proyek (Overhead & Pajak)</h3>
+          <ProjectParamsForm
+            profitRate={project.profitRate}
+            taxRate={project.taxRate}
+            onSave={handleSaveParams}
+          />
+        </div>
+      </div>
     </div>
   );
 }
