@@ -5,7 +5,39 @@ import { syncProjectToSupabase, deleteProjectFromSupabase } from "../supabaseCli
 export const createProjectCrud = (
   set: Parameters<StateCreator<RABState>>[0],
   get: Parameters<StateCreator<RABState>>[1]
-): Pick<RABState, "addProject" | "deleteProject" | "updateProject" | "setActiveProject" | "updateProjectDuration"> => ({
+): Pick<RABState, "addProject" | "importProject" | "deleteProject" | "updateProject" | "setActiveProject" | "updateProjectDuration"> => ({
+  importProject: (projectData) => {
+    if (!projectData || typeof projectData !== "object" || !projectData.name || !Array.isArray(projectData.subProjects)) {
+      throw new Error("Format data proyek tidak valid.");
+    }
+
+    const projectId = `proj-${Date.now()}`;
+    const importedProject: Project = {
+      ...projectData,
+      id: projectId,
+      userId: get().currentUser?.id,
+      createdAt: new Date().toISOString(),
+      subProjects: projectData.subProjects.map((sub: any, idx: number) => ({
+        ...sub,
+        id: `sub-${Date.now()}-${idx}`,
+      })),
+      dailyLogs: Array.isArray(projectData.dailyLogs) ? projectData.dailyLogs : [],
+      weeklyProgress: Array.isArray(projectData.weeklyProgress) ? projectData.weeklyProgress : [],
+    };
+
+    if (importedProject.subProjects.length > 0) {
+      importedProject.activeSubProjectId = importedProject.subProjects[0].id;
+    }
+
+    set((state) => ({
+      projects: [...state.projects, importedProject],
+      activeProjectId: projectId
+    }));
+
+    syncProjectToSupabase(importedProject);
+    return projectId;
+  },
+
   addProject: (name, description, taxRate, profitRate) => {
     const id = `proj-${Date.now()}`;
     const subId = `sub-${Date.now()}`;

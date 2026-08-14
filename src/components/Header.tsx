@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useRABStore } from "@/lib/store";
 import { exportProjectToExcel } from "@/lib/excel-export";
 import confetti from "canvas-confetti";
-import { LogOut, BookOpen } from "lucide-react";
+import { LogOut, BookOpen, Download } from "lucide-react";
 import ProjectSelector from "./Header/ProjectSelector";
 import UserGuideModal from "./Header/UserGuideModal";
 
@@ -12,7 +12,7 @@ interface HeaderProps {
 }
 
 export default function Header({ onOpenNewProjectModal }: HeaderProps) {
-  const { projects, activeProjectId, deleteProject, setActiveProject, currentUser, logoutUser } = useRABStore();
+  const { projects, activeProjectId, deleteProject, setActiveProject, currentUser, logoutUser, importProject } = useRABStore();
   const [isGuideOpen, setIsGuideOpen] = useState(false);
 
   const activeProject = projects.find((p) => p.id === activeProjectId);
@@ -27,14 +27,22 @@ export default function Header({ onOpenNewProjectModal }: HeaderProps) {
         origin: { y: 0.6 },
         colors: ["#22c55e", "#3b82f6", "#f59e0b", "#ec4899", "#8b5cf6"],
       });
-    } catch (error) {
-      console.error("Export failed:", error);
+    } catch (e) {
+      console.error("Export failed:", e);
     }
   };
 
+  const handleExportJson = () => {
+    if (!activeProject) return;
+    const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(activeProject, null, 2));
+    const a = document.createElement("a");
+    a.href = dataStr;
+    a.download = `${activeProject.name.replace(/\s+/g, "_")}_data.json`;
+    a.click();
+  };
+
   const handleDelete = () => {
-    if (!activeProjectId) return;
-    if (confirm("Apakah Anda yakin ingin menghapus proyek ini beserta seluruh data RAB di dalamnya?")) {
+    if (activeProjectId && confirm("Hapus proyek ini beserta seluruh data di dalamnya?")) {
       deleteProject(activeProjectId);
     }
   };
@@ -57,9 +65,9 @@ export default function Header({ onOpenNewProjectModal }: HeaderProps) {
         activeProjectId={activeProjectId}
         onSetActiveProject={setActiveProject}
         onOpenNewProjectModal={onOpenNewProjectModal}
+        onImportProject={importProject}
       />
 
-      {/* Action Buttons */}
       <div className="flex items-center gap-2">
         <button
           onClick={() => setIsGuideOpen(true)}
@@ -72,6 +80,15 @@ export default function Header({ onOpenNewProjectModal }: HeaderProps) {
 
         {activeProject && (
           <>
+            <button
+              onClick={handleExportJson}
+              type="button"
+              className="flex items-center gap-2 px-3.5 py-1.5 text-sm border border-zinc-200 dark:border-zinc-800 hover:bg-zinc-50 dark:hover:bg-zinc-900 rounded-lg font-semibold transition-colors"
+            >
+              <Download className="w-4 h-4 text-zinc-500" />
+              Ekspor JSON
+            </button>
+
             <button
               onClick={handleExport}
               type="button"
@@ -107,7 +124,6 @@ export default function Header({ onOpenNewProjectModal }: HeaderProps) {
           </>
         )}
 
-        {/* Divider + User Info + Logout */}
         <div className="flex items-center gap-3 ml-2 pl-3 border-l border-zinc-200 dark:border-zinc-800">
           {currentUser && (
             <div className="hidden sm:flex flex-col items-end">

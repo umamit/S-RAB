@@ -10,7 +10,7 @@ export const createProjectActions = (
   get: Parameters<StateCreator<RABState>>[1]
 ): Pick<
   RABState,
-  | "addProject" | "deleteProject" | "updateProject" | "setActiveProject" | "updateProjectDuration"
+  | "addProject" | "importProject" | "deleteProject" | "updateProject" | "setActiveProject" | "updateProjectDuration"
   | "addSubProject" | "deleteSubProject" | "updateSubProjectName" | "setActiveSubProject"
   | "addCategory" | "deleteCategory" | "updateCategory" | "updateCategorySchedule"
   | "addItem" | "updateItem" | "deleteItem" | "updateItemAHSP"
