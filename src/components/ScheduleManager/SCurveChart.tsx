@@ -14,24 +14,13 @@ interface SCurveChartProps {
 }
 
 export default function SCurveChart({
-  totalProjectDirectCost,
-  numWeeks,
-  maxRecordedWeek,
-  cumulativePlannedWeights,
-  weeklyActualWeights,
-  profitRate,
-  taxRate,
-  weeklyFinancials,
+  totalProjectDirectCost, numWeeks, maxRecordedWeek, cumulativePlannedWeights,
+  weeklyActualWeights, profitRate, taxRate, weeklyFinancials,
 }: SCurveChartProps) {
   const [chartMode, setChartMode] = useState<"physical" | "financial">("physical");
 
-  const svgWidth = 550;
-  const svgHeight = 220;
-  const paddingX = 65;
-  const paddingY = 20;
-  const graphWidth = svgWidth - paddingX * 2;
-  const graphHeight = svgHeight - paddingY * 2;
-
+  const svgWidth = 550, svgHeight = 220, paddingX = 65, paddingY = 20;
+  const graphWidth = svgWidth - paddingX * 2, graphHeight = svgHeight - paddingY * 2;
   const grandTotal = totalProjectDirectCost * (1 + profitRate) * (1 + taxRate);
   const maxVal = chartMode === "physical" ? 100 : grandTotal;
 
@@ -56,9 +45,7 @@ export default function SCurveChart({
   const cumulativeActualCosts: number[] = [];
   let currentCostCumulative = 0;
   let maxFinancialWeek = 0;
-  actualCosts.forEach((cost, idx) => {
-    if (cost > 0) maxFinancialWeek = idx + 1;
-  });
+  actualCosts.forEach((cost, idx) => { if (cost > 0) maxFinancialWeek = idx + 1; });
   const maxRecorded = Math.max(maxRecordedWeek, maxFinancialWeek);
 
   for (let w = 0; w < numWeeks; w++) {
@@ -66,61 +53,42 @@ export default function SCurveChart({
     cumulativeActualCosts.push(currentCostCumulative);
   }
 
-  let sCurvePath = "";
-  if (numWeeks > 1) {
+  const buildPath = (isActual: boolean) => {
+    if (numWeeks <= 1 || (isActual && maxRecorded === 0)) return "";
+    const len = isActual ? maxRecorded : numWeeks;
     const startPt = getCoordinates(0, 0);
-    sCurvePath = `M ${startPt.x} ${startPt.y}`;
-    for (let w = 0; w < numWeeks; w++) {
-      const val = chartMode === "physical" ? cumulativePlannedWeights[w] : (cumulativePlannedWeights[w] / 100) * grandTotal;
+    let path = `M ${startPt.x} ${startPt.y}`;
+    for (let w = 0; w < len; w++) {
+      const val = isActual
+        ? (chartMode === "physical" ? weeklyActualWeights[w] : cumulativeActualCosts[w])
+        : (chartMode === "physical" ? cumulativePlannedWeights[w] : (cumulativePlannedWeights[w] / 100) * grandTotal);
       const pt = getCoordinates(w, val);
-      sCurvePath += ` L ${pt.x} ${pt.y}`;
+      path += ` L ${pt.x} ${pt.y}`;
     }
-  }
-
-  let actualSCurvePath = "";
-  if (numWeeks > 1 && maxRecorded > 0) {
-    const startPt = getCoordinates(0, 0);
-    actualSCurvePath = `M ${startPt.x} ${startPt.y}`;
-    for (let w = 0; w < maxRecorded; w++) {
-      const val = chartMode === "physical" ? weeklyActualWeights[w] : cumulativeActualCosts[w];
-      const pt = getCoordinates(w, val);
-      actualSCurvePath += ` L ${pt.x} ${pt.y}`;
-    }
-  }
+    return path;
+  };
 
   return (
     <div className="lg:col-span-1 p-5 rounded-2xl bg-zinc-50/50 dark:bg-zinc-900/10 border border-zinc-200 dark:border-zinc-800 shadow-xs flex flex-col justify-between">
       <div>
         <div className="flex justify-between items-center mb-4 flex-wrap gap-2">
-          <h3 className="text-xs font-bold uppercase tracking-wider text-zinc-700 dark:text-zinc-300">
-            Grafik Kurva S Realisasi
-          </h3>
+          <h3 className="text-xs font-bold uppercase tracking-wider text-zinc-700 dark:text-zinc-300">Grafik Kurva S Realisasi</h3>
           <div className="flex border border-zinc-200 dark:border-zinc-800 rounded-lg p-0.5 bg-zinc-50 dark:bg-zinc-900 shrink-0">
-            <button
-              onClick={() => setChartMode("physical")}
-              type="button"
-              className={`px-2 py-1 text-[10px] font-bold rounded-md transition-all ${
-                chartMode === "physical" ? "bg-white dark:bg-zinc-950 text-zinc-900 dark:text-zinc-50 shadow-xs" : "text-zinc-400"
-              }`}
-            >
-              Fisik (%)
-            </button>
-            <button
-              onClick={() => setChartMode("financial")}
-              type="button"
-              className={`px-2 py-1 text-[10px] font-bold rounded-md transition-all ${
-                chartMode === "financial" ? "bg-white dark:bg-zinc-950 text-zinc-900 dark:text-zinc-50 shadow-xs" : "text-zinc-400"
-              }`}
-            >
-              Keuangan (Rp)
-            </button>
+            {(["physical", "financial"] as const).map((mode) => (
+              <button key={mode} onClick={() => setChartMode(mode)} type="button"
+                className={`px-2 py-1 text-[10px] font-bold rounded-md transition-all ${
+                  chartMode === mode ? "bg-white dark:bg-zinc-950 text-zinc-900 dark:text-zinc-50 shadow-xs" : "text-zinc-400"
+                }`}>
+                {mode === "physical" ? "Fisik (%)" : "Keuangan (Rp)"}
+              </button>
+            ))}
           </div>
         </div>
 
         {totalProjectDirectCost > 0 ? (
           <div className="w-full">
             <svg viewBox={`0 0 ${svgWidth} ${svgHeight}`} className="w-full h-auto text-zinc-300 dark:text-zinc-700">
-              {[0, 25, 50, 75, 100].map((pct) => {
+              {[0, 25, 50, 75, 105].map((pct) => {
                 const val = chartMode === "physical" ? pct : (pct / 100) * grandTotal;
                 const y = paddingY + graphHeight - (pct / 100) * graphHeight;
                 return (
@@ -146,12 +114,11 @@ export default function SCurveChart({
                 return null;
               })}
 
-              {sCurvePath && (
-                <path d={sCurvePath} fill="none" className="stroke-zinc-400 dark:stroke-zinc-650" strokeWidth={1.5} strokeDasharray="3 3" strokeLinecap="round" strokeLinejoin="round" />
+              {buildPath(false) && (
+                <path d={buildPath(false)} fill="none" className="stroke-zinc-400 dark:stroke-zinc-650" strokeWidth={1.5} strokeDasharray="3 3" strokeLinecap="round" strokeLinejoin="round" />
               )}
-
-              {actualSCurvePath && (
-                <path d={actualSCurvePath} fill="none" className="stroke-emerald-600 dark:stroke-emerald-400" strokeWidth={3} strokeLinecap="round" strokeLinejoin="round" />
+              {buildPath(true) && (
+                <path d={buildPath(true)} fill="none" className="stroke-emerald-600 dark:stroke-emerald-400" strokeWidth={3} strokeLinecap="round" strokeLinejoin="round" />
               )}
             </svg>
           </div>

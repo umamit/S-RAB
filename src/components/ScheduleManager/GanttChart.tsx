@@ -21,7 +21,7 @@ export default function GanttChart({ project, allCategories, numWeeks }: GanttCh
         <table className="w-full text-left border-collapse text-[11px]">
           <thead>
             <tr className="bg-zinc-50 dark:bg-zinc-900/10 border-b border-zinc-200 dark:border-zinc-800 text-zinc-500 font-semibold uppercase tracking-wider">
-              <th className="py-2.5 px-4 min-w-[200px] sticky left-0 bg-white dark:bg-zinc-950 border-r border-zinc-200 dark:border-zinc-800">Kategori Pekerjaan</th>
+              <th className="py-2.5 px-3 min-w-[120px] sm:min-w-[200px] sticky left-0 bg-white dark:bg-zinc-950 border-r border-zinc-200 dark:border-zinc-800">Kategori Pekerjaan</th>
               <th className="py-2.5 px-3 w-16 text-right border-r border-zinc-200 dark:border-zinc-800">Bobot</th>
               {Array.from({ length: numWeeks }).map((_, w) => (
                 <th key={w} className="py-2.5 px-1 text-center w-14 border-r border-zinc-200 dark:border-zinc-800">M-{w + 1}</th>
@@ -36,7 +36,7 @@ export default function GanttChart({ project, allCategories, numWeeks }: GanttCh
 
               return (
                 <tr key={cat.categoryId} className="hover:bg-zinc-50/40 dark:hover:bg-zinc-900/10 h-10">
-                  <td className="py-1 px-4 font-semibold text-zinc-900 dark:text-zinc-100 sticky left-0 bg-white dark:bg-zinc-950 border-r border-zinc-200 dark:border-zinc-800 truncate max-w-[240px]">
+                  <td className="py-1.5 px-2.5 font-semibold text-zinc-900 dark:text-zinc-100 sticky left-0 bg-white dark:bg-zinc-950 border-r border-zinc-200 dark:border-zinc-800 truncate min-w-[120px] sm:min-w-[200px] max-w-[120px] sm:max-w-[240px]">
                     <div className="flex flex-col">
                       <span>{cat.categoryName}</span>
                       <span className="text-[8px] text-zinc-400 uppercase font-bold tracking-tight">{cat.subProjectName}</span>

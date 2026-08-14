@@ -87,16 +87,16 @@ export default function ItemRow({
             </div>
           )}
         </div>
-        <div className="flex items-center gap-4">
-          <span className="text-[10px] font-bold text-zinc-400 uppercase tracking-wider">Bobot: {categoryWeight.toFixed(2)}%</span>
-          <span className="text-xs font-bold text-zinc-700 dark:text-zinc-300">Subtotal: {formatRupiah(categorySubtotal)}</span>
-          <button onClick={onDeleteCategory} type="button" className="p-1 text-zinc-400 hover:text-red-500 transition-colors"><Trash2 className="w-3.5 h-3.5" /></button>
+        <div className="flex items-center gap-4 flex-wrap justify-end">
+          <span className="text-[10px] font-bold text-zinc-400 uppercase tracking-wider shrink-0">Bobot: {categoryWeight.toFixed(2)}%</span>
+          <span className="text-xs font-bold text-zinc-700 dark:text-zinc-300 shrink-0">Subtotal: {formatRupiah(categorySubtotal)}</span>
+          <button onClick={onDeleteCategory} type="button" className="p-1 text-zinc-400 hover:text-red-500 transition-colors shrink-0"><Trash2 className="w-3.5 h-3.5" /></button>
         </div>
       </div>
 
       <div className="overflow-x-auto">
         <table className="w-full text-left border-collapse text-xs">
-          <thead>
+          <thead className="hidden sm:table-header-group">
             <tr className="bg-zinc-100/55 dark:bg-zinc-900/20 border-b border-zinc-200 dark:border-zinc-800 text-zinc-500 font-semibold uppercase tracking-wider">
               <th className="py-2.5 px-4 w-12 text-center">No.</th>
               <th className="py-2.5 px-4">Uraian Pekerjaan</th>
