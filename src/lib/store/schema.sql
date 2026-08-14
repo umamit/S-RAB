@@ -36,3 +36,6 @@ CREATE INDEX IF NOT EXISTS idx_projects_user_id ON public.projects(user_id);
 -- Migrasi Fase 2: Tambah kolom weekly_financials dan payment_terms
 ALTER TABLE public.projects ADD COLUMN IF NOT EXISTS weekly_financials JSONB NOT NULL DEFAULT '[]'::jsonb;
 ALTER TABLE public.projects ADD COLUMN IF NOT EXISTS payment_terms JSONB NOT NULL DEFAULT '[]'::jsonb;
+ALTER TABLE public.projects ADD COLUMN IF NOT EXISTS addendums JSONB NOT NULL DEFAULT '[]'::jsonb;
+ALTER TABLE public.projects ADD COLUMN IF NOT EXISTS ccos JSONB NOT NULL DEFAULT '[]'::jsonb;
+

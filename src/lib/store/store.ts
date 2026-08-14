@@ -58,6 +58,8 @@ export const useRABStore = create<RABState>()(
             if (version < 4) {
               if (!proj.weeklyFinancials) proj.weeklyFinancials = [];
               if (!proj.paymentTerms) proj.paymentTerms = [];
+              if (!proj.addendums) proj.addendums = [];
+              if (!proj.ccos) proj.ccos = [];
             }
             return proj;
           });

@@ -52,6 +52,18 @@ export default function LangkahEstimasi() {
           Cukup klik nominal rupiah pada tabel, masukkan harga baru, lalu tekan **Enter**. Seluruh item pekerjaan di semua divisi yang memakai bahan tersebut akan otomatis ter-update serentak.
         </div>
       </LangkahCard>
+
+      {/* Section 4: Addendum / PTK */}
+      <LangkahCard title="4. Addendum / Pekerjaan Tambah Kurang (PTK)">
+        <div>
+          <strong className="text-zinc-850 dark:text-zinc-200 block mb-0.5">Membuat Addendum Resmi:</strong>
+          Buka tab **Addendum / PTK**, klik **+ Buat Addendum**, masukkan nomor addendum, tanggal, dan justifikasi teknis perubahan.
+        </div>
+        <div>
+          <strong className="text-zinc-850 dark:text-zinc-200 block mb-0.5">Mencatat Perubahan Scope:</strong>
+          Pilih divisi dan kategori, tentukan jenis perubahan (Tambah Baru, Hapus, atau Ubah Volume/Harga), isi rincian barunya, lalu klik **+ Tambahkan Perubahan**. Setelah selesai, klik **Simpan Addendum**. Selisih delta nilai kontrak awal vs akhir akan otomatis dihitung dan ditampilkan secara transparan di Rekapitulasi Utama.
+        </div>
+      </LangkahCard>
     </div>
   );
 }

@@ -32,6 +32,8 @@ export const syncProjectToSupabase = async (project: Project) => {
       weekly_progress: project.weeklyProgress || [],
       weekly_financials: project.weeklyFinancials || [],
       payment_terms: project.paymentTerms || [],
+      addendums: project.addendums || [],
+      ccos: project.ccos || [],
     });
   } catch (err) {
     console.error("Failed to sync project to Supabase:", err);
@@ -74,6 +76,8 @@ export const fetchProjectsFromSupabase = async (): Promise<Project[]> => {
       weeklyProgress: row.weekly_progress,
       weeklyFinancials: row.weekly_financials || [],
       paymentTerms: row.payment_terms || [],
+      addendums: row.addendums || [],
+      ccos: row.ccos || [],
     }));
   } catch (err) {
     console.error("Error fetching projects from Supabase:", err);

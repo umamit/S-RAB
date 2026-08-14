@@ -16,6 +16,29 @@ export default function PaymentTerms({ project }: PaymentTermsProps) {
   const [showForm, setShowForm] = useState(false);
   const { grandTotal } = calculateProjectTotals(project);
 
+  const totalAddendum = (project.addendums || []).reduce((sum, add) => {
+    return sum + add.items.reduce((s, item) => {
+      const current = item.quantity * item.unitPrice;
+      if (item.type === "add") return s + current;
+      if (item.type === "remove") return s - current;
+      const orig = (item.originalQuantity ?? 0) * (item.originalUnitPrice ?? 0);
+      return s + (current - orig);
+    }, 0);
+  }, 0);
+
+  const totalCCO = (project.ccos || [])
+    .filter((c) => c.status === "Disetujui")
+    .reduce((sum, cco) => {
+      return sum + cco.items.reduce((s, item) => {
+        const current = item.quantity * item.unitPrice;
+        if (item.type === "add") return s + current;
+        if (item.type === "remove") return s - current;
+        const orig = (item.originalQuantity ?? 0) * (item.originalUnitPrice ?? 0);
+        return s + (current - orig);
+      }, 0);
+    }, 0);
+
+  const finalContractTotal = grandTotal + totalAddendum + totalCCO;
   const terms = project.paymentTerms || [];
 
   // Hitung progres aktual kumulatif
@@ -58,7 +81,7 @@ export default function PaymentTerms({ project }: PaymentTermsProps) {
 
       {showForm && (
         <PaymentTermForm
-          grandTotal={grandTotal}
+          grandTotal={finalContractTotal}
           termCount={terms.length}
           onSubmit={handleAdd}
           onCancel={() => setShowForm(false)}

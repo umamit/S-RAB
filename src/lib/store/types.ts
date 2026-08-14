@@ -77,6 +77,53 @@ export interface CustomAHSPTemplate {
   ahsp: AHSP;
 }
 
+export interface AddendumItem {
+  id: string;
+  subProjectId: string;
+  categoryId: string;
+  itemId?: string;
+  type: "add" | "remove" | "modify";
+  name: string;
+  unit: string;
+  quantity: number;
+  unitPrice: number;
+  originalQuantity?: number;
+  originalUnitPrice?: number;
+}
+
+export interface Addendum {
+  id: string;
+  number: string;
+  date: string;
+  reason: string;
+  items: AddendumItem[];
+}
+
+export interface CCOItem {
+  id: string;
+  subProjectId: string;
+  categoryId: string;
+  itemId?: string;
+  type: "add" | "remove" | "modify";
+  name: string;
+  unit: string;
+  quantity: number;
+  unitPrice: number;
+  originalQuantity?: number;
+  originalUnitPrice?: number;
+}
+
+export type CCOStatus = "Draft" | "Diajukan" | "Disetujui" | "Ditolak";
+
+export interface CCO {
+  id: string;
+  number: string;
+  date: string;
+  status: CCOStatus;
+  items: CCOItem[];
+  notes?: string;
+}
+
 export interface User {
   id: string;
   email: string;
@@ -100,6 +147,8 @@ export interface Project {
   weeklyFinancials?: WeeklyFinancial[];
   paymentTerms?: PaymentTerm[];
   alertThreshold?: number; // Nilai persentase threshold deviasi minus, misal: 5 untuk -5%
+  addendums?: Addendum[];
+  ccos?: CCO[];
 }
 
 export interface AHSPTemplate {
@@ -159,6 +208,19 @@ export interface RABState {
   addPaymentTerm: (projectId: string, targetProgress: number, amount: number, notes?: string) => void;
   updatePaymentTerm: (projectId: string, termId: string, updates: Partial<Omit<PaymentTerm, "id" | "termNumber">>) => void;
   deletePaymentTerm: (projectId: string, termId: string) => void;
+
+  // Addendum Actions
+  addAddendum: (projectId: string, number: string, date: string, reason: string) => void;
+  deleteAddendum: (projectId: string, addendumId: string) => void;
+  addAddendumItem: (projectId: string, addendumId: string, item: Omit<AddendumItem, "id">) => void;
+  deleteAddendumItem: (projectId: string, addendumId: string, itemId: string) => void;
+
+  // CCO Actions
+  addCCO: (projectId: string, number: string, date: string, notes?: string) => void;
+  deleteCCO: (projectId: string, ccoId: string) => void;
+  updateCCOStatus: (projectId: string, ccoId: string, status: CCOStatus) => void;
+  addCCOItem: (projectId: string, ccoId: string, item: Omit<CCOItem, "id">) => void;
+  deleteCCOItem: (projectId: string, ccoId: string, itemId: string) => void;
 
   // Auth Actions
   registerUser: (email: string, name: string, passwordPlain: string) => Promise<{ success: boolean; error?: string }>;

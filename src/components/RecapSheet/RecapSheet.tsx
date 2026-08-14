@@ -79,7 +79,10 @@ export default function RecapSheet({ project }: RecapSheetProps) {
         grandTotal={grandTotal}
         profitRate={project.profitRate}
         taxRate={project.taxRate}
+        addendums={project.addendums}
+        ccos={project.ccos}
         editingSubId={editingSubId}
+
         editingVal={editingVal}
         setEditingVal={setEditingVal}
         onStartEdit={handleStartEdit}

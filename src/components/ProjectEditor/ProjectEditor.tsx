@@ -9,6 +9,8 @@ import UserGuide from "@/components/UserGuide";
 import ResourceSummary from "@/components/ResourceSummary";
 import SSHCatalog from "@/components/SSHCatalog";
 import PaymentTerms from "@/components/PaymentTerms";
+import Addendum from "@/components/Addendum";
+import CCO from "@/components/CCO";
 import TabNav from "./TabNav";
 import TabDetail from "./TabDetail";
 import PrintView from "./PrintView";
@@ -37,6 +39,8 @@ export default function ProjectEditor({ project }: ProjectEditorProps) {
         {activeTab === "daily"    && <DailyLogManager project={project} />}
         {activeTab === "progress" && <ProgressTracker project={project} />}
         {activeTab === "termin"   && <PaymentTerms project={project} />}
+        {activeTab === "addendum" && <Addendum project={project} />}
+        {activeTab === "cco"      && <CCO project={project} />}
         {activeTab === "guide"    && <UserGuide />}
         {activeTab === "resource" && <ResourceSummary project={project} />}
         {activeTab === "ssh"      && <SSHCatalog project={project} />}

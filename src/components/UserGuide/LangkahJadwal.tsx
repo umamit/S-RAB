@@ -60,6 +60,18 @@ export default function LangkahJadwal() {
           Sistem akan secara otomatis menandai status termin sebagai **"Progres tercapai"** (warna oranye) apabila realisasi progres fisik lapangan dari tab Realisasi Progres telah mencapai target termin tersebut. Anda dapat mengeklik **"Tandai Lunas"** untuk merekam tanggal penagihan/pembayaran termin yang sah.
         </div>
       </LangkahCard>
+
+      {/* Section 4.7: CCO Lapangan */}
+      <LangkahCard title="8. CCO (Contract Change Order) Lapangan">
+        <div>
+          <strong className="text-zinc-850 dark:text-zinc-200 block mb-0.5">Pengajuan CCO Lapangan:</strong>
+          Buka tab **CCO Lapangan**, klik **+ Buat CCO**, masukkan nomor, tanggal, dan item perubahan fisik lapangan (tambah, hapus, atau ubah volume/harga).
+        </div>
+        <div>
+          <strong className="text-zinc-850 dark:text-zinc-200 block mb-0.5">Alur Workflow CCO:</strong>
+          Pengajuan CCO memiliki status siklus: `Draft` &rarr; `Diajukan` &rarr; `Disetujui` / `Ditolak`. CCO yang disetujui secara otomatis akan memutakhirkan kalkulasi penarikan pembayaran di tab **Termin Pembayaran** (MC).
+        </div>
+      </LangkahCard>
     </div>
   );
 }

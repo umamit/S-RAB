@@ -2,6 +2,8 @@
 import React from "react";
 import { formatRupiah } from "@/lib/excel-export";
 import { Settings, Trash2 } from "lucide-react";
+import type { Addendum, CCO } from "@/lib/store";
+import RecapTotals from "./RecapTotals";
 
 interface SubProjectCost {
   id: string;
@@ -17,6 +19,8 @@ interface RecapTableProps {
   grandTotal: number;
   profitRate: number;
   taxRate: number;
+  addendums?: Addendum[];
+  ccos?: CCO[];
   editingSubId: string | null;
   editingVal: string;
   setEditingVal: (v: string) => void;
@@ -35,6 +39,8 @@ export default function RecapTable({
   grandTotal,
   profitRate,
   taxRate,
+  addendums,
+  ccos,
   editingSubId,
   editingVal,
   setEditingVal,
@@ -70,12 +76,12 @@ export default function RecapTable({
                   ) : (
                     <div className="flex items-center gap-2">
                       <button onClick={() => onSetActiveSub(sub.id)} type="button" className="hover:underline text-left hover:text-zinc-950 dark:hover:text-zinc-50">{sub.name.toUpperCase()}</button>
-                      <button onClick={() => onStartEdit(sub.id, sub.name)} type="button" className="text-zinc-400 hover:text-zinc-650 dark:hover:text-zinc-350 p-1 opacity-0 group-hover:opacity-100 transition-opacity print:hidden"><Settings className="w-3.5 h-3.5" /></button>
+                      <button onClick={() => onStartEdit(sub.id, sub.name)} type="button" className="text-zinc-400 hover:text-zinc-650 dark:hover:text-zinc-355 p-1 opacity-0 group-hover:opacity-100 transition-opacity print:hidden"><Settings className="w-3.5 h-3.5" /></button>
                     </div>
                   )}
                 </td>
                 <td className="py-2.5 px-4 text-right font-bold text-zinc-400 dark:text-zinc-500">{weight.toFixed(2)}%</td>
-                <td className="py-2.5 px-4 text-right font-bold text-zinc-900 dark:text-zinc-50">{formatRupiah(sub.cost)}</td>
+                <td className="py-2.5 px-4 text-right font-bold text-zinc-900 dark:text-zinc-550">{formatRupiah(sub.cost)}</td>
                 <td className="py-2.5 px-4 text-center print:hidden">
                   <button onClick={() => onDeleteSub(sub.id, sub.name)} type="button" className="text-zinc-400 hover:text-red-500 opacity-0 group-hover:opacity-100 transition-opacity p-1"><Trash2 className="w-3.5 h-3.5" /></button>
                 </td>
@@ -86,37 +92,16 @@ export default function RecapTable({
             <tr><td colSpan={5} className="py-8 text-center text-zinc-400 dark:text-zinc-600">Belum ada sub-pekerjaan. Silakan tambahkan di bawah.</td></tr>
           )}
 
-          <tr className="bg-zinc-50 dark:bg-zinc-900/50 font-bold border-t border-zinc-200 dark:border-zinc-800 text-zinc-900 dark:text-zinc-50 h-11">
-            <td className="py-2.5 px-4" />
-            <td className="py-2.5 px-4 uppercase">Jumlah Pekerjaan Fisik</td>
-            <td className="py-2.5 px-4 text-right">100.00%</td>
-            <td className="py-2.5 px-4 text-right">{formatRupiah(totalDirectCost)}</td>
-            <td className="py-2.5 px-4 print:hidden" />
-          </tr>
-
-          <tr className="bg-zinc-50 dark:bg-zinc-900/50 font-bold text-zinc-900 dark:text-zinc-50 h-11">
-            <td className="py-2.5 px-4" />
-            <td className="py-2.5 px-4 uppercase">Jasa & Overhead ({(profitRate * 100).toFixed(0)}%)</td>
-            <td className="py-2.5 px-4 text-right">{(profitRate * 100).toFixed(2)}%</td>
-            <td className="py-2.5 px-4 text-right">{formatRupiah(profit)}</td>
-            <td className="py-2.5 px-4 print:hidden" />
-          </tr>
-
-          <tr className="bg-zinc-50 dark:bg-zinc-900/50 font-bold text-zinc-900 dark:text-zinc-50 h-11">
-            <td className="py-2.5 px-4" />
-            <td className="py-2.5 px-4 uppercase">PPN ({(taxRate * 100).toFixed(0)}%)</td>
-            <td className="py-2.5 px-4 text-right">{(taxRate * (1 + profitRate) * 100).toFixed(2)}%</td>
-            <td className="py-2.5 px-4 text-right">{formatRupiah(tax)}</td>
-            <td className="py-2.5 px-4 print:hidden" />
-          </tr>
-
-          <tr className="bg-zinc-100 dark:bg-zinc-900/80 font-bold border-t-2 border-zinc-300 dark:border-zinc-700 text-zinc-950 dark:text-zinc-50 h-12 text-sm">
-            <td className="py-2.5 px-4" />
-            <td className="py-2.5 px-4 uppercase text-zinc-950 dark:text-zinc-50">Grand Total (Dibulatkan)</td>
-            <td className="py-2.5 px-4 text-right">{(grandTotal / totalDirectCost * 100 || 100).toFixed(2)}%</td>
-            <td className="py-2.5 px-4 text-right text-zinc-950 dark:text-zinc-50">{formatRupiah(grandTotal)}</td>
-            <td className="py-2.5 px-4 print:hidden" />
-          </tr>
+          <RecapTotals
+            totalDirectCost={totalDirectCost}
+            profit={profit}
+            tax={tax}
+            grandTotal={grandTotal}
+            profitRate={profitRate}
+            taxRate={taxRate}
+            addendums={addendums}
+            ccos={ccos}
+          />
         </tbody>
       </table>
     </div>

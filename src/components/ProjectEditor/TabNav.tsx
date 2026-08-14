@@ -2,10 +2,10 @@
 import type { Project } from "@/lib/store";
 import {
   Layers, FileSpreadsheet, LineChart, ClipboardList,
-  TrendingUp, HelpCircle, Package, Coins
+  TrendingUp, HelpCircle, Package, Coins, FileSignature, GitPullRequest
 } from "lucide-react";
 
-type TabType = "detail" | "recap" | "schedule" | "daily" | "progress" | "guide" | "resource" | "ssh" | "termin";
+type TabType = "detail" | "recap" | "schedule" | "daily" | "progress" | "guide" | "resource" | "ssh" | "termin" | "addendum" | "cco";
 
 const TABS: { id: TabType; label: string; Icon: React.ComponentType<{ className?: string }> }[] = [
   { id: "recap",    label: "Rekapitulasi Utama",  Icon: Layers },
@@ -14,6 +14,8 @@ const TABS: { id: TabType; label: string; Icon: React.ComponentType<{ className?
   { id: "daily",    label: "Laporan Harian",       Icon: ClipboardList },
   { id: "progress", label: "Realisasi Progres",    Icon: TrendingUp },
   { id: "termin",   label: "Termin Pembayaran",    Icon: Coins },
+  { id: "addendum", label: "Addendum / PTK",       Icon: FileSignature },
+  { id: "cco",      label: "CCO Lapangan",         Icon: GitPullRequest },
   { id: "resource", label: "Bahan & Tenaga",       Icon: Package },
   { id: "ssh",      label: "Harga SSH",            Icon: Coins },
   { id: "guide",    label: "Panduan",              Icon: HelpCircle },
