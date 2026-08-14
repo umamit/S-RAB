@@ -75,4 +75,8 @@ Untuk menghemat biaya token AI dan menjaga kecepatan respon:
 - ❌ **Dilarang push ulang** setelah satu sesi push berhasil, kecuali ada perubahan kode baru atau pengguna meminta secara eksplisit.
 - ✅ Satu perintah "commit push" dari pengguna = satu kali commit + satu kali push, selesai.
 
+## 9. Prinsip Interaksi Inline Edit: Single Click/Tap
+
+- ⚡ **Sekali Klik**: Seluruh elemen angka/teks yang mendukung pengeditan langsung (*inline edit*) pada tabel rincian pekerjaan dan parameter proyek harus menggunakan pemicu **sekali klik (single click / single tap)**, bukan double tap. Ini bertujuan agar proses pemutakhiran data di lapangan tetap cepat dan responsif.
+
 <!-- END:project-coding-rules -->
