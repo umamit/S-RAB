@@ -31,6 +31,10 @@ export default function LangkahEstimasi() {
           <strong className="text-zinc-850 dark:text-zinc-200 block mb-0.5">Menambahkan Bahan & Tenaga Kerja Baru:</strong>
           Jika ada bahan/tenaga baru yang tidak terdaftar di preset, Anda bisa menambahkannya langsung melalui laci AHSP (ikon ⚙️) pada item pekerjaan terkait. Pilih tab **Bahan** atau **Upah**, isi nama, satuan, harga dasar, serta koefisien pengali pada form di atas tabel, lalu klik **Tambah**. Komponen baru ini otomatis tersimpan dan langsung terdaftar secara global di tab **Harga SSH**!
         </div>
+        <div className="border-t border-zinc-150 dark:border-zinc-800/80 pt-2 mt-2">
+          <strong className="text-zinc-850 dark:text-zinc-200 block mb-0.5">Pajak Pertambahan Nilai (PPN) &amp; PPh Final 4(2):</strong>
+          Di bagian **Parameter Proyek**, Anda dapat mengatur tarif PPN (default 12%) dan tarif PPh Final Pasal 4 Ayat (2) atas Jasa Konstruksi (kategori kecil 2%, menengah/besar 3%, non-SBU 4%). Nilai potongan PPh 4(2) final dan nilai bersih kontrak setelah dipotong pajak akan otomatis dihitung di bawah Grand Total Rekapitulasi.
+        </div>
       </LangkahCard>
 
       {/* Section 4.5: AHSP Kustom */}

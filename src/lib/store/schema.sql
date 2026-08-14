@@ -38,4 +38,6 @@ ALTER TABLE public.projects ADD COLUMN IF NOT EXISTS weekly_financials JSONB NOT
 ALTER TABLE public.projects ADD COLUMN IF NOT EXISTS payment_terms JSONB NOT NULL DEFAULT '[]'::jsonb;
 ALTER TABLE public.projects ADD COLUMN IF NOT EXISTS addendums JSONB NOT NULL DEFAULT '[]'::jsonb;
 ALTER TABLE public.projects ADD COLUMN IF NOT EXISTS ccos JSONB NOT NULL DEFAULT '[]'::jsonb;
+ALTER TABLE public.projects ADD COLUMN IF NOT EXISTS pph_rate NUMERIC NOT NULL DEFAULT 0.02;
+ALTER TABLE public.projects ADD COLUMN IF NOT EXISTS bast_details JSONB;
 

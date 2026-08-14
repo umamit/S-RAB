@@ -34,6 +34,8 @@ export const syncProjectToSupabase = async (project: Project) => {
       payment_terms: project.paymentTerms || [],
       addendums: project.addendums || [],
       ccos: project.ccos || [],
+      pph_rate: project.pphRate !== undefined ? project.pphRate : 0.02,
+      bast_details: project.bastDetails || null,
     });
   } catch (err) {
     console.error("Failed to sync project to Supabase:", err);
@@ -78,6 +80,8 @@ export const fetchProjectsFromSupabase = async (): Promise<Project[]> => {
       paymentTerms: row.payment_terms || [],
       addendums: row.addendums || [],
       ccos: row.ccos || [],
+      pphRate: row.pph_rate !== undefined ? Number(row.pph_rate) : 0.02,
+      bastDetails: row.bast_details || null,
     }));
   } catch (err) {
     console.error("Error fetching projects from Supabase:", err);

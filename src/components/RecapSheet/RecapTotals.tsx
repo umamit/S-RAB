@@ -12,6 +12,7 @@ interface RecapTotalsProps {
   taxRate: number;
   addendums?: Addendum[];
   ccos?: CCO[];
+  pphRate?: number;
 }
 
 export default function RecapTotals({
@@ -23,6 +24,7 @@ export default function RecapTotals({
   taxRate,
   addendums,
   ccos,
+  pphRate,
 }: RecapTotalsProps) {
   const totalAddendum = (addendums || []).reduce((sum, add) => {
     return sum + add.items.reduce((s, item) => {
@@ -47,6 +49,12 @@ export default function RecapTotals({
     }, 0);
 
   const finalContractValue = grandTotal + totalAddendum + totalCCO;
+  
+  const pphRateVal = pphRate ?? 0.02;
+  const contractTotalValue = (totalAddendum !== 0 || totalCCO !== 0) ? finalContractValue : grandTotal;
+  const contractBeforeTax = contractTotalValue / (1 + taxRate);
+  const pphFinal = contractBeforeTax * pphRateVal;
+  const netReceived = contractTotalValue - pphFinal;
 
   return (
     <>
@@ -114,6 +122,25 @@ export default function RecapTotals({
           <td className="py-2.5 px-4 text-right">{formatRupiah(finalContractValue)}</td>
           <td className="py-2.5 px-4 print:hidden" />
         </tr>
+      )}
+
+      {pphRateVal > 0 && (
+        <>
+          <tr className="bg-zinc-50 dark:bg-zinc-900/50 font-bold text-zinc-900 dark:text-zinc-50 h-11">
+            <td className="py-2.5 px-4" />
+            <td className="py-2.5 px-4 uppercase text-zinc-500">Potongan PPh Final 4(2) ({(pphRateVal * 100).toFixed(0)}%)</td>
+            <td className="py-2.5 px-4 text-right" />
+            <td className="py-2.5 px-4 text-right text-red-500">-{formatRupiah(pphFinal)}</td>
+            <td className="py-2.5 px-4 print:hidden" />
+          </tr>
+          <tr className="bg-emerald-50/20 dark:bg-emerald-950/10 font-bold border-t border-b border-zinc-200 dark:border-zinc-800 text-emerald-700 dark:text-emerald-400 h-12 text-sm">
+            <td className="py-2.5 px-4" />
+            <td className="py-2.5 px-4 uppercase">Nilai Bersih Diterima (Net)</td>
+            <td className="py-2.5 px-4 text-right" />
+            <td className="py-2.5 px-4 text-right">{formatRupiah(netReceived)}</td>
+            <td className="py-2.5 px-4 print:hidden" />
+          </tr>
+        </>
       )}
     </>
   );

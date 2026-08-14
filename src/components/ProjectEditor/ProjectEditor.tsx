@@ -11,6 +11,7 @@ import SSHCatalog from "@/components/SSHCatalog";
 import PaymentTerms from "@/components/PaymentTerms";
 import Addendum from "@/components/Addendum";
 import CCO from "@/components/CCO";
+import BASTManager from "@/components/BASTManager";
 import TabNav from "./TabNav";
 import TabDetail from "./TabDetail";
 import PrintView from "./PrintView";
@@ -41,6 +42,7 @@ export default function ProjectEditor({ project }: ProjectEditorProps) {
         {activeTab === "termin"   && <PaymentTerms project={project} />}
         {activeTab === "addendum" && <Addendum project={project} />}
         {activeTab === "cco"      && <CCO project={project} />}
+        {activeTab === "bast"     && <BASTManager project={project} />}
         {activeTab === "guide"    && <UserGuide />}
         {activeTab === "resource" && <ResourceSummary project={project} />}
         {activeTab === "ssh"      && <SSHCatalog project={project} />}

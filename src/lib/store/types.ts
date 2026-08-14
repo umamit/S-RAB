@@ -131,6 +131,16 @@ export interface User {
   passwordHash: string;
 }
 
+export interface BASTDetails {
+  number: string;
+  date: string;
+  firstPartyName: string;
+  firstPartyRole: string;
+  secondPartyName: string;
+  secondPartyRole: string;
+  notes?: string;
+}
+
 export interface Project {
   id: string;
   userId?: string;
@@ -147,8 +157,10 @@ export interface Project {
   weeklyFinancials?: WeeklyFinancial[];
   paymentTerms?: PaymentTerm[];
   alertThreshold?: number; // Nilai persentase threshold deviasi minus, misal: 5 untuk -5%
+  pphRate?: number; // Nilai tarif PPh 4(2) Final Jasa Konstruksi, misal: 0.02, 0.03, 0.04
   addendums?: Addendum[];
   ccos?: CCO[];
+  bastDetails?: BASTDetails;
 }
 
 export interface AHSPTemplate {

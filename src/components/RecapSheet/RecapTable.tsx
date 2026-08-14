@@ -21,6 +21,7 @@ interface RecapTableProps {
   taxRate: number;
   addendums?: Addendum[];
   ccos?: CCO[];
+  pphRate?: number;
   editingSubId: string | null;
   editingVal: string;
   setEditingVal: (v: string) => void;
@@ -41,6 +42,7 @@ export default function RecapTable({
   taxRate,
   addendums,
   ccos,
+  pphRate,
   editingSubId,
   editingVal,
   setEditingVal,
@@ -101,6 +103,7 @@ export default function RecapTable({
             taxRate={taxRate}
             addendums={addendums}
             ccos={ccos}
+            pphRate={pphRate}
           />
         </tbody>
       </table>

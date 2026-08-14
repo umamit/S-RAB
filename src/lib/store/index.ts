@@ -20,6 +20,7 @@ export type {
   CCOStatus,
   User,
   Project,
+  BASTDetails,
   AHSPTemplate,
   CustomAHSPTemplate,
   RABState,

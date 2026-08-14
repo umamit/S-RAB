@@ -34,8 +34,8 @@ export default function RecapSheet({ project }: RecapSheetProps) {
     addSubProject(project.id, name);
   };
 
-  const handleSaveParams = (profitRate: number, taxRate: number, alertThreshold: number) => {
-    updateProject(project.id, { profitRate, taxRate, alertThreshold });
+  const handleSaveParams = (profitRate: number, taxRate: number, alertThreshold: number, pphRate: number) => {
+    updateProject(project.id, { profitRate, taxRate, alertThreshold, pphRate });
   };
 
   const handleStartEdit = (id: string, name: string) => {
@@ -81,6 +81,7 @@ export default function RecapSheet({ project }: RecapSheetProps) {
         taxRate={project.taxRate}
         addendums={project.addendums}
         ccos={project.ccos}
+        pphRate={project.pphRate}
         editingSubId={editingSubId}
 
         editingVal={editingVal}
@@ -104,6 +105,7 @@ export default function RecapSheet({ project }: RecapSheetProps) {
             profitRate={project.profitRate}
             taxRate={project.taxRate}
             alertThreshold={project.alertThreshold ?? 5}
+            pphRate={project.pphRate ?? 0.02}
             onSave={handleSaveParams}
           />
         </div>

@@ -76,6 +76,18 @@ export default function LangkahJadwal() {
           Pengajuan CCO memiliki status siklus: `Draft` &rarr; `Diajukan` &rarr; `Disetujui` / `Ditolak`. CCO yang disetujui secara otomatis akan memutakhirkan kalkulasi penarikan pembayaran di tab **Termin Pembayaran** (MC).
         </div>
       </LangkahCard>
+
+      {/* Section 4.8: BAST */}
+      <LangkahCard title="9. Serah Terima Pekerjaan (BAST)">
+        <div>
+          <strong className="text-zinc-850 dark:text-zinc-200 block mb-0.5">Membuat Berita Acara BAST:</strong>
+          Buka tab **Cetak BAST**. Lengkapi data administrasi surat meliputi nomor BAST, tanggal serah terima, nama &amp; jabatan Pihak Pertama (Penyedia Jasa), serta nama &amp; jabatan Pihak Kedua (Pengguna Jasa / PPK).
+        </div>
+        <div>
+          <strong className="text-zinc-850 dark:text-zinc-200 block mb-0.5">Preview &amp; Cetak Dokumen:</strong>
+          Setelah data disimpan, pratinjau surat BAST resmi akan otomatis digenerate secara rapi lengkap dengan tanda tangan para pihak, rincian nilai kontrak awal, delta addendum, delta CCO, dan nilai akhir kontrak. Klik ikon printer untuk mencetak ke kertas A4 atau menyimpan sebagai PDF.
+        </div>
+      </LangkahCard>
     </div>
   );
 }
