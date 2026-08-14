@@ -11,6 +11,7 @@ export const createProjectActions = (
 ): Pick<
   RABState,
   | "addProject" | "importProject" | "deleteProject" | "updateProject" | "setActiveProject" | "updateProjectDuration"
+  | "saveCustomAHSPTemplate" | "deleteCustomAHSPTemplate"
   | "addSubProject" | "deleteSubProject" | "updateSubProjectName" | "setActiveSubProject"
   | "addCategory" | "deleteCategory" | "updateCategory" | "updateCategorySchedule"
   | "addItem" | "updateItem" | "deleteItem" | "updateItemAHSP"

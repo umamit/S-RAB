@@ -18,7 +18,7 @@ interface AHSPDrawerProps {
 }
 
 export default function AHSPDrawer({ projectId, categoryId, itemId, isOpen, onClose }: AHSPDrawerProps) {
-  const { projects, updateItemAHSP } = useRABStore();
+  const { projects, updateItemAHSP, customAHSPTemplates, saveCustomAHSPTemplate } = useRABStore();
 
   const activeProject = projects.find((p) => p.id === projectId);
   const activeSubProject = activeProject?.subProjects.find(
@@ -41,12 +41,19 @@ export default function AHSPDrawer({ projectId, categoryId, itemId, isOpen, onCl
 
   if (!isOpen || !activeItem) return null;
 
-  const handleApplyTemplate = (idx: number) => {
-    if (idx < 0) return;
+  const handleApplyTemplate = (ahsp: AHSP) => {
     if (localAHSP.materials.length > 0 || localAHSP.labor.length > 0 || localAHSP.tools.length > 0) {
       if (!confirm("Menerapkan template akan menghapus analisa yang sedang Anda edit. Lanjutkan?")) return;
     }
-    setLocalAHSP(JSON.parse(JSON.stringify(AHSP_TEMPLATES[idx].ahsp)));
+    setLocalAHSP(JSON.parse(JSON.stringify(ahsp)));
+  };
+
+  const handleSaveCustom = () => {
+    const defaultName = activeItem.name || "Template Analisa Baru";
+    const name = prompt("Masukkan nama untuk template kustom ini:", defaultName);
+    if (!name || !name.trim()) return;
+    saveCustomAHSPTemplate(name.trim(), activeItem.unit || "m'", localAHSP);
+    alert(`Template "${name.trim()}" berhasil disimpan!`);
   };
 
   const handleAddEntry = (e: React.FormEvent) => {
@@ -104,7 +111,7 @@ export default function AHSPDrawer({ projectId, categoryId, itemId, isOpen, onCl
       <div onClick={onClose} className="absolute inset-0 bg-black/60 backdrop-blur-xs transition-opacity" />
       <div className="relative w-full max-w-2xl bg-white dark:bg-zinc-950 h-full flex flex-col shadow-2xl border-l border-zinc-200 dark:border-zinc-800">
         <AHSPHeader activeItem={activeItem} onClose={onClose} />
-        <TemplateSelector onApplyTemplate={handleApplyTemplate} />
+        <TemplateSelector customTemplates={customAHSPTemplates} onApplyTemplate={handleApplyTemplate} />
         <div className="flex-1 overflow-y-auto p-6 space-y-6">
           <div className="flex border-b border-zinc-200 dark:border-zinc-800 text-xs font-semibold uppercase tracking-wider">
             {(["materials", "labor", "tools"] as SectionType[]).map((section) => (
@@ -119,7 +126,7 @@ export default function AHSPDrawer({ projectId, categoryId, itemId, isOpen, onCl
           <AHSPTable localAHSP={localAHSP} activeSection={activeSection} onUpdateEntry={handleUpdateEntry} onDeleteEntry={handleDeleteEntry} />
           <SummaryCard materialsTotal={materialsTotal} laborTotal={laborTotal} toolsTotal={toolsTotal} calculatedUnitPrice={materialsTotal + laborTotal + toolsTotal} />
         </div>
-        <FooterActions hasAHSP={!!activeItem.ahsp} onDisableAHSP={handleDisableAHSP} onClose={onClose} onSave={handleSave} />
+        <FooterActions hasAHSP={!!activeItem.ahsp} onDisableAHSP={handleDisableAHSP} onClose={onClose} onSave={handleSave} onSaveCustom={handleSaveCustom} />
       </div>
     </div>
   );

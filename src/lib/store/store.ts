@@ -24,6 +24,7 @@ export const useRABStore = create<RABState>()(
         },
       ],
       currentUser: null,
+      customAHSPTemplates: [],
 
       ...createProjectActions(set, get),
       ...createLogActions(set),

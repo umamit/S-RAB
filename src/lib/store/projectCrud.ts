@@ -5,7 +5,25 @@ import { syncProjectToSupabase, deleteProjectFromSupabase } from "../supabaseCli
 export const createProjectCrud = (
   set: Parameters<StateCreator<RABState>>[0],
   get: Parameters<StateCreator<RABState>>[1]
-): Pick<RABState, "addProject" | "importProject" | "deleteProject" | "updateProject" | "setActiveProject" | "updateProjectDuration"> => ({
+): Pick<
+  RABState,
+  | "addProject" | "importProject" | "deleteProject" | "updateProject" | "setActiveProject" | "updateProjectDuration"
+  | "saveCustomAHSPTemplate" | "deleteCustomAHSPTemplate"
+> => ({
+  saveCustomAHSPTemplate: (name, unit, ahsp) => {
+    const id = `custom-ahsp-${Date.now()}`;
+    const newTemplate = { id, name, unit, ahsp };
+    set((state) => ({
+      customAHSPTemplates: [...(state.customAHSPTemplates || []), newTemplate],
+    }));
+  },
+
+  deleteCustomAHSPTemplate: (id) => {
+    set((state) => ({
+      customAHSPTemplates: (state.customAHSPTemplates || []).filter((t) => t.id !== id),
+    }));
+  },
+
   importProject: (projectData) => {
     if (!projectData || typeof projectData !== "object" || !projectData.name || !Array.isArray(projectData.subProjects)) {
       throw new Error("Format data proyek tidak valid.");

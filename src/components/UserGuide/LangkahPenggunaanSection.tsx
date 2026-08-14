@@ -44,6 +44,10 @@ export default function LangkahPenggunaanSection() {
             <strong className="text-zinc-850 dark:text-zinc-200 block mb-0.5">Fungsi Grafik Kurva S:</strong>
             Kurva ini sangat penting di PU untuk melihat kesiapan pendanaan serta target capaian kontraktor dari minggu ke minggu.
           </div>
+          <div>
+            <strong className="text-zinc-850 dark:text-zinc-200 block mb-0.5">Toggle Mode Keuangan (Cash Flow):</strong>
+            Di pojok kanan grafik Kurva S, klik tombol <strong>Keuangan (Rp)</strong> untuk menampilkan proyeksi rencana belanja kumulatif (Rp). Masukkan realisasi pengeluaran aktual lapangan di tab <strong>Realisasi Progres</strong> (bagian Keuangan Minggu ke-X), lalu simpan — garis hijau solid akan otomatis muncul sebagai aktual cash flow.
+          </div>
         </LangkahCard>
 
         {/* Section 3: Laporan Harian */}
@@ -74,6 +78,18 @@ export default function LangkahPenggunaanSection() {
           </div>
         </LangkahCard>
 
+        {/* Section 4.5: AHSP Kustom */}
+        <LangkahCard title="4.5 Kamus AHSP Kustom (Template Pribadi)">
+          <div>
+            <strong className="text-zinc-850 dark:text-zinc-200 block mb-0.5">Menyimpan Template AHSP:</strong>
+            Buka laci AHSP (ikon ⚙️) pada item pekerjaan, susun komponen bahan/upah sesuai kebutuhan, lalu klik tombol <strong>Simpan Kustom</strong> di bagian bawah laci. Beri nama template, dan template akan tersimpan secara lokal di perangkat.
+          </div>
+          <div>
+            <strong className="text-zinc-850 dark:text-zinc-200 block mb-0.5">Menggunakan Kembali Template:</strong>
+            Di dropdown preset AHSP bagian atas laci, gulir ke grup <strong>Template Saya</strong>. Pilih template tersimpan — seluruh komponen akan otomatis terisi. Template kustom dapat dihapus kapan saja melalui tombol hapus (ikon 🗑️).
+          </div>
+        </LangkahCard>
+
         {/* Section 5: Kamus Harga SSH */}
         <LangkahCard title="5. Kamus Harga SSH Global" lawText="Dasar Hukum: PP No. 12 Tahun 2019 tentang Pengelolaan Keuangan Daerah & Standar Satuan Harga.">
           <div>
@@ -96,6 +112,9 @@ export default function LangkahPenggunaanSection() {
           </li>
           <li>
             <strong className="text-zinc-800 dark:text-zinc-200">Cetak PDF:</strong> Klik tombol <strong>Cetak PDF</strong> di kanan atas layar untuk menghasilkan satu dokumen bundel laporan terpadu (Cover Rekapitulasi + Rincian Detail + Laporan Harian + Laporan Progres Mingguan + Rekapitulasi Bahan) yang siap dicetak atau disimpan sebagai PDF.
+          </li>
+          <li>
+            <strong className="text-zinc-800 dark:text-zinc-200">Bagikan Proyek (JSON):</strong> Klik <strong>Ekspor JSON</strong> di header untuk mengunduh satu file `.json` berisi seluruh data proyek aktif. Rekan kerja dapat membukanya melalui tombol <strong>Impor JSON</strong> di samping daftar proyek — data akan masuk sebagai proyek baru tanpa menimpa data yang sudah ada.
           </li>
         </ul>
       </div>

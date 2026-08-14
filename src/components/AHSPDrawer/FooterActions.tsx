@@ -6,6 +6,7 @@ interface FooterActionsProps {
   onDisableAHSP: () => void;
   onClose: () => void;
   onSave: () => void;
+  onSaveCustom?: () => void;
 }
 
 export default function FooterActions({
@@ -13,6 +14,7 @@ export default function FooterActions({
   onDisableAHSP,
   onClose,
   onSave,
+  onSaveCustom,
 }: FooterActionsProps) {
   return (
     <div className="p-6 border-t border-zinc-200 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-900/10 flex flex-wrap gap-3 justify-between items-center shrink-0">
@@ -29,6 +31,15 @@ export default function FooterActions({
       </div>
       
       <div className="flex gap-2">
+        {onSaveCustom && (
+          <button
+            type="button"
+            onClick={onSaveCustom}
+            className="px-4 py-2 border border-zinc-200 dark:border-zinc-800 text-zinc-700 dark:text-zinc-300 hover:bg-zinc-50 dark:hover:bg-zinc-900 rounded-lg text-xs font-semibold transition-colors"
+          >
+            Simpan Kustom
+          </button>
+        )}
         <button
           type="button"
           onClick={onClose}

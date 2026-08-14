@@ -53,6 +53,18 @@ export interface WeeklyProgress {
   actualCategoryProgress: Record<string, number>;
 }
 
+export interface WeeklyFinancial {
+  weekNumber: number;
+  actualCost: number;
+}
+
+export interface CustomAHSPTemplate {
+  id: string;
+  name: string;
+  unit: string;
+  ahsp: AHSP;
+}
+
 export interface User {
   id: string;
   email: string;
@@ -73,6 +85,7 @@ export interface Project {
   durationWeeks: number;
   dailyLogs?: DailyLog[];
   weeklyProgress?: WeeklyProgress[];
+  weeklyFinancials?: WeeklyFinancial[];
 }
 
 export interface AHSPTemplate {
@@ -86,6 +99,7 @@ export interface RABState {
   activeProjectId: string | null;
   users: User[];
   currentUser: User | null;
+  customAHSPTemplates: CustomAHSPTemplate[];
 
   // Project Actions
   addProject: (name: string, description: string, taxRate: number, profitRate: number) => string;
@@ -119,7 +133,12 @@ export interface RABState {
 
   // Weekly Progress & SSH Actions
   updateWeeklyProgress: (projectId: string, weekNumber: number, categoryId: string, percentage: number) => void;
+  updateWeeklyFinancial: (projectId: string, weekNumber: number, actualCost: number) => void;
   updateGlobalResourcePrice: (projectId: string, name: string, price: number) => void;
+
+  // Custom AHSP Template Actions
+  saveCustomAHSPTemplate: (name: string, unit: string, ahsp: AHSP) => void;
+  deleteCustomAHSPTemplate: (id: string) => void;
 
   // Auth Actions
   registerUser: (email: string, name: string, passwordPlain: string) => Promise<{ success: boolean; error?: string }>;

@@ -5,7 +5,7 @@ import { syncProjectToSupabase } from "../supabaseClient";
 
 export const createLogActions = (
   set: Parameters<StateCreator<RABState>>[0],
-): Pick<RABState, "addDailyLog" | "deleteDailyLog" | "updateWeeklyProgress" | "updateGlobalResourcePrice"> => ({
+): Pick<RABState, "addDailyLog" | "deleteDailyLog" | "updateWeeklyProgress" | "updateWeeklyFinancial" | "updateGlobalResourcePrice"> => ({
 
   addDailyLog: (projectId, date, weather, workers, notes) => {
     set((state) => {
@@ -44,6 +44,25 @@ export const createLogActions = (
           list.push({ weekNumber, actualCategoryProgress: { [categoryId]: percentage } });
         }
         return { ...p, weeklyProgress: list };
+      });
+      const found = nextProjects.find((p) => p.id === projectId);
+      if (found) syncProjectToSupabase(found);
+      return { projects: nextProjects };
+    });
+  },
+
+  updateWeeklyFinancial: (projectId, weekNumber, actualCost) => {
+    set((state) => {
+      const nextProjects = state.projects.map((p) => {
+        if (p.id !== projectId) return p;
+        const list = [...(p.weeklyFinancials || [])];
+        const idx = list.findIndex((w) => w.weekNumber === weekNumber);
+        if (idx >= 0) {
+          list[idx] = { ...list[idx], actualCost };
+        } else {
+          list.push({ weekNumber, actualCost });
+        }
+        return { ...p, weeklyFinancials: list };
       });
       const found = nextProjects.find((p) => p.id === projectId);
       if (found) syncProjectToSupabase(found);

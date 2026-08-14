@@ -88,6 +88,9 @@ export default function ScheduleManager({ project }: ScheduleManagerProps) {
           maxRecordedWeek={maxRecordedWeek}
           cumulativePlannedWeights={cumulativePlannedWeights}
           weeklyActualWeights={weeklyActualWeights}
+          profitRate={project.profitRate}
+          taxRate={project.taxRate}
+          weeklyFinancials={project.weeklyFinancials}
         />
         <ScheduleTable
           projectId={project.id}

@@ -34,6 +34,18 @@ export default function FiturSection() {
           <strong className="text-zinc-800 dark:text-zinc-200 block">6. Rekapitulasi Bahan & Tenaga:</strong>
           Berfungsi sebagai daftar belanja resmi (Shopping List) agar pengadaan logistik material di lapangan efisien, tepat waktu, dan bebas dari pemborosan biaya.
         </div>
+        <div className="space-y-1">
+          <strong className="text-zinc-800 dark:text-zinc-200 block">7. Kamus AHSP Kustom:</strong>
+          Simpan kombinasi komponen AHSP yang sering Anda pakai sebagai template pribadi. Tersedia otomatis di semua proyek Anda, sehingga tidak perlu input ulang dari nol.
+        </div>
+        <div className="space-y-1">
+          <strong className="text-zinc-800 dark:text-zinc-200 block">8. Kurva S Keuangan (Cash Flow):</strong>
+          Toggle grafik Kurva S antara mode Fisik (%) dan Keuangan (Rp) untuk memantau realisasi belanja aktual lapangan vs. rencana anggaran proyek.
+        </div>
+        <div className="space-y-1">
+          <strong className="text-zinc-800 dark:text-zinc-200 block">9. Bagikan & Impor Proyek:</strong>
+          Ekspor seluruh data proyek menjadi file JSON untuk diberikan kepada rekan kerja. Rekan dapat langsung mengimpor dan melanjutkan pekerjaan tanpa perlu dibuat ulang.
+        </div>
       </div>
     </div>
   );
