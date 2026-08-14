@@ -6,6 +6,8 @@ import ScheduleHeader from "./ScheduleHeader";
 import SCurveChart from "./SCurveChart";
 import ScheduleTable from "./ScheduleTable";
 import type { ScheduleCategory } from "./ScheduleTable";
+import GanttChart from "./GanttChart";
+
 
 interface ScheduleManagerProps {
   project: Project;
@@ -98,7 +100,13 @@ export default function ScheduleManager({ project }: ScheduleManagerProps) {
           numWeeks={numWeeks}
           updateCategorySchedule={updateCategorySchedule}
         />
+        <GanttChart
+          project={project}
+          allCategories={allCategories}
+          numWeeks={numWeeks}
+        />
       </div>
     </div>
+
   );
 }

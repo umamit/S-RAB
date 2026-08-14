@@ -12,6 +12,10 @@ export default function LangkahEstimasi() {
           Buka tab **Rekapitulasi Utama**. Di bagian bawah, masukkan nama divisi baru (misal: *Pekerjaan Struktur* atau *Lantai 2*) lalu klik **Tambah Divisi**. Klik nama divisi untuk mengedit item di dalamnya.
         </div>
         <div>
+          <strong className="text-zinc-850 dark:text-zinc-200 block mb-0.5">Membuat Proyek dari Template Preset:</strong>
+          Saat membuat proyek baru, Anda dapat memilih template struktur preset seperti *Pembangunan Ruko 2 Lantai* atau *Pekerjaan Jalan Paving Block*. Sistem akan otomatis menginisialisasi sub-proyek, kategori pekerjaan, dan durasi rencana secara terstruktur untuk menghemat waktu input awal.
+        </div>
+        <div>
           <strong className="text-zinc-850 dark:text-zinc-200 block mb-0.5">Mengedit Item Pekerjaan (Inline Editor):</strong>
           Buka tab **Rincian Detail**. Klik langsung pada teks sel manapun (Nama Pekerjaan, Satuan, Volume Rencana, atau Harga) untuk mengedit nilainya secara instan. Tekan **Enter** untuk menyimpan.
         </div>

@@ -56,8 +56,8 @@ export default function AddProjectModal({ isOpen, onClose }: AddProjectModalProp
     return () => dialog.removeEventListener("cancel", handleCancel);
   }, [onClose]);
 
-  const handleSubmit = (data: { name: string; description: string; taxRate: number; profitRate: number }) => {
-    addProject(data.name, data.description, data.taxRate, data.profitRate);
+  const handleSubmit = (data: { name: string; description: string; taxRate: number; profitRate: number; templateType: string }) => {
+    addProject(data.name, data.description, data.taxRate, data.profitRate, data.templateType);
     onClose();
   };
 

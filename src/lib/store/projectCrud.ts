@@ -1,6 +1,7 @@
 import type { StateCreator } from "zustand";
-import type { RABState, Project } from "./types";
+import type { RABState, Project, SubProject } from "./types";
 import { syncProjectToSupabase, deleteProjectFromSupabase } from "../supabaseClient";
+import { getTemplateSubProjects } from "./projectTemplates";
 
 export const createProjectCrud = (
   set: Parameters<StateCreator<RABState>>[0],
@@ -56,9 +57,28 @@ export const createProjectCrud = (
     return projectId;
   },
 
-  addProject: (name, description, taxRate, profitRate) => {
+  addProject: (name, description, taxRate, profitRate, templateType) => {
     const id = `proj-${Date.now()}`;
     const subId = `sub-${Date.now()}`;
+
+    let subProjects: SubProject[] = [];
+    let activeSubProjectId: string | null = subId;
+
+    if (templateType && templateType !== "empty") {
+      subProjects = getTemplateSubProjects(templateType);
+      activeSubProjectId = subProjects[0]?.id || null;
+    } else {
+      subProjects = [{
+        id: subId,
+        name: "Pekerjaan Utama",
+        categories: [
+          { id: `cat-${Date.now()}-1`, name: "I. Pekerjaan Persiapan", items: [], startWeek: 1, durationWeeks: 2 },
+          { id: `cat-${Date.now()}-2`, name: "II. Pekerjaan Pondasi & Tanah", items: [], startWeek: 2, durationWeeks: 3 },
+          { id: `cat-${Date.now()}-3`, name: "III. Pekerjaan Struktur Beton", items: [], startWeek: 3, durationWeeks: 4 },
+        ],
+      }];
+    }
+
     const newProject: Project = {
       id,
       userId: get().currentUser?.id,
@@ -68,23 +88,20 @@ export const createProjectCrud = (
       taxRate,
       profitRate,
       durationWeeks: 12,
-      activeSubProjectId: subId,
+      activeSubProjectId,
       dailyLogs: [],
       weeklyProgress: [],
-      subProjects: [{
-        id: subId,
-        name: "Pekerjaan Utama",
-        categories: [
-          { id: `cat-${Date.now()}-1`, name: "I. Pekerjaan Persiapan", items: [], startWeek: 1, durationWeeks: 2 },
-          { id: `cat-${Date.now()}-2`, name: "II. Pekerjaan Pondasi & Tanah", items: [], startWeek: 2, durationWeeks: 3 },
-          { id: `cat-${Date.now()}-3`, name: "III. Pekerjaan Struktur Beton", items: [], startWeek: 3, durationWeeks: 4 },
-        ],
-      }],
+      subProjects,
+      weeklyFinancials: [],
+      paymentTerms: [],
+      addendums: [],
+      ccos: [],
     };
     set((state) => ({ projects: [...state.projects, newProject], activeProjectId: id }));
     syncProjectToSupabase(newProject);
     return id;
   },
+
 
   deleteProject: (id) => {
     set((state) => {

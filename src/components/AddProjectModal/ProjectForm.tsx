@@ -2,7 +2,7 @@
 import { useState } from "react";
 
 interface ProjectFormProps {
-  onSubmit: (data: { name: string; description: string; taxRate: number; profitRate: number }) => void;
+  onSubmit: (data: { name: string; description: string; taxRate: number; profitRate: number; templateType: string }) => void;
   onCancel: () => void;
 }
 
@@ -11,6 +11,7 @@ export default function ProjectForm({ onSubmit, onCancel }: ProjectFormProps) {
   const [description, setDescription] = useState("");
   const [taxRate, setTaxRate] = useState(12);
   const [profitRate, setProfitRate] = useState(10);
+  const [templateType, setTemplateType] = useState("empty");
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -21,8 +22,10 @@ export default function ProjectForm({ onSubmit, onCancel }: ProjectFormProps) {
       description: description.trim(),
       taxRate: taxRate / 100,
       profitRate: profitRate / 100,
+      templateType,
     });
   };
+
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
@@ -53,6 +56,22 @@ export default function ProjectForm({ onSubmit, onCancel }: ProjectFormProps) {
           placeholder="Detail proyek bangunan, lokasi, owner, dll."
           className="w-full px-3 py-2 bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-zinc-400 dark:focus:ring-zinc-700 transition-all resize-none"
         />
+      </div>
+
+      <div>
+        <label htmlFor="proj-template" className="block text-xs font-semibold uppercase tracking-wider text-zinc-500 dark:text-zinc-400 mb-1">
+          Template Struktur Proyek *
+        </label>
+        <select
+          id="proj-template"
+          value={templateType}
+          onChange={(e) => setTemplateType(e.target.value)}
+          className="w-full px-3 py-2 bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-lg text-xs font-semibold focus:outline-none focus:ring-1 focus:ring-zinc-400"
+        >
+          <option value="empty">Template Kosong (RAB Kosong)</option>
+          <option value="ruko">Pembangunan Ruko 2 Lantai (Struktur &amp; Arsitektur)</option>
+          <option value="paving">Pekerjaan Jalan Paving Block (Tanah &amp; Paving)</option>
+        </select>
       </div>
 
       <div className="grid grid-cols-2 gap-4">

@@ -19,6 +19,10 @@ export default function LangkahJadwal() {
           <strong className="text-zinc-850 dark:text-zinc-200 block mb-0.5">Toggle Mode Keuangan (Cash Flow):</strong>
           Di pojok kanan grafik Kurva S, klik tombol <strong>Keuangan (Rp)</strong> untuk menampilkan proyeksi rencana belanja kumulatif (Rp). Masukkan realisasi pengeluaran aktual lapangan di tab <strong>Realisasi Progres</strong> (bagian Keuangan Minggu ke-X), lalu simpan — garis hijau solid akan otomatis muncul sebagai aktual cash flow.
         </div>
+        <div className="border-t border-zinc-150 dark:border-zinc-800/80 pt-2 mt-2">
+          <strong className="text-zinc-850 dark:text-zinc-200 block mb-0.5">Visualisasi Gantt Chart Real-Time:</strong>
+          Di bawah Kurva S, sistem menyediakan visualisasi **Gantt Chart**. Grafik ini menggambarkan bar jadwal rencana (abu-abu/gelap) dan menumpangkan bar progres fisik riil lapangan (hijau/kuning) secara langsung di tiap sel minggu. Ini memudahkan verifikasi deviasi kemajuan fisik per item kategori pekerjaan secara visual.
+        </div>
       </LangkahCard>
 
       {/* Section 3: Laporan Harian */}
