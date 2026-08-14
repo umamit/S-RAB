@@ -65,4 +65,8 @@ Untuk menghemat biaya token AI dan menjaga kecepatan respon:
 - ⚡ **Konsistensi Perintah**: Jangan menjalankan perintah build (`npm run build`) berulang-ulang tanpa perubahan kode yang substansial.
 - ⚡ **Respon Singkat**: Tulis respon penjelasan sependek dan sejelas mungkin tanpa basa-basi.
 
+## 7. Pembaruan Buku Panduan (User Guide)
+
+- ⚡ **Wajib Perbarui Panduan**: Setiap kali ada penambahan fitur baru, perbaikan alur fitur utama, atau perubahan parameter fungsional, **wajib** memperbarui file komponen di dalam folder `src/components/UserGuide/` agar petunjuk penggunaan selalu selaras dengan fungsionalitas riil aplikasi.
+
 <!-- END:project-coding-rules -->
