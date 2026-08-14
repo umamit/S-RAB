@@ -4,6 +4,7 @@ import { createProjectCrud } from "./projectCrud";
 import { createSubProjectCrud } from "./subprojectCrud";
 import { createCategoryCrud } from "./categoryCrud";
 import { createItemCrud } from "./itemCrud";
+import { createPaymentTermActions } from "./paymentTermActions";
 
 export const createProjectActions = (
   set: Parameters<StateCreator<RABState>>[0],
@@ -14,10 +15,12 @@ export const createProjectActions = (
   | "saveCustomAHSPTemplate" | "deleteCustomAHSPTemplate"
   | "addSubProject" | "deleteSubProject" | "updateSubProjectName" | "setActiveSubProject"
   | "addCategory" | "deleteCategory" | "updateCategory" | "updateCategorySchedule"
-  | "addItem" | "updateItem" | "deleteItem" | "updateItemAHSP"
+  | "addItem" | "updateItem" | "deleteItem" | "updateItemAHSP" | "updateItemActualQuantity"
+  | "addPaymentTerm" | "updatePaymentTerm" | "deletePaymentTerm"
 > => ({
   ...createProjectCrud(set, get),
   ...createSubProjectCrud(set),
   ...createCategoryCrud(set),
   ...createItemCrud(set),
+  ...createPaymentTermActions(set),
 });

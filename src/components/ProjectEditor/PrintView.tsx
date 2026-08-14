@@ -48,7 +48,8 @@ export default function PrintView({ project, totalDirectCost }: PrintViewProps) 
                         <th className="py-1 px-2 w-8 text-center border border-zinc-400">No.</th>
                         <th className="py-1 px-2 border border-zinc-400">Uraian Pekerjaan</th>
                         <th className="py-1 px-2 w-14 text-center border border-zinc-400">Satuan</th>
-                        <th className="py-1 px-2 w-16 text-right border border-zinc-400">Volume</th>
+                        <th className="py-1 px-2 w-16 text-right border border-zinc-400">Vol Rencana</th>
+                        <th className="py-1 px-2 w-16 text-right border border-zinc-400">Vol Realisasi</th>
                         <th className="py-1 px-2 w-24 text-right border border-zinc-400">Harga Satuan</th>
                         <th className="py-1 px-2 w-16 text-right border border-zinc-400">Bobot (%)</th>
                         <th className="py-1 px-2 w-28 text-right border border-zinc-400">Jumlah Harga</th>
@@ -63,6 +64,7 @@ export default function PrintView({ project, totalDirectCost }: PrintViewProps) 
                             <td className="py-1 px-2 border border-zinc-400">{item.name}</td>
                             <td className="py-1 px-2 text-center border border-zinc-400">{item.unit}</td>
                             <td className="py-1 px-2 text-right border border-zinc-400">{item.quantity}</td>
+                            <td className="py-1 px-2 text-right border border-zinc-400">{item.actualQuantity ?? 0}</td>
                             <td className="py-1 px-2 text-right border border-zinc-400">{formatRupiah(item.unitPrice)}</td>
                             <td className="py-1 px-2 text-right border border-zinc-400">{itemWeight.toFixed(2)}%</td>
                             <td className="py-1 px-2 text-right font-bold border border-zinc-400">{formatRupiah(item.total)}</td>

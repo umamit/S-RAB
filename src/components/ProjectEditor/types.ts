@@ -3,7 +3,7 @@
 export interface ActiveEditState {
   categoryId: string;
   itemId: string;
-  field: "name" | "unit" | "quantity" | "unitPrice";
+  field: "name" | "unit" | "quantity" | "unitPrice" | "actualQuantity";
 }
 
 export type EditState = ActiveEditState | null;

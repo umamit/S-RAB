@@ -4,6 +4,7 @@ import { Project, useRABStore } from "@/lib/store";
 import { calculateProjectTotals } from "../ProjectList";
 import ProgressKPI from "./ProgressKPI";
 import ProgressTable, { ProgressCategory } from "./ProgressTable";
+import DeviationAlert from "./DeviationAlert";
 
 interface ProgressTrackerProps {
   project: Project;
@@ -120,6 +121,7 @@ export default function ProgressTracker({ project }: ProgressTrackerProps) {
         </form>
       </div>
 
+      <DeviationAlert deviation={deviation} threshold={project.alertThreshold ?? 5} />
       <ProgressKPI plannedProgress={plannedProgress} cumulativeActualWeight={cumulativeActualWeight} deviation={deviation} />
       <ProgressTable allCategories={allCategories} selectedWeek={selectedWeek} numWeeks={numWeeks} currentWeekRecord={currentWeekRecord} onProgressChange={handleProgressChange} />
     </div>

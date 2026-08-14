@@ -27,12 +27,12 @@ export const useRABStore = create<RABState>()(
       customAHSPTemplates: [],
 
       ...createProjectActions(set, get),
-      ...createLogActions(set),
+      ...createLogActions(set, get),
       ...createAuthActions(set, get),
     }),
     {
       name: "rab-canggih-storage",
-      version: 3,
+      version: 4,
       migrate: (persistedState: any, version: number) => {
         if (persistedState?.projects) {
           persistedState.projects = persistedState.projects.map((proj: any) => {
@@ -54,6 +54,10 @@ export const useRABStore = create<RABState>()(
             }
             if (version < 3 || !proj.userId) {
               proj.userId = "user-default";
+            }
+            if (version < 4) {
+              if (!proj.weeklyFinancials) proj.weeklyFinancials = [];
+              if (!proj.paymentTerms) proj.paymentTerms = [];
             }
             return proj;
           });

@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import { DailyLog } from "@/lib/store";
 import { Sun, Cloud, CloudDrizzle, CloudRain, Trash2 } from "lucide-react";
 
@@ -9,6 +9,7 @@ interface DailyLogHistoryProps {
 }
 
 export default function DailyLogHistory({ logs, onDeleteLog }: DailyLogHistoryProps) {
+  const [lightboxUrl, setLightboxUrl] = useState<string | null>(null);
   const sortedLogs = [...logs].sort((a, b) => b.date.localeCompare(a.date));
 
   const getWeatherIcon = (w: string) => {
@@ -48,6 +49,18 @@ export default function DailyLogHistory({ logs, onDeleteLog }: DailyLogHistoryPr
                 </button>
               </div>
               <p className="text-xs text-zinc-700 dark:text-zinc-300 leading-relaxed font-medium bg-zinc-50/40 dark:bg-zinc-900/30 p-3 rounded-xl border border-zinc-100 dark:border-zinc-900 print:bg-transparent print:border-none print:p-0 print:text-[10px]">{log.notes}</p>
+              
+              {log.photos && log.photos.length > 0 && (
+                <div className="flex gap-2 flex-wrap pt-1 print:gap-1">
+                  {log.photos.map((url, idx) => (
+                    <div key={idx} className="relative group/photo cursor-pointer w-20 h-20 rounded-lg overflow-hidden border border-zinc-200 dark:border-zinc-800 shrink-0"
+                      onClick={() => setLightboxUrl(url)}>
+                      <img src={url} alt={`Dokumentasi ${idx + 1}`} className="w-full h-full object-cover hover:scale-105 transition-transform duration-200" />
+                    </div>
+                  ))}
+                </div>
+              )}
+
               {log.workers.length > 0 && (
                 <div className="flex items-baseline gap-2 flex-wrap text-[10px] text-zinc-400 font-semibold print:text-[9px]">
                   <span className="uppercase text-[9px] text-zinc-400 tracking-wider">Tenaga Kerja:</span>
@@ -65,6 +78,16 @@ export default function DailyLogHistory({ logs, onDeleteLog }: DailyLogHistoryPr
           <div className="text-center py-16 text-xs text-zinc-400 border border-dashed border-zinc-200 dark:border-zinc-800 rounded-2xl bg-zinc-50/20">Belum ada laporan harian lapangan yang dicatat.</div>
         )}
       </div>
+
+      {lightboxUrl && (
+        <div className="fixed inset-0 bg-black/85 backdrop-blur-xs flex items-center justify-center z-50 print:hidden" onClick={() => setLightboxUrl(null)}>
+          <div className="relative max-w-3xl max-h-[85vh] p-2">
+            <img src={lightboxUrl} alt="Dokumentasi Full" className="max-w-full max-h-[80vh] rounded-lg object-contain shadow-2xl" />
+            <button className="absolute top-4 right-4 bg-white/10 hover:bg-white/20 text-white rounded-full p-2 font-bold transition-colors">✕</button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
+

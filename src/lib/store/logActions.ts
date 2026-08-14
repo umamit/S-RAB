@@ -2,16 +2,18 @@ import type { StateCreator } from "zustand";
 import type { RABState, DailyLog } from "./types";
 import { calculateAHSPUnitPrice } from "./ahspTemplates";
 import { syncProjectToSupabase } from "../supabaseClient";
+import { deletePhoto } from "../utils/storageUploader";
 
 export const createLogActions = (
   set: Parameters<StateCreator<RABState>>[0],
+  get: Parameters<StateCreator<RABState>>[1]
 ): Pick<RABState, "addDailyLog" | "deleteDailyLog" | "updateWeeklyProgress" | "updateWeeklyFinancial" | "updateGlobalResourcePrice"> => ({
 
-  addDailyLog: (projectId, date, weather, workers, notes) => {
+  addDailyLog: (projectId, date, weather, workers, notes, photos) => {
     set((state) => {
       const nextProjects = state.projects.map((p) => {
         if (p.id !== projectId) return p;
-        const newLog: DailyLog = { id: `log-${Date.now()}`, date, weather, workers, notes };
+        const newLog: DailyLog = { id: `log-${Date.now()}`, date, weather, workers, notes, photos };
         return { ...p, dailyLogs: [...(p.dailyLogs || []), newLog] };
       });
       const found = nextProjects.find((p) => p.id === projectId);
@@ -21,6 +23,16 @@ export const createLogActions = (
   },
 
   deleteDailyLog: (projectId, logId) => {
+    // Cari log yang akan dihapus dan hapus fotonya dari storage
+    const projects = get().projects;
+    const project = projects.find((p) => p.id === projectId);
+    const log = project?.dailyLogs?.find((l) => l.id === logId);
+    if (log && log.photos && log.photos.length > 0) {
+      log.photos.forEach((url) => {
+        deletePhoto(url);
+      });
+    }
+
     set((state) => {
       const nextProjects = state.projects.map((p) => {
         if (p.id !== projectId) return p;

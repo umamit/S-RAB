@@ -20,6 +20,7 @@ export default function DailyLogManager({ project }: DailyLogManagerProps) {
     kepalaTukangCount: number;
     mandorCount: number;
     notes: string;
+    photos?: string[];
   }) => {
     const workers = [
       { role: "Pekerja", count: data.pekerjaCount },
@@ -28,7 +29,7 @@ export default function DailyLogManager({ project }: DailyLogManagerProps) {
       { role: "Mandor", count: data.mandorCount },
     ].filter((w) => w.count > 0);
 
-    addDailyLog(project.id, data.date, data.weather, workers, data.notes);
+    addDailyLog(project.id, data.date, data.weather, workers, data.notes, data.photos);
   };
 
   const handleDeleteLog = (logId: string) => {
@@ -43,7 +44,7 @@ export default function DailyLogManager({ project }: DailyLogManagerProps) {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        <DailyLogForm onSubmit={handleAddLog} />
+        <DailyLogForm projectId={project.id} onSubmit={handleAddLog} />
         <DailyLogHistory logs={logs} onDeleteLog={handleDeleteLog} />
       </div>
     </div>

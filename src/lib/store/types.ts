@@ -21,6 +21,7 @@ export interface Item {
   name: string;
   unit: string;
   quantity: number;
+  actualQuantity?: number;
   unitPrice: number;
   total: number;
   ahsp?: AHSP;
@@ -46,6 +47,7 @@ export interface DailyLog {
   weather: string;
   workers: { role: string; count: number }[];
   notes?: string;
+  photos?: string[];
 }
 
 export interface WeeklyProgress {
@@ -56,6 +58,16 @@ export interface WeeklyProgress {
 export interface WeeklyFinancial {
   weekNumber: number;
   actualCost: number;
+}
+
+export interface PaymentTerm {
+  id: string;
+  termNumber: number;
+  targetProgress: number; // 0–100 (%)
+  amount: number;         // Rp, dihitung dari grandTotal
+  isPaid: boolean;
+  paidDate?: string;      // YYYY-MM-DD
+  notes?: string;
 }
 
 export interface CustomAHSPTemplate {
@@ -86,6 +98,8 @@ export interface Project {
   dailyLogs?: DailyLog[];
   weeklyProgress?: WeeklyProgress[];
   weeklyFinancials?: WeeklyFinancial[];
+  paymentTerms?: PaymentTerm[];
+  alertThreshold?: number; // Nilai persentase threshold deviasi minus, misal: 5 untuk -5%
 }
 
 export interface AHSPTemplate {
@@ -126,9 +140,10 @@ export interface RABState {
   updateItem: (projectId: string, subProjectId: string, categoryId: string, itemId: string, itemUpdates: Partial<Omit<Item, "id" | "total" | "unitPrice">>) => void;
   deleteItem: (projectId: string, subProjectId: string, categoryId: string, itemId: string) => void;
   updateItemAHSP: (projectId: string, subProjectId: string, categoryId: string, itemId: string, ahsp: AHSP | undefined) => void;
+  updateItemActualQuantity: (projectId: string, subProjectId: string, categoryId: string, itemId: string, actualQuantity: number) => void;
 
   // Daily Log Actions
-  addDailyLog: (projectId: string, date: string, weather: string, workers: { role: string; count: number }[], notes?: string) => void;
+  addDailyLog: (projectId: string, date: string, weather: string, workers: { role: string; count: number }[], notes?: string, photos?: string[]) => void;
   deleteDailyLog: (projectId: string, logId: string) => void;
 
   // Weekly Progress & SSH Actions
@@ -139,6 +154,11 @@ export interface RABState {
   // Custom AHSP Template Actions
   saveCustomAHSPTemplate: (name: string, unit: string, ahsp: AHSP) => void;
   deleteCustomAHSPTemplate: (id: string) => void;
+
+  // Payment Term Actions
+  addPaymentTerm: (projectId: string, targetProgress: number, amount: number, notes?: string) => void;
+  updatePaymentTerm: (projectId: string, termId: string, updates: Partial<Omit<PaymentTerm, "id" | "termNumber">>) => void;
+  deletePaymentTerm: (projectId: string, termId: string) => void;
 
   // Auth Actions
   registerUser: (email: string, name: string, passwordPlain: string) => Promise<{ success: boolean; error?: string }>;

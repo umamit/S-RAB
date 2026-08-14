@@ -8,6 +8,7 @@ import ProgressTracker from "@/components/ProgressTracker";
 import UserGuide from "@/components/UserGuide";
 import ResourceSummary from "@/components/ResourceSummary";
 import SSHCatalog from "@/components/SSHCatalog";
+import PaymentTerms from "@/components/PaymentTerms";
 import TabNav from "./TabNav";
 import TabDetail from "./TabDetail";
 import PrintView from "./PrintView";
@@ -35,6 +36,7 @@ export default function ProjectEditor({ project }: ProjectEditorProps) {
         {activeTab === "schedule" && <ScheduleManager project={project} />}
         {activeTab === "daily"    && <DailyLogManager project={project} />}
         {activeTab === "progress" && <ProgressTracker project={project} />}
+        {activeTab === "termin"   && <PaymentTerms project={project} />}
         {activeTab === "guide"    && <UserGuide />}
         {activeTab === "resource" && <ResourceSummary project={project} />}
         {activeTab === "ssh"      && <SSHCatalog project={project} />}

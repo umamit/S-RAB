@@ -16,7 +16,7 @@ interface TableItemRowProps {
   editState: EditState;
   editVal: string;
   setEditVal: (v: string) => void;
-  handleCellClick: (item: Item, field: "name" | "unit" | "quantity" | "unitPrice") => void;
+  handleCellClick: (item: Item, field: "name" | "unit" | "quantity" | "unitPrice" | "actualQuantity") => void;
   handleCellSave: () => void;
   handleCellKeyDown: (e: React.KeyboardEvent) => void;
   setAhspItem: (v: { categoryId: string; itemId: string } | null) => void;
@@ -29,10 +29,10 @@ export default function TableItemRow({
   const { deleteItem } = useRABStore();
   const itemWeight = totalDirectCost > 0 ? (item.total / totalDirectCost) * 100 : 0;
 
-  const isEditing = (field: "name" | "unit" | "quantity" | "unitPrice") =>
+  const isEditing = (field: "name" | "unit" | "quantity" | "unitPrice" | "actualQuantity") =>
     editState?.categoryId === category.id && editState?.itemId === item.id && editState?.field === field;
 
-  const mkInp = (field: "name" | "unit" | "quantity" | "unitPrice", type = "text") => (
+  const mkInp = (field: "name" | "unit" | "quantity" | "unitPrice" | "actualQuantity", type = "text") => (
     <input type={type} step="any" autoFocus value={editVal} onChange={(e) => setEditVal(e.target.value)}
       onBlur={handleCellSave} onKeyDown={handleCellKeyDown}
       className="w-full bg-zinc-50 dark:bg-zinc-900 border border-zinc-300 dark:border-zinc-700 px-1 py-0.5 rounded focus:outline-none text-xs" />
@@ -54,6 +54,13 @@ export default function TableItemRow({
       </td>
       <td className="py-2.5 px-4 text-center">{isEditing("unit") ? mkInp("unit") : <div onClick={() => handleCellClick(item, "unit")} className="cursor-pointer hover:bg-zinc-50 dark:hover:bg-zinc-900/60 rounded-sm py-0.5">{item.unit}</div>}</td>
       <td className="py-2.5 px-4 text-right">{isEditing("quantity") ? mkInp("quantity", "number") : <div onClick={() => handleCellClick(item, "quantity")} className="cursor-pointer hover:bg-zinc-50 dark:hover:bg-zinc-900/60 rounded-sm py-0.5">{item.quantity}</div>}</td>
+      <td className={`py-2.5 px-4 text-right ${item.actualQuantity !== undefined && item.actualQuantity > item.quantity ? "text-red-650 dark:text-red-400 font-bold bg-red-50/50 dark:bg-red-950/20" : ""}`}>
+        {isEditing("actualQuantity") ? mkInp("actualQuantity", "number") : (
+          <div onClick={() => handleCellClick(item, "actualQuantity")} className="cursor-pointer hover:bg-zinc-50 dark:hover:bg-zinc-900/60 rounded-sm py-0.5">
+            {item.actualQuantity ?? 0}
+          </div>
+        )}
+      </td>
       <td className="py-2.5 px-4 text-right">
         {isEditing("unitPrice") ? mkInp("unitPrice", "number") : (
           <div onClick={() => handleCellClick(item, "unitPrice")} className={`cursor-pointer hover:bg-zinc-50 dark:hover:bg-zinc-900/60 rounded-sm py-0.5 ${item.ahsp ? "underline decoration-dashed font-bold" : ""}`}>{formatRupiah(item.unitPrice)}</div>

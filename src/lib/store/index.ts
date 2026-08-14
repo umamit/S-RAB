@@ -12,6 +12,7 @@ export type {
   DailyLog,
   WeeklyProgress,
   WeeklyFinancial,
+  PaymentTerm,
   User,
   Project,
   AHSPTemplate,

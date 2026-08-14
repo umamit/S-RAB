@@ -5,7 +5,7 @@ import { syncProjectToSupabase } from "../supabaseClient";
 
 export const createItemCrud = (
   set: Parameters<StateCreator<RABState>>[0],
-): Pick<RABState, "addItem" | "updateItem" | "deleteItem" | "updateItemAHSP"> => ({
+): Pick<RABState, "addItem" | "updateItem" | "deleteItem" | "updateItemAHSP" | "updateItemActualQuantity"> => ({
   addItem: (projectId, subProjectId, categoryId, item) => {
     set((state) => {
       const nextProjects = state.projects.map((p) => {
@@ -107,6 +107,35 @@ export const createItemCrud = (
                     const unitPrice = ahsp ? calculateAHSPUnitPrice(ahsp) : item.unitPrice;
                     return { ...item, ahsp, unitPrice, total: item.quantity * unitPrice };
                   }),
+                };
+              }),
+            };
+          }),
+        };
+      });
+      const found = nextProjects.find((p) => p.id === projectId);
+      if (found) syncProjectToSupabase(found);
+      return { projects: nextProjects };
+    });
+  },
+
+  updateItemActualQuantity: (projectId, subProjectId, categoryId, itemId, actualQuantity) => {
+    set((state) => {
+      const nextProjects = state.projects.map((p) => {
+        if (p.id !== projectId) return p;
+        return {
+          ...p,
+          subProjects: p.subProjects.map((s) => {
+            if (s.id !== subProjectId) return s;
+            return {
+              ...s,
+              categories: s.categories.map((c) => {
+                if (c.id !== categoryId) return c;
+                return {
+                  ...c,
+                  items: c.items.map((item) =>
+                    item.id === itemId ? { ...item, actualQuantity } : item
+                  ),
                 };
               }),
             };

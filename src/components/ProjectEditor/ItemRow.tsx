@@ -38,23 +38,30 @@ export default function ItemRow({
   ahspItem, setAhspItem,
   onCategorySave, onAddItem, onDeleteCategory,
 }: ItemRowProps) {
-  const { updateItem } = useRABStore();
+  const { updateItem, updateItemActualQuantity } = useRABStore();
 
-  const handleCellClick = (item: Item, field: "name" | "unit" | "quantity" | "unitPrice") => {
+  const handleCellClick = (item: Item, field: "name" | "unit" | "quantity" | "unitPrice" | "actualQuantity") => {
     if (field === "unitPrice" && item.ahsp) { setAhspItem({ categoryId: category.id, itemId: item.id }); return; }
     setEditState({ categoryId: category.id, itemId: item.id, field });
-    setEditVal(item[field].toString());
+    const val = item[field];
+    setEditVal(val !== undefined && val !== null ? val.toString() : "");
   };
 
   const handleCellSave = () => {
     if (!editState) return;
     const { categoryId, itemId, field } = editState;
-    let value: string | number = editVal;
-    if (field === "quantity" || field === "unitPrice") {
+    if (field === "actualQuantity") {
       const parsed = parseFloat(editVal);
-      value = isNaN(parsed) ? 0 : parsed;
+      const value = isNaN(parsed) ? 0 : parsed;
+      updateItemActualQuantity(project.id, activeSubProject.id, categoryId, itemId, value);
+    } else {
+      let value: string | number = editVal;
+      if (field === "quantity" || field === "unitPrice") {
+        const parsed = parseFloat(editVal);
+        value = isNaN(parsed) ? 0 : parsed;
+      }
+      updateItem(project.id, activeSubProject.id, categoryId, itemId, { [field]: value });
     }
-    updateItem(project.id, activeSubProject.id, categoryId, itemId, { [field]: value });
     setEditState(null);
   };
 
@@ -94,7 +101,8 @@ export default function ItemRow({
               <th className="py-2.5 px-4 w-12 text-center">No.</th>
               <th className="py-2.5 px-4">Uraian Pekerjaan</th>
               <th className="py-2.5 px-4 text-center">Satuan</th>
-              <th className="py-2.5 px-4 text-right">Volume</th>
+              <th className="py-2.5 px-4 text-right">Vol Rencana</th>
+              <th className="py-2.5 px-4 text-right">Vol Realisasi</th>
               <th className="py-2.5 px-4 text-right">Harga Satuan</th>
               <th className="py-2.5 px-4 text-right">Bobot (%)</th>
               <th className="py-2.5 px-4 text-right">Jumlah Harga</th>
@@ -108,7 +116,7 @@ export default function ItemRow({
                 handleCellClick={handleCellClick} handleCellSave={handleCellSave} handleCellKeyDown={handleCellKeyDown} setAhspItem={setAhspItem} />
             ))}
             {category.items.length === 0 && (
-              <tr><td colSpan={8} className="py-6 text-center text-zinc-400">Belum ada item pekerjaan di kategori ini.</td></tr>
+              <tr><td colSpan={9} className="py-6 text-center text-zinc-400">Belum ada item pekerjaan di kategori ini.</td></tr>
             )}
           </tbody>
         </table>
