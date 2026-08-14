@@ -69,4 +69,10 @@ Untuk menghemat biaya token AI dan menjaga kecepatan respon:
 
 - ⚡ **Wajib Perbarui Panduan**: Setiap kali ada penambahan fitur baru, perbaikan alur fitur utama, atau perubahan parameter fungsional, **wajib** memperbarui file komponen di dalam folder `src/components/UserGuide/` agar petunjuk penggunaan selalu selaras dengan fungsionalitas riil aplikasi.
 
+## 8. Aturan Git Push
+
+- ❌ **Dilarang push kosong** (`git commit --allow-empty`) kecuali pengguna secara eksplisit memintanya (misal: "tes push kosong", "trigger deploy").
+- ❌ **Dilarang push ulang** setelah satu sesi push berhasil, kecuali ada perubahan kode baru atau pengguna meminta secara eksplisit.
+- ✅ Satu perintah "commit push" dari pengguna = satu kali commit + satu kali push, selesai.
+
 <!-- END:project-coding-rules -->
