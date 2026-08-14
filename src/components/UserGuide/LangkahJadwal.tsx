@@ -88,6 +88,18 @@ export default function LangkahJadwal() {
           Setelah data disimpan, pratinjau surat BAST resmi akan otomatis digenerate secara rapi lengkap dengan tanda tangan para pihak, rincian nilai kontrak awal, delta addendum, delta CCO, dan nilai akhir kontrak. Klik ikon printer untuk mencetak ke kertas A4 atau menyimpan sebagai PDF.
         </div>
       </LangkahCard>
+
+      {/* Section 4.9: Audit Trail */}
+      <LangkahCard title="10. Riwayat Perubahan Data (Audit Trail)">
+        <div>
+          <strong className="text-zinc-850 dark:text-zinc-200 block mb-0.5">Pencatatan Otomatis (Audit Logs):</strong>
+          Setiap kali terjadi perubahan data penting (seperti pembuatan Addendum, penghapusan item CCO, perubahan status CCO, atau parameter keuangan lainnya), sistem akan secara otomatis mencatat jejak audit beserta nama operator, jenis aksi, dan tanggal detail secara kronologis.
+        </div>
+        <div>
+          <strong className="text-zinc-850 dark:text-zinc-200 block mb-0.5">Filter Pencarian Riwayat:</strong>
+          Buka tab **Riwayat** untuk melihat data log. Anda dapat memfilter riwayat secara cepat dengan mengetik kata kunci pada kotak pencarian di kanan atas.
+        </div>
+      </LangkahCard>
     </div>
   );
 }

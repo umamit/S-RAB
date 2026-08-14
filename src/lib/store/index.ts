@@ -21,6 +21,7 @@ export type {
   User,
   Project,
   BASTDetails,
+  AuditLog,
   AHSPTemplate,
   CustomAHSPTemplate,
   RABState,

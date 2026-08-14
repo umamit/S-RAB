@@ -141,6 +141,14 @@ export interface BASTDetails {
   notes?: string;
 }
 
+export interface AuditLog {
+  id: string;
+  timestamp: string;
+  userName: string;
+  actionType: string;
+  details: string;
+}
+
 export interface Project {
   id: string;
   userId?: string;
@@ -161,6 +169,7 @@ export interface Project {
   addendums?: Addendum[];
   ccos?: CCO[];
   bastDetails?: BASTDetails;
+  auditLogs?: AuditLog[];
 }
 
 export interface AHSPTemplate {
@@ -234,6 +243,9 @@ export interface RABState {
   updateCCOStatus: (projectId: string, ccoId: string, status: CCOStatus) => void;
   addCCOItem: (projectId: string, ccoId: string, item: Omit<CCOItem, "id">) => void;
   deleteCCOItem: (projectId: string, ccoId: string, itemId: string) => void;
+
+  // Audit Actions
+  addAuditLog: (projectId: string, actionType: string, details: string) => void;
 
   // Auth Actions
   registerUser: (email: string, name: string, passwordPlain: string) => Promise<{ success: boolean; error?: string }>;

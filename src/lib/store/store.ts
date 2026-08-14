@@ -61,6 +61,7 @@ export const useRABStore = create<RABState>()(
               if (!proj.addendums) proj.addendums = [];
               if (!proj.ccos) proj.ccos = [];
               proj.pphRate = proj.pphRate !== undefined ? proj.pphRate : 0.02;
+              if (!proj.auditLogs) proj.auditLogs = [];
             }
             return proj;
           });

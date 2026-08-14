@@ -6,6 +6,7 @@ import { createCategoryCrud } from "./categoryCrud";
 import { createItemCrud } from "./itemCrud";
 import { createPaymentTermActions } from "./paymentTermActions";
 import { createChangeOrderActions } from "./changeOrderActions";
+import { createAuditActions } from "./auditActions";
 
 export const createProjectActions = (
   set: Parameters<StateCreator<RABState>>[0],
@@ -20,11 +21,13 @@ export const createProjectActions = (
   | "addPaymentTerm" | "updatePaymentTerm" | "deletePaymentTerm"
   | "addAddendum" | "deleteAddendum" | "addAddendumItem" | "deleteAddendumItem"
   | "addCCO" | "deleteCCO" | "updateCCOStatus" | "addCCOItem" | "deleteCCOItem"
+  | "addAuditLog"
 > => ({
   ...createProjectCrud(set, get),
   ...createSubProjectCrud(set),
   ...createCategoryCrud(set),
   ...createItemCrud(set),
   ...createPaymentTermActions(set),
-  ...createChangeOrderActions(set),
+  ...createChangeOrderActions(set, get),
+  ...createAuditActions(set, get),
 });
