@@ -40,18 +40,23 @@ export default function AkunDanDataSection() {
         </div>
       </LangkahCard>
 
-      {/* Poin 3: Hapus Proyek */}
-      <LangkahCard title="Menghapus Proyek">
+      {/* Poin 3: Hapus & Parameter Proyek */}
+      <LangkahCard title="Mengubah Parameter & Menghapus Proyek">
         <div>
-          <strong className="text-zinc-850 dark:text-zinc-200 block mb-0.5">Cara Menghapus:</strong>
-          Pilih proyek yang ingin dihapus dari dropdown di Header, lalu klik ikon <em>tempat sampah</em> (merah)
-          di sebelah kanan tombol Cetak PDF. Sebuah dialog konfirmasi akan muncul meminta persetujuan Anda.
+          <strong className="text-zinc-850 dark:text-zinc-200 block mb-0.5">Mengubah Overhead & PPN:</strong>
+          Buka tab **Rekapitulasi**. Di bagian kanan bawah terdapat kolom **Parameter Proyek (Overhead & Pajak)**.
+          Masukkan persentase baru untuk Overhead/Profit dan PPN, lalu klik <strong>Simpan</strong>. Seluruh
+          kalkulasi biaya non-fisik dan grand total proyek akan langsung ter-update otomatis.
+        </div>
+        <div className="border-t border-zinc-150 dark:border-zinc-800/80 pt-2 mt-2">
+          <strong className="text-zinc-850 dark:text-zinc-200 block mb-0.5">Cara Menghapus Proyek:</strong>
+          Pilih proyek di Header, lalu klik ikon <em>tempat sampah</em> (merah) di sebelah kanan tombol Cetak PDF.
+          Sebuah dialog konfirmasi akan muncul meminta persetujuan Anda.
         </div>
         <div className="border-t border-zinc-150 dark:border-zinc-800/80 pt-2 mt-2">
           <strong className="text-red-600 dark:text-red-400 block mb-0.5">⚠ Peringatan Penting:</strong>
-          Penghapusan proyek bersifat <strong>permanen dan tidak dapat dibatalkan</strong>. Seluruh data RAB,
-          sub-pekerjaan, AHSP, log harian, dan progres mingguan di dalam proyek tersebut akan terhapus
-          selamanya. Pastikan Anda telah mengekspor data ke Excel sebelum menghapus.
+          Penghapusan proyek bersifat <strong>permanen</strong>. Seluruh data RAB, sub-pekerjaan, log harian,
+          dan progres mingguan di dalam proyek tersebut akan terhapus selamanya dari cloud server.
         </div>
       </LangkahCard>
 
