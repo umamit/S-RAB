@@ -116,6 +116,35 @@ export default function AkunDanDataSection() {
           Dibatasi antara <strong>0%–100%</strong>. Nilai di luar rentang otomatis dikembalikan ke batas terdekat.
         </div>
       </LangkahCard>
+
+      {/* Poin 7: Autosave Indicator */}
+      <LangkahCard title="Indikator Tersimpan Otomatis">
+        <div>
+          <strong className="text-zinc-850 dark:text-zinc-200 block mb-0.5">Status Simpan Real-Time:</strong>
+          Setiap kali Anda mengubah data — mengedit item, menambah kategori, mengisi log — teks <span className="text-green-600 font-semibold">✓ Tersimpan</span> akan muncul sebentar di Header, lalu memudar secara otomatis setelah 2,5 detik. Tidak perlu klik tombol simpan apapun.
+        </div>
+        <div className="border-t border-zinc-150 dark:border-zinc-800/80 pt-2 mt-2">
+          <strong className="text-zinc-850 dark:text-zinc-200 block mb-0.5">Tersimpan ke Mana?</strong>
+          Data tersimpan ke <strong>localStorage</strong> perangkat Anda (persisten meski browser ditutup) dan secara bersamaan disinkronkan ke <strong>cloud server</strong> dalam hitungan detik.
+        </div>
+      </LangkahCard>
+
+      {/* Poin 8: Rekap Lintas Proyek */}
+      <LangkahCard title="Rekapitulasi Lintas Proyek">
+        <div>
+          <strong className="text-zinc-850 dark:text-zinc-200 block mb-0.5">Cara Membuka:</strong>
+          Klik tombol <strong>Rekap Semua</strong> (ikon grafik batang) di Header. Modal akan terbuka menampilkan ringkasan seluruh proyek dalam satu tabel.
+        </div>
+        <div className="border-t border-zinc-150 dark:border-zinc-800/80 pt-2 mt-2">
+          <strong className="text-zinc-850 dark:text-zinc-200 block mb-0.5">Informasi yang Ditampilkan:</strong>
+          <ul className="list-disc ml-4 mt-1 space-y-0.5">
+            <li>Biaya Langsung, Overhead & Profit, PPN, dan <strong>Grand Total</strong> per proyek</li>
+            <li>Status <strong>Termin</strong> — berapa termin yang sudah lunas dari total</li>
+            <li>Status <strong>BAST</strong> — apakah berita acara serah terima sudah diisi</li>
+            <li>Baris <strong>Total Keseluruhan</strong> di bagian bawah tabel</li>
+          </ul>
+        </div>
+      </LangkahCard>
     </div>
   );
 }
