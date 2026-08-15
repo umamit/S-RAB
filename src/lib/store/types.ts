@@ -189,6 +189,7 @@ export interface RABState {
   addProject: (name: string, description: string, taxRate: number, profitRate: number, templateType?: string) => string;
 
   importProject: (projectData: any) => string;
+  duplicateProject: (id: string) => void;
   deleteProject: (id: string) => void;
   updateProject: (id: string, updates: Partial<Omit<Project, "id" | "subProjects" | "createdAt">>) => void;
   setActiveProject: (id: string | null) => void;

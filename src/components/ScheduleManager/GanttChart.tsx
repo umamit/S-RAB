@@ -34,11 +34,26 @@ export default function GanttChart({ project, allCategories, numWeeks }: GanttCh
               const duration = cat.durationWeeks;
               const end = start + duration - 1;
 
+              // Ambil progres aktual terakhir
+              const latestWeekNumber = project.weeklyProgress && project.weeklyProgress.length > 0
+                ? Math.max(...project.weeklyProgress.map((wp) => wp.weekNumber))
+                : 1;
+              const latestWeekRecord = project.weeklyProgress?.find((wp) => wp.weekNumber === latestWeekNumber);
+              const latestProgressPct = latestWeekRecord?.actualCategoryProgress[cat.categoryId] ?? 0;
+              const isDelayed = latestWeekNumber > end && latestProgressPct < 100;
+
               return (
                 <tr key={cat.categoryId} className="hover:bg-zinc-50/40 dark:hover:bg-zinc-900/10 h-10">
                   <td className="py-1.5 px-2.5 font-semibold text-zinc-900 dark:text-zinc-100 sticky left-0 bg-white dark:bg-zinc-950 border-r border-zinc-200 dark:border-zinc-800 truncate min-w-[120px] sm:min-w-[200px] max-w-[120px] sm:max-w-[240px]">
                     <div className="flex flex-col">
-                      <span>{cat.categoryName}</span>
+                      <span className="flex items-center gap-1.5 truncate">
+                        {cat.categoryName}
+                        {isDelayed && (
+                          <span className="shrink-0 bg-red-150 text-red-700 dark:bg-red-950/40 dark:text-red-400 px-1 py-0.5 rounded text-[8px] font-extrabold tracking-tight uppercase" title="Pekerjaan terlambat melewati jadwal rencana">
+                            ⚠️ Terlambat
+                          </span>
+                        )}
+                      </span>
                       <span className="text-[8px] text-zinc-400 uppercase font-bold tracking-tight">{cat.subProjectName}</span>
                     </div>
                   </td>

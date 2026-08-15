@@ -10,6 +10,7 @@ import AnalogiDapurSection from "./AnalogiDapurSection";
 import BiayaNonFisikSection from "./BiayaNonFisikSection";
 import LangkahPenggunaanSection from "./LangkahPenggunaanSection";
 import AkunDanDataSection from "./AkunDanDataSection";
+import FiturCanggihSection from "./FiturCanggihSection";
 
 type GuideTabType = "langkah" | "dasar" | "taktis" | "analogi";
 
@@ -58,6 +59,7 @@ export default function UserGuide() {
         {activeTab === "langkah" && (
           <>
             <AkunDanDataSection />
+            <FiturCanggihSection />
             <LangkahPenggunaanSection />
           </>
         )}

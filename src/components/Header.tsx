@@ -3,18 +3,19 @@ import { useState } from "react";
 import { useRABStore } from "@/lib/store";
 import { exportProjectToExcel } from "@/lib/excel-export";
 import confetti from "canvas-confetti";
-import { LogOut, BookOpen, Download, BarChart2 } from "lucide-react";
+import { LogOut, BookOpen, Download, BarChart2, Copy } from "lucide-react";
 import ProjectSelector from "./Header/ProjectSelector";
 import UserGuideModal from "./Header/UserGuideModal";
 import SaveIndicator from "./Header/SaveIndicator";
 import RekapLintasModal from "./RekapLintas/RekapLintasModal";
+import ThemeToggle from "./Header/ThemeToggle";
 
 interface HeaderProps {
   onOpenNewProjectModal: () => void;
 }
 
 export default function Header({ onOpenNewProjectModal }: HeaderProps) {
-  const { projects, activeProjectId, deleteProject, setActiveProject, currentUser, logoutUser, importProject } = useRABStore();
+  const { projects, activeProjectId, deleteProject, setActiveProject, currentUser, logoutUser, importProject, duplicateProject } = useRABStore();
   const [isGuideOpen, setIsGuideOpen] = useState(false);
   const [isRekapOpen, setIsRekapOpen] = useState(false);
 
@@ -94,6 +95,12 @@ export default function Header({ onOpenNewProjectModal }: HeaderProps) {
               <span className="hidden sm:inline">Cetak PDF</span>
             </button>
 
+            <button onClick={() => { if (confirm("Duplikat proyek ini?")) duplicateProject(activeProject.id); }} type="button"
+              className="flex items-center gap-2 px-3.5 py-1.5 text-sm border border-zinc-200 dark:border-zinc-800 hover:bg-zinc-50 dark:hover:bg-zinc-900 rounded-lg font-semibold transition-colors" title="Duplikasi Proyek">
+              <Copy className="w-4 h-4 text-zinc-500" />
+              <span className="hidden sm:inline">Duplikat</span>
+            </button>
+
             <button onClick={handleDelete} type="button" title="Hapus Proyek"
               className="p-2 border border-red-200 hover:bg-red-50 dark:border-red-950 dark:hover:bg-red-950/20 text-red-600 dark:text-red-400 rounded-lg transition-colors">
               <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -110,11 +117,13 @@ export default function Header({ onOpenNewProjectModal }: HeaderProps) {
               <span className="text-[10px] text-zinc-400 dark:text-zinc-555 leading-tight">{currentUser.email}</span>
             </div>
           )}
+          <ThemeToggle />
           <button onClick={logoutUser} type="button" title="Keluar dari Akun"
             className="p-2 border border-zinc-200 dark:border-zinc-800 hover:bg-zinc-50 dark:hover:bg-zinc-900 text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-50 rounded-lg transition-colors">
             <LogOut className="w-4 h-4" />
           </button>
         </div>
+
       </div>
 
       <UserGuideModal isOpen={isGuideOpen} onClose={() => setIsGuideOpen(false)} />

@@ -1,4 +1,5 @@
 import type { AHSP, AHSPTemplate } from "./types";
+import { DRAINASE_AHSP_TEMPLATES } from "./ahspTemplatesExtra";
 
 // ============================================================
 // Helper: hitung harga satuan AHSP
@@ -14,7 +15,7 @@ export const calculateAHSPUnitPrice = (ahsp?: AHSP): number => {
 // ============================================================
 // Template AHSP Baku (SNI)
 // ============================================================
-export const AHSP_TEMPLATES: AHSPTemplate[] = [
+const BASE_AHSP_TEMPLATES: AHSPTemplate[] = [
   {
     name: "1. Galian Tanah Pondasi Manual (SNI 2835:2008)",
     unit: "m3",
@@ -132,4 +133,9 @@ export const AHSP_TEMPLATES: AHSPTemplate[] = [
       tools: [],
     },
   },
+];
+
+export const AHSP_TEMPLATES: AHSPTemplate[] = [
+  ...BASE_AHSP_TEMPLATES,
+  ...DRAINASE_AHSP_TEMPLATES,
 ];

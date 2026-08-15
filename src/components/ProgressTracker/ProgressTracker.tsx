@@ -5,6 +5,7 @@ import { calculateProjectTotals } from "../ProjectList";
 import ProgressKPI from "./ProgressKPI";
 import ProgressTable, { ProgressCategory } from "./ProgressTable";
 import DeviationAlert from "./DeviationAlert";
+import BudgetAlert from "./BudgetAlert";
 
 interface ProgressTrackerProps {
   project: Project;
@@ -68,6 +69,23 @@ export default function ProgressTracker({ project }: ProgressTrackerProps) {
   const plannedProgress = cumulativePlannedWeights[selectedWeek - 1] || 0;
   const deviation = cumulativeActualWeight - plannedProgress;
 
+  // Cumulative budget planned vs actual
+  let cumulativePlannedBudget = 0;
+  allCategories.forEach((cat) => {
+    const catSubtotal = project.subProjects.find(s => s.id === cat.subProjectId)?.categories.find(c => c.id === cat.categoryId)?.items.reduce((s, i) => s + i.total, 0) || 0;
+    const weeklyPlanned = catSubtotal / Math.max(1, cat.durationWeeks);
+    for (let w = 1; w <= selectedWeek; w++) {
+      if (w >= cat.startWeek && w < cat.startWeek + cat.durationWeeks) {
+        cumulativePlannedBudget += weeklyPlanned;
+      }
+    }
+  });
+  const cumulativeActualCost = (project.weeklyFinancials || [])
+    .filter((f) => f.weekNumber <= selectedWeek)
+    .reduce((sum, f) => sum + f.actualCost, 0);
+  const isOverBudget = cumulativeActualCost > cumulativePlannedBudget;
+  const budgetDeficit = cumulativeActualCost - cumulativePlannedBudget;
+
   const handleProgressChange = (categoryId: string, valStr: string) => {
     const parsed = Math.min(100, Math.max(0, parseFloat(valStr) || 0));
     updateWeeklyProgress(project.id, selectedWeek, categoryId, parsed);
@@ -81,6 +99,7 @@ export default function ProgressTracker({ project }: ProgressTrackerProps) {
 
   return (
     <div className="space-y-8 bg-white dark:bg-zinc-950 p-6 rounded-2xl border border-zinc-200 dark:border-zinc-800 shadow-sm print:p-0 print:border-none print:shadow-none">
+      <BudgetAlert isOverBudget={isOverBudget} budgetDeficit={budgetDeficit} />
       <div className="border-b border-zinc-100 dark:border-zinc-800 pb-4 print:pb-2 print:border-b-2 print:border-zinc-800 flex justify-between items-baseline flex-wrap gap-2">
         <div>
           <h2 className="text-lg font-bold tracking-tight text-zinc-900 dark:text-zinc-50 uppercase print:text-center print:text-lg">Laporan Progres Fisik Bulanan / Mingguan</h2>

@@ -27,6 +27,25 @@ export const calculateProjectTotals = (project: Project) => {
   };
 };
 
+export const calculateProjectProgress = (project: Project) => {
+  const weekly = project.weeklyProgress || [];
+  if (weekly.length === 0) return 0;
+  const latestWeek = weekly.reduce((max, curr) => curr.weekNumber > max.weekNumber ? curr : max, weekly[0]);
+  if (!latestWeek) return 0;
+  const { directCost } = calculateProjectTotals(project);
+  if (directCost === 0) return 0;
+  let totalActualWeight = 0;
+  project.subProjects.forEach((sub) => {
+    sub.categories.forEach((cat) => {
+      const catSubtotal = cat.items.reduce((sum, item) => sum + item.total, 0);
+      const catWeight = (catSubtotal / directCost) * 100;
+      const progressPercentage = latestWeek.actualCategoryProgress[cat.id] ?? 0;
+      totalActualWeight += (progressPercentage / 100) * catWeight;
+    });
+  });
+  return Math.min(100, totalActualWeight);
+};
+
 export default function ProjectList({ onOpenNewProjectModal }: ProjectListProps) {
   const { projects, activeProjectId, setActiveProject } = useRABStore();
 
@@ -54,6 +73,7 @@ export default function ProjectList({ onOpenNewProjectModal }: ProjectListProps)
         {projects.map((project) => {
           const isActive = project.id === activeProjectId;
           const { grandTotal } = calculateProjectTotals(project);
+          const progressVal = calculateProjectProgress(project);
 
           return (
             <button
@@ -79,6 +99,18 @@ export default function ProjectList({ onOpenNewProjectModal }: ProjectListProps)
                 <p className="text-xs text-zinc-500 dark:text-zinc-400 line-clamp-2 leading-relaxed">
                   {project.description}
                 </p>
+              )}
+
+              {progressVal > 0 && (
+                <div className="w-full mt-1 space-y-1">
+                  <div className="flex justify-between text-[9px] text-zinc-400 dark:text-zinc-500 font-bold uppercase tracking-wider">
+                    <span>Progres Aktual</span>
+                    <span>{progressVal.toFixed(1)}%</span>
+                  </div>
+                  <div className="w-full bg-zinc-250 dark:bg-zinc-800 h-1.5 rounded-full overflow-hidden">
+                    <div className="bg-emerald-500 dark:bg-emerald-600 h-full rounded-full transition-all duration-300" style={{ width: `${progressVal}%` }} />
+                  </div>
+                </div>
               )}
 
               <div className="flex justify-between items-baseline mt-1 border-t border-zinc-100 dark:border-zinc-800 pt-2 w-full">
