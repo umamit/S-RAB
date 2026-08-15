@@ -56,17 +56,17 @@ export default function Header({ onOpenNewProjectModal }: HeaderProps) {
         onSetActiveProject={setActiveProject} onOpenNewProjectModal={onOpenNewProjectModal}
         onImportProject={importProject} />
 
-      <div className="flex items-center gap-2">
+      <div className="flex items-center gap-1 flex-wrap sm:flex-nowrap">
         <SaveIndicator />
 
         <button onClick={() => setIsRekapOpen(true)} type="button"
-          className="flex items-center gap-1.5 px-2.5 py-1.5 text-xs border border-zinc-200 dark:border-zinc-800 hover:bg-zinc-50 dark:hover:bg-zinc-900 rounded-lg font-semibold transition-colors">
+          className="flex items-center gap-1 px-2 py-1 text-[11px] border border-zinc-200 dark:border-zinc-800 hover:bg-zinc-50 dark:hover:bg-zinc-900 rounded-lg font-semibold transition-colors whitespace-nowrap">
           <BarChart2 className="w-3.5 h-3.5 text-zinc-500" />
           <span className="hidden sm:inline">Rekap Semua</span>
         </button>
 
         <button onClick={() => setIsGuideOpen(true)} type="button"
-          className="flex items-center gap-1.5 px-2.5 py-1.5 text-xs border border-zinc-200 dark:border-zinc-800 hover:bg-zinc-50 dark:hover:bg-zinc-900 rounded-lg font-semibold transition-colors">
+          className="flex items-center gap-1 px-2 py-1 text-[11px] border border-zinc-200 dark:border-zinc-800 hover:bg-zinc-50 dark:hover:bg-zinc-900 rounded-lg font-semibold transition-colors whitespace-nowrap">
           <BookOpen className="w-3.5 h-3.5 text-zinc-500" />
           <span className="hidden sm:inline">Panduan</span>
         </button>
@@ -74,13 +74,13 @@ export default function Header({ onOpenNewProjectModal }: HeaderProps) {
         {activeProject && (
           <>
             <button onClick={handleExportJson} type="button"
-              className="flex items-center gap-1.5 px-2.5 py-1.5 text-xs border border-zinc-200 dark:border-zinc-800 hover:bg-zinc-50 dark:hover:bg-zinc-900 rounded-lg font-semibold transition-colors">
+              className="flex items-center gap-1 px-2 py-1 text-[11px] border border-zinc-200 dark:border-zinc-800 hover:bg-zinc-50 dark:hover:bg-zinc-900 rounded-lg font-semibold transition-colors whitespace-nowrap">
               <Download className="w-3.5 h-3.5 text-zinc-500" />
               <span className="hidden sm:inline">Ekspor JSON</span>
             </button>
 
             <button onClick={handleExport} type="button"
-              className="flex items-center gap-1.5 px-2.5 py-1.5 text-xs bg-zinc-950 text-white dark:bg-zinc-50 dark:text-zinc-950 hover:bg-zinc-800 dark:hover:bg-zinc-200 rounded-lg font-semibold shadow-sm transition-colors">
+              className="flex items-center gap-1 px-2 py-1 text-[11px] bg-zinc-950 text-white dark:bg-zinc-50 dark:text-zinc-950 hover:bg-zinc-800 dark:hover:bg-zinc-200 rounded-lg font-semibold shadow-sm transition-colors whitespace-nowrap">
               <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
               </svg>
@@ -88,7 +88,7 @@ export default function Header({ onOpenNewProjectModal }: HeaderProps) {
             </button>
 
             <button onClick={() => window.print()} type="button"
-              className="flex items-center gap-1.5 px-2.5 py-1.5 text-xs border border-zinc-200 dark:border-zinc-800 hover:bg-zinc-50 dark:hover:bg-zinc-900 rounded-lg font-semibold transition-colors">
+              className="flex items-center gap-1 px-2 py-1 text-[11px] border border-zinc-200 dark:border-zinc-800 hover:bg-zinc-50 dark:hover:bg-zinc-900 rounded-lg font-semibold transition-colors whitespace-nowrap">
               <svg className="w-3.5 h-3.5 text-zinc-600 dark:text-zinc-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm5-17H9a2 2 0 00-2 2v3h10V5a2 2 0 00-2-2z" />
               </svg>
@@ -96,19 +96,20 @@ export default function Header({ onOpenNewProjectModal }: HeaderProps) {
             </button>
 
             <button onClick={() => { if (confirm("Duplikat proyek ini?")) duplicateProject(activeProject.id); }} type="button"
-              className="flex items-center gap-1.5 px-2.5 py-1.5 text-xs border border-zinc-200 dark:border-zinc-800 hover:bg-zinc-50 dark:hover:bg-zinc-900 rounded-lg font-semibold transition-colors" title="Duplikasi Proyek">
+              className="flex items-center gap-1 px-2 py-1 text-[11px] border border-zinc-200 dark:border-zinc-800 hover:bg-zinc-50 dark:hover:bg-zinc-900 rounded-lg font-semibold transition-colors whitespace-nowrap" title="Duplikasi Proyek">
               <Copy className="w-3.5 h-3.5 text-zinc-500" />
               <span className="hidden sm:inline">Duplikat</span>
             </button>
 
             <button onClick={handleDelete} type="button" title="Hapus Proyek"
-              className="p-1.5 border border-red-200 hover:bg-red-50 dark:border-red-950 dark:hover:bg-red-950/20 text-red-600 dark:text-red-400 rounded-lg transition-colors">
+              className="p-1 border border-red-200 hover:bg-red-50 dark:border-red-950 dark:hover:bg-red-950/20 text-red-600 dark:text-red-400 rounded-lg transition-colors">
               <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
               </svg>
             </button>
           </>
         )}
+
 
         <div className="flex items-center gap-3 ml-2 pl-3 border-l border-zinc-200 dark:border-zinc-800">
           {currentUser && (
