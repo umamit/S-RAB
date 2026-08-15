@@ -13,7 +13,14 @@ export default function LangkahEstimasi() {
         </div>
         <div>
           <strong className="text-zinc-850 dark:text-zinc-200 block mb-0.5">Membuat Proyek dari Template Preset:</strong>
-          Saat membuat proyek baru, Anda dapat memilih template struktur preset seperti *Pembangunan Ruko 2 Lantai* atau *Pekerjaan Jalan Paving Block*. Sistem akan otomatis menginisialisasi sub-proyek, kategori pekerjaan, dan durasi rencana secara terstruktur untuk menghemat waktu input awal.
+          Saat membuat proyek baru, pilih template struktur yang sesuai:
+          <ul className="list-disc ml-4 mt-1 space-y-0.5">
+            <li><strong>Pembangunan Ruko 2 Lantai</strong> — Struktur &amp; Arsitektur (pondasi, beton, dinding, lantai)</li>
+            <li><strong>Pekerjaan Jalan Paving Block</strong> — Tanah, leveling, lapisan base &amp; paving</li>
+            <li><strong>Pekerjaan Drainase &amp; Gorong-Gorong</strong> — Persiapan, galian, saluran pasangan, gorong-gorong beton, finishing</li>
+            <li><strong>Template Kosong</strong> — Mulai dari RAB kosong, susun sendiri dari nol</li>
+          </ul>
+          Sistem akan otomatis mengisi sub-proyek, kategori, dan item pekerjaan awal untuk menghemat waktu input.
         </div>
         <div>
           <strong className="text-zinc-850 dark:text-zinc-200 block mb-0.5">Mengedit Item Pekerjaan (Inline Editor):</strong>

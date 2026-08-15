@@ -79,6 +79,43 @@ export default function AkunDanDataSection() {
           mengubah proyek miliknya.
         </div>
       </LangkahCard>
+
+      {/* Poin 5: Backup & Restore JSON */}
+      <LangkahCard title="Backup & Restore Data (JSON)">
+        <div>
+          <strong className="text-zinc-850 dark:text-zinc-200 block mb-0.5">Backup Proyek (Ekspor JSON):</strong>
+          Pilih proyek aktif, lalu klik tombol <strong>Ekspor JSON</strong> di Header. File <code>.json</code> berisi seluruh data proyek (RAB, log harian, termin, addendum, dll.) akan terunduh ke perangkat Anda. Simpan sebagai cadangan di folder lokal atau cloud storage pribadi.
+        </div>
+        <div className="border-t border-zinc-150 dark:border-zinc-800/80 pt-2 mt-2">
+          <strong className="text-zinc-850 dark:text-zinc-200 block mb-0.5">Restore Proyek (Impor JSON):</strong>
+          Klik ikon <strong>↑ (upload)</strong> di sebelah dropdown pilih proyek pada Header. Pilih file <code>.json</code> hasil backup — proyek langsung muncul sebagai proyek baru tanpa menimpa data yang ada.
+        </div>
+        <div className="border-t border-zinc-150 dark:border-zinc-800/80 pt-2 mt-2">
+          <strong className="text-zinc-850 dark:text-zinc-200 block mb-0.5">Kapan Perlu Backup?</strong>
+          Lakukan backup secara berkala, terutama sebelum menghapus proyek atau berpindah perangkat.
+        </div>
+      </LangkahCard>
+
+      {/* Poin 6: Validasi Input */}
+      <LangkahCard title="Validasi & Keamanan Input Data">
+        <div>
+          <strong className="text-zinc-850 dark:text-zinc-200 block mb-0.5">Inline Edit Tabel RAB:</strong>
+          Sistem mencegah data tidak valid secara otomatis saat menyimpan:
+          <ul className="list-disc ml-4 mt-1 space-y-0.5">
+            <li>Volume ≤ 0 → dikoreksi ke <strong>0.001</strong></li>
+            <li>Harga negatif → dikoreksi ke <strong>0</strong></li>
+            <li>Nama kosong → perubahan <strong>dibatalkan</strong>, nilai lama terjaga</li>
+          </ul>
+        </div>
+        <div className="border-t border-zinc-150 dark:border-zinc-800/80 pt-2 mt-2">
+          <strong className="text-zinc-850 dark:text-zinc-200 block mb-0.5">Form CCO &amp; Addendum:</strong>
+          Field Volume/Harga menampilkan <span className="text-red-500 font-semibold">border merah</span> jika nilai tidak valid, dan otomatis dikoreksi saat tombol Tambahkan diklik.
+        </div>
+        <div className="border-t border-zinc-150 dark:border-zinc-800/80 pt-2 mt-2">
+          <strong className="text-zinc-850 dark:text-zinc-200 block mb-0.5">PPN &amp; Overhead:</strong>
+          Dibatasi antara <strong>0%–100%</strong>. Nilai di luar rentang otomatis dikembalikan ke batas terdekat.
+        </div>
+      </LangkahCard>
     </div>
   );
 }
