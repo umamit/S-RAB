@@ -69,6 +69,18 @@ export default function FiturCanggihSection() {
           Klik <strong>Rekap Semua</strong> di Header untuk membuka tabel summary lengkap yang merangkum nilai kontrak total, progress termin, dan status BAST seluruh proyek Anda.
         </div>
       </LangkahCard>
+
+      {/* Poin 6: Sorting & Filter Tabel */}
+      <LangkahCard title="Pencarian &amp; Pengurutan Item (RAB)">
+        <div>
+          <strong className="text-zinc-850 dark:text-zinc-200 block mb-0.5">Mencari Pekerjaan:</strong>
+          Ketik kata kunci nama pekerjaan di kotak pencarian **"Cari item pekerjaan..."** pada tab Rincian Detail. Kategori pekerjaan yang tidak memiliki item yang cocok akan disembunyikan secara otomatis agar tampilan bersih.
+        </div>
+        <div className="border-t border-zinc-150 dark:border-zinc-800/80 pt-2 mt-2">
+          <strong className="text-zinc-850 dark:text-zinc-200 block mb-0.5">Mengurutkan Item:</strong>
+          Gunakan dropdown **"Urutkan Pekerjaan"** untuk mengatur urutan baris berdasarkan kriteria: Harga Satuan Termahal/Termurah, Total Harga Terbesar, atau Volume Terbesar. Pilihan ini memudahkan peninjauan item berbiaya tinggi.
+        </div>
+      </LangkahCard>
     </div>
   );
 }

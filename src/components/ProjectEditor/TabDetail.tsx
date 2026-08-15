@@ -5,6 +5,7 @@ import type { Project } from "@/lib/store";
 import { useRABStore } from "@/lib/store";
 import { formatRupiah } from "@/lib/excel-export";
 import ItemRow from "./ItemRow";
+import FilterBar from "./FilterBar";
 import type { EditState, CatEditState } from "./types";
 
 interface TabDetailProps {
@@ -22,6 +23,8 @@ export default function TabDetail({ project, totalDirectCost }: TabDetailProps) 
   const [newSubName, setNewSubName] = useState("");
   const [isAddingSub, setIsAddingSub] = useState(false);
   const [ahspItem, setAhspItem] = useState<{ categoryId: string; itemId: string } | null>(null);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [sortBy, setSortBy] = useState("");
 
   const activeSubProject = project.subProjects.find((s) => s.id === project.activeSubProjectId) || project.subProjects[0];
 
@@ -78,9 +81,11 @@ export default function TabDetail({ project, totalDirectCost }: TabDetailProps) 
         )}
       </div>
 
+      <FilterBar searchQuery={searchQuery} setSearchQuery={setSearchQuery} sortBy={sortBy} setSortBy={setSortBy} />
+
       {/* Categories & Items */}
-      <div className="space-y-8 bg-white dark:bg-zinc-950 p-6 rounded-2xl border border-zinc-200 dark:border-zinc-800 shadow-sm">
-        <div className="border-b border-zinc-100 dark:border-zinc-800 pb-4">
+      <div className="space-y-8 bg-white dark:bg-zinc-955 p-6 rounded-2xl border border-zinc-200 dark:border-zinc-800 shadow-sm">
+        <div className="border-b border-zinc-150 dark:border-zinc-800 pb-4">
           <h2 className="text-lg font-bold tracking-tight text-zinc-900 dark:text-zinc-50 uppercase">Rincian: {activeSubProject.name}</h2>
           <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-1">Sel dengan garis bawah putus-putus dikalkulasi oleh Harga Satuan SNI.</p>
         </div>
@@ -115,6 +120,8 @@ export default function TabDetail({ project, totalDirectCost }: TabDetailProps) 
                 onDeleteCategory={() => {
                   if (confirm(`Hapus kategori "${category.name}" beserta semua itemnya?`)) deleteCategory(project.id, activeSubProject.id, category.id);
                 }}
+                searchQuery={searchQuery}
+                sortBy={sortBy}
               />
             );
           })}

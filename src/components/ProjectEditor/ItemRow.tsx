@@ -28,6 +28,8 @@ interface ItemRowProps {
   onCategorySave: (categoryId: string) => void;
   onAddItem: () => void;
   onDeleteCategory: () => void;
+  searchQuery?: string;
+  sortBy?: string;
 }
 
 export default function ItemRow({
@@ -37,8 +39,22 @@ export default function ItemRow({
   catEditState, setCatEditState, catEditVal, setCatEditVal,
   ahspItem, setAhspItem,
   onCategorySave, onAddItem, onDeleteCategory,
+  searchQuery = "",
+  sortBy = "",
 }: ItemRowProps) {
   const { updateItem, updateItemActualQuantity } = useRABStore();
+
+  let displayItems = [...category.items];
+  if (searchQuery.trim()) {
+    const q = searchQuery.toLowerCase();
+    displayItems = displayItems.filter((i) => i.name.toLowerCase().includes(q));
+  }
+  if (sortBy === "price-desc") displayItems.sort((a, b) => b.unitPrice - a.unitPrice);
+  else if (sortBy === "price-asc") displayItems.sort((a, b) => a.unitPrice - b.unitPrice);
+  else if (sortBy === "total-desc") displayItems.sort((a, b) => b.total - a.total);
+  else if (sortBy === "qty-desc") displayItems.sort((a, b) => b.quantity - a.quantity);
+
+  if (searchQuery.trim() && displayItems.length === 0) return null;
 
   const handleCellClick = (item: Item, field: "name" | "unit" | "quantity" | "unitPrice" | "actualQuantity") => {
     if (field === "unitPrice" && item.ahsp) { setAhspItem({ categoryId: category.id, itemId: item.id }); return; }
@@ -50,30 +66,17 @@ export default function ItemRow({
   const handleCellSave = () => {
     if (!editState) return;
     const { categoryId, itemId, field } = editState;
+    const parsed = parseFloat(editVal);
     if (field === "actualQuantity") {
-      const parsed = parseFloat(editVal);
-      const value = isNaN(parsed) || parsed < 0 ? 0 : parsed;
-      updateItemActualQuantity(project.id, activeSubProject.id, categoryId, itemId, value);
-    } else if (field === "quantity") {
-      const parsed = parseFloat(editVal);
-      const value = isNaN(parsed) || parsed <= 0 ? 0.001 : parsed;
-      updateItem(project.id, activeSubProject.id, categoryId, itemId, { quantity: value });
-    } else if (field === "unitPrice") {
-      const parsed = parseFloat(editVal);
-      const value = isNaN(parsed) || parsed < 0 ? 0 : parsed;
-      updateItem(project.id, activeSubProject.id, categoryId, itemId, { unitPrice: value });
-    } else if (field === "name") {
-      if (!editVal.trim()) { setEditState(null); return; }
-      updateItem(project.id, activeSubProject.id, categoryId, itemId, { name: editVal.trim() });
+      updateItemActualQuantity(project.id, activeSubProject.id, categoryId, itemId, isNaN(parsed) || parsed < 0 ? 0 : parsed);
     } else {
-      updateItem(project.id, activeSubProject.id, categoryId, itemId, { [field]: editVal });
+      let val: string | number = editVal;
+      if (field === "quantity") val = isNaN(parsed) || parsed <= 0 ? 0.001 : parsed;
+      else if (field === "unitPrice") val = isNaN(parsed) || parsed < 0 ? 0 : parsed;
+      else if (field === "name") { if (!editVal.trim()) { setEditState(null); return; } val = editVal.trim(); }
+      updateItem(project.id, activeSubProject.id, categoryId, itemId, { [field]: val });
     }
     setEditState(null);
-  };
-
-  const handleCellKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === "Enter") handleCellSave();
-    else if (e.key === "Escape") setEditState(null);
   };
 
   return (
@@ -84,10 +87,10 @@ export default function ItemRow({
             <input type="text" autoFocus value={catEditVal} onChange={(e) => setCatEditVal(e.target.value)}
               onBlur={() => onCategorySave(category.id)}
               onKeyDown={(e) => { if (e.key === "Enter") onCategorySave(category.id); else if (e.key === "Escape") setCatEditState(null); }}
-              className="bg-white dark:bg-zinc-950 border border-zinc-300 dark:border-zinc-700 px-2 py-0.5 rounded text-sm font-bold w-full max-w-md focus:outline-none" />
+              className="bg-white dark:bg-zinc-955 border border-zinc-300 dark:border-zinc-700 px-2 py-0.5 rounded text-sm font-bold w-full max-w-md focus:outline-none" />
           ) : (
             <div className="flex items-center gap-2 group">
-              <span className="font-bold text-sm text-zinc-900 dark:text-zinc-50">{category.name}</span>
+              <span className="font-bold text-sm text-zinc-900 dark:text-zinc-550">{category.name}</span>
               <button onClick={() => { setCatEditState(category.id); setCatEditVal(category.name); }} type="button"
                 className="text-zinc-400 hover:text-zinc-650 p-0.5 opacity-0 group-hover:opacity-100 transition-opacity"><Settings className="w-3.5 h-3.5" /></button>
             </div>
@@ -116,12 +119,12 @@ export default function ItemRow({
             </tr>
           </thead>
           <tbody className="divide-y divide-zinc-100 dark:divide-zinc-800/80">
-            {category.items.map((item, index) => (
+            {displayItems.map((item, index) => (
               <TableItemRow key={item.id} project={project} activeSubProject={activeSubProject} category={category} item={item} index={index}
                 totalDirectCost={totalDirectCost} editState={editState} editVal={editVal} setEditVal={setEditVal}
-                handleCellClick={handleCellClick} handleCellSave={handleCellSave} handleCellKeyDown={handleCellKeyDown} setAhspItem={setAhspItem} />
+                handleCellClick={handleCellClick} handleCellSave={handleCellSave} handleCellKeyDown={(e) => { if (e.key === "Enter") handleCellSave(); else if (e.key === "Escape") setEditState(null); }} setAhspItem={setAhspItem} />
             ))}
-            {category.items.length === 0 && (
+            {displayItems.length === 0 && (
               <tr><td colSpan={9} className="py-6 text-center text-zinc-400">Belum ada item pekerjaan di kategori ini.</td></tr>
             )}
           </tbody>
