@@ -22,7 +22,7 @@ export default function SCurveChart({
   const svgWidth = 550, svgHeight = 220, paddingX = 65, paddingY = 20;
   const graphWidth = svgWidth - paddingX * 2, graphHeight = svgHeight - paddingY * 2;
   const grandTotal = totalProjectDirectCost * (1 + profitRate) * (1 + taxRate);
-  const maxVal = chartMode === "physical" ? 100 : grandTotal;
+  const maxVal = chartMode === "physical" ? 100 : (grandTotal || 1);
 
   const formatYAxis = (val: number) => {
     if (val >= 1000000000) return `Rp ${(val / 1000000000).toFixed(1)}M`;
@@ -121,6 +121,18 @@ export default function SCurveChart({
                 <path d={buildPath(true)} fill="none" className="stroke-emerald-600 dark:stroke-emerald-400" strokeWidth={3} strokeLinecap="round" strokeLinejoin="round" />
               )}
             </svg>
+
+            {/* Legenda Kurva S */}
+            <div className="mt-4 flex items-center justify-center gap-4 text-[10px] font-bold uppercase tracking-wider text-zinc-550 border-t border-zinc-150 dark:border-zinc-800/80 pt-3">
+              <div className="flex items-center gap-1.5">
+                <div className="w-5 h-0.5 border-t-2 border-dashed border-zinc-400 dark:border-zinc-600" />
+                <span>Rencana</span>
+              </div>
+              <div className="flex items-center gap-1.5">
+                <div className="w-5 h-0.5 bg-emerald-500 dark:bg-emerald-400 rounded" />
+                <span>Realisasi</span>
+              </div>
+            </div>
           </div>
         ) : (
           <div className="py-12 text-center text-xs text-zinc-400">Isi lembar kerja RAB terlebih dahulu untuk memproyeksikan Kurva S.</div>
