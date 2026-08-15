@@ -71,6 +71,7 @@ export default function ProjectForm({ onSubmit, onCancel }: ProjectFormProps) {
           <option value="empty">Template Kosong (RAB Kosong)</option>
           <option value="ruko">Pembangunan Ruko 2 Lantai (Struktur &amp; Arsitektur)</option>
           <option value="paving">Pekerjaan Jalan Paving Block (Tanah &amp; Paving)</option>
+          <option value="drainase">Pekerjaan Drainase &amp; Gorong-Gorong</option>
         </select>
       </div>
 
