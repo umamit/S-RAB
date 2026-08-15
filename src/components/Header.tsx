@@ -48,7 +48,7 @@ export default function Header({ onOpenNewProjectModal }: HeaderProps) {
         <div className="w-9 h-9 rounded-lg bg-zinc-900 dark:bg-zinc-50 flex items-center justify-center font-bold text-lg text-white dark:text-zinc-950 shadow-md shadow-black/10">S</div>
         <div>
           <h1 className="font-bold text-md tracking-tight text-zinc-950 dark:text-zinc-50 leading-none">S-RAB</h1>
-          <span className="text-[10px] text-zinc-400 font-medium uppercase tracking-widest">Estimator Platform</span>
+          <span className="text-[10px] text-zinc-400 font-medium uppercase tracking-widest whitespace-nowrap block mt-0.5">Estimator Platform</span>
         </div>
       </div>
 
