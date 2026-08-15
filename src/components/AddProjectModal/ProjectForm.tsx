@@ -86,7 +86,7 @@ export default function ProjectForm({ onSubmit, onCancel }: ProjectFormProps) {
             min={0}
             max={100}
             value={taxRate}
-            onChange={(e) => setTaxRate(Number(e.target.value))}
+            onChange={(e) => setTaxRate(Math.min(100, Math.max(0, Number(e.target.value))))}
             className="w-full px-3 py-2 bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-zinc-400"
           />
         </div>
@@ -101,7 +101,7 @@ export default function ProjectForm({ onSubmit, onCancel }: ProjectFormProps) {
             min={0}
             max={100}
             value={profitRate}
-            onChange={(e) => setProfitRate(Number(e.target.value))}
+            onChange={(e) => setProfitRate(Math.min(100, Math.max(0, Number(e.target.value))))}
             className="w-full px-3 py-2 bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-zinc-400"
           />
         </div>

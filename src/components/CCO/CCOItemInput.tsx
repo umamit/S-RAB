@@ -25,21 +25,23 @@ export default function CCOItemInput({ project, onAddItemChange }: CCOItemInputP
 
   const handleAddChangeItem = () => {
     if (changeType !== "add" && (!selectedCatId || !selectedItemId)) return;
+    const safeQty = quantity <= 0 ? 0.001 : quantity;
+    const safePrice = unitPrice < 0 ? 0 : unitPrice;
     let newItem: Omit<CCOItem, "id">;
     if (changeType === "add") {
-      newItem = { subProjectId: selectedSubId, categoryId: selectedCatId, type: "add", name: name.trim() || "Item Baru CCO", unit, quantity, unitPrice };
+      newItem = { subProjectId: selectedSubId, categoryId: selectedCatId, type: "add", name: name.trim() || "Item Baru CCO", unit, quantity: safeQty, unitPrice: safePrice };
     } else if (changeType === "remove" && activeItem) {
       newItem = { subProjectId: selectedSubId, categoryId: selectedCatId, itemId: selectedItemId, type: "remove", name: activeItem.name, unit: activeItem.unit, quantity: activeItem.quantity, unitPrice: activeItem.unitPrice };
     } else {
       if (!activeItem) return;
-      newItem = { subProjectId: selectedSubId, categoryId: selectedCatId, itemId: selectedItemId, type: "modify", name: activeItem.name, unit: activeItem.unit, quantity, unitPrice, originalQuantity: activeItem.quantity, originalUnitPrice: activeItem.unitPrice };
+      newItem = { subProjectId: selectedSubId, categoryId: selectedCatId, itemId: selectedItemId, type: "modify", name: activeItem.name, unit: activeItem.unit, quantity: safeQty, unitPrice: safePrice, originalQuantity: activeItem.quantity, originalUnitPrice: activeItem.unitPrice };
     }
     onAddItemChange(newItem);
-    setSelectedItemId("");
-    setName("");
-    setQuantity(1);
-    setUnitPrice(0);
+    setSelectedItemId(""); setName(""); setQuantity(1); setUnitPrice(0);
   };
+
+  const qtyInvalid = quantity <= 0;
+  const priceInvalid = unitPrice < 0;
 
   return (
     <div className="border-t border-zinc-200 dark:border-zinc-800 pt-4 space-y-3 bg-white dark:bg-zinc-950/30 p-4 rounded-xl border">
@@ -108,23 +110,16 @@ export default function CCOItemInput({ project, onAddItemChange }: CCOItemInputP
           )}
           <div>
             <label className="block text-[9px] font-semibold mb-0.5 text-zinc-400">Volume Baru</label>
-            <input type="number" step="any" value={quantity} onChange={(e) => setQuantity(Number(e.target.value))}
-              className="w-full px-2.5 py-1 bg-white dark:bg-zinc-955 border border-zinc-250 dark:border-zinc-800 rounded text-xs focus:outline-none" />
+            <input type="number" step="any" min="0.001" value={quantity} onChange={(e) => setQuantity(Number(e.target.value))}
+              className={`w-full px-2.5 py-1 bg-white dark:bg-zinc-955 border rounded text-xs focus:outline-none ${qtyInvalid ? "border-red-400 dark:border-red-600" : "border-zinc-250 dark:border-zinc-800"}`} />
+            {qtyInvalid && <p className="text-[9px] text-red-500 mt-0.5">Volume harus &gt; 0</p>}
           </div>
-          {changeType === "add" && (
-            <div>
-              <label className="block text-[9px] font-semibold mb-0.5 text-zinc-400">Harga Satuan Baru</label>
-              <input type="number" step="any" value={unitPrice} onChange={(e) => setUnitPrice(Number(e.target.value))}
-                className="w-full px-2.5 py-1 bg-white dark:bg-zinc-955 border border-zinc-250 dark:border-zinc-800 rounded text-xs focus:outline-none" />
-            </div>
-          )}
-          {changeType === "modify" && (
-            <div>
-              <label className="block text-[9px] font-semibold mb-0.5 text-zinc-400">Harga Satuan Baru</label>
-              <input type="number" step="any" value={unitPrice} onChange={(e) => setUnitPrice(Number(e.target.value))}
-                className="w-full px-2.5 py-1 bg-white dark:bg-zinc-955 border border-zinc-250 dark:border-zinc-800 rounded text-xs focus:outline-none" />
-            </div>
-          )}
+          <div>
+            <label className="block text-[9px] font-semibold mb-0.5 text-zinc-400">Harga Satuan Baru</label>
+            <input type="number" step="any" min="0" value={unitPrice} onChange={(e) => setUnitPrice(Number(e.target.value))}
+              className={`w-full px-2.5 py-1 bg-white dark:bg-zinc-955 border rounded text-xs focus:outline-none ${priceInvalid ? "border-red-400 dark:border-red-600" : "border-zinc-250 dark:border-zinc-800"}`} />
+            {priceInvalid && <p className="text-[9px] text-red-500 mt-0.5">Harga tidak boleh negatif</p>}
+          </div>
         </div>
       )}
 

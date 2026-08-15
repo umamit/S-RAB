@@ -208,7 +208,7 @@ export interface RABState {
 
   // Item Actions
   addItem: (projectId: string, subProjectId: string, categoryId: string, item: Omit<Item, "id" | "total">) => void;
-  updateItem: (projectId: string, subProjectId: string, categoryId: string, itemId: string, itemUpdates: Partial<Omit<Item, "id" | "total" | "unitPrice">>) => void;
+  updateItem: (projectId: string, subProjectId: string, categoryId: string, itemId: string, itemUpdates: Partial<Omit<Item, "id" | "total">>) => void;
   deleteItem: (projectId: string, subProjectId: string, categoryId: string, itemId: string) => void;
   updateItemAHSP: (projectId: string, subProjectId: string, categoryId: string, itemId: string, ahsp: AHSP | undefined) => void;
   updateItemActualQuantity: (projectId: string, subProjectId: string, categoryId: string, itemId: string, actualQuantity: number) => void;

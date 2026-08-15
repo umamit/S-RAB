@@ -52,15 +52,21 @@ export default function ItemRow({
     const { categoryId, itemId, field } = editState;
     if (field === "actualQuantity") {
       const parsed = parseFloat(editVal);
-      const value = isNaN(parsed) ? 0 : parsed;
+      const value = isNaN(parsed) || parsed < 0 ? 0 : parsed;
       updateItemActualQuantity(project.id, activeSubProject.id, categoryId, itemId, value);
+    } else if (field === "quantity") {
+      const parsed = parseFloat(editVal);
+      const value = isNaN(parsed) || parsed <= 0 ? 0.001 : parsed;
+      updateItem(project.id, activeSubProject.id, categoryId, itemId, { quantity: value });
+    } else if (field === "unitPrice") {
+      const parsed = parseFloat(editVal);
+      const value = isNaN(parsed) || parsed < 0 ? 0 : parsed;
+      updateItem(project.id, activeSubProject.id, categoryId, itemId, { unitPrice: value });
+    } else if (field === "name") {
+      if (!editVal.trim()) { setEditState(null); return; }
+      updateItem(project.id, activeSubProject.id, categoryId, itemId, { name: editVal.trim() });
     } else {
-      let value: string | number = editVal;
-      if (field === "quantity" || field === "unitPrice") {
-        const parsed = parseFloat(editVal);
-        value = isNaN(parsed) ? 0 : parsed;
-      }
-      updateItem(project.id, activeSubProject.id, categoryId, itemId, { [field]: value });
+      updateItem(project.id, activeSubProject.id, categoryId, itemId, { [field]: editVal });
     }
     setEditState(null);
   };
