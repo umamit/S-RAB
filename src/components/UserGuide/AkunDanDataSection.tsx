@@ -66,7 +66,7 @@ export default function AkunDanDataSection() {
           <strong className="text-zinc-850 dark:text-zinc-200 block mb-0.5">Tersimpan Otomatis:</strong>
           Setiap perubahan yang Anda buat — menambah item, mengedit harga, mengisi log harian — tersimpan
           secara otomatis ke <strong>cloud server</strong> dalam hitungan detik. Tidak ada tombol
-          "Simpan" yang perlu diklik.
+          {"\"Simpan\""} yang perlu diklik.
         </div>
         <div className="border-t border-zinc-150 dark:border-zinc-800/80 pt-2 mt-2">
           <strong className="text-zinc-850 dark:text-zinc-200 block mb-0.5">Akses dari Mana Saja:</strong>

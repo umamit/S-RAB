@@ -21,12 +21,20 @@ export default function ProjectParamsForm({
   const [thresholdInput, setThresholdInput] = useState(String(alertThreshold));
   const [pphInput, setPphInput] = useState(String(pphRate));
 
-  useEffect(() => {
+  const [prevProps, setPrevProps] = useState({ profitRate, taxRate, alertThreshold, pphRate });
+
+  if (
+    prevProps.profitRate !== profitRate ||
+    prevProps.taxRate !== taxRate ||
+    prevProps.alertThreshold !== alertThreshold ||
+    prevProps.pphRate !== pphRate
+  ) {
+    setPrevProps({ profitRate, taxRate, alertThreshold, pphRate });
     setProfitInput((profitRate * 100).toFixed(0));
     setTaxInput((taxRate * 100).toFixed(0));
     setThresholdInput(String(alertThreshold));
     setPphInput(String(pphRate));
-  }, [profitRate, taxRate, alertThreshold, pphRate]);
+  }
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();

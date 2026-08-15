@@ -18,12 +18,13 @@ export default function ProgressTracker({ project }: ProgressTrackerProps) {
   const { directCost: totalProjectDirectCost } = calculateProjectTotals(project);
 
   const currentFinancial = project.weeklyFinancials?.find((f) => f.weekNumber === selectedWeek);
-  const [actualCostInput, setActualCostInput] = useState("");
+  const [prevWeek, setPrevWeek] = useState(selectedWeek);
+  const [actualCostInput, setActualCostInput] = useState(() => currentFinancial ? String(currentFinancial.actualCost) : "");
 
-  useEffect(() => {
-    const current = project.weeklyFinancials?.find((f) => f.weekNumber === selectedWeek);
-    setActualCostInput(current ? String(current.actualCost) : "");
-  }, [selectedWeek, project.weeklyFinancials]);
+  if (selectedWeek !== prevWeek) {
+    setPrevWeek(selectedWeek);
+    setActualCostInput(currentFinancial ? String(currentFinancial.actualCost) : "");
+  }
 
   const allCategories: ProgressCategory[] = project.subProjects.flatMap((sub) =>
     sub.categories.map((cat) => {
