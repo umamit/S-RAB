@@ -1,30 +1,18 @@
 "use client";
 import { useState } from "react";
 import { useRABStore } from "@/lib/store";
-import { LogIn, UserPlus, Building2 } from "lucide-react";
+import { LogIn, Building2 } from "lucide-react";
 import LoginForm from "./LoginForm";
 
 export default function LoginScreen() {
-  const { loginUser, registerUser } = useRABStore();
-  const [mode, setMode] = useState<"login" | "register">("login");
+  const { loginUser } = useRABStore();
   const [error, setError] = useState("");
 
   const handleSubmit = async (data: { name: string; email: string; password: string }) => {
     setError("");
     await new Promise((r) => setTimeout(r, 350));
-
-    if (mode === "login") {
-      const result = await loginUser(data.email, data.password);
-      if (!result.success) setError(result.error || "Login gagal.");
-    } else {
-      const result = await registerUser(data.email, data.name, data.password);
-      if (!result.success) setError(result.error || "Pendaftaran gagal.");
-    }
-  };
-
-  const switchMode = (m: "login" | "register") => {
-    setMode(m);
-    setError("");
+    const result = await loginUser(data.email, data.password);
+    if (!result.success) setError(result.error || "Login gagal.");
   };
 
   return (
@@ -48,31 +36,11 @@ export default function LoginScreen() {
 
         <div className="bg-white dark:bg-zinc-900 rounded-3xl border border-zinc-200 dark:border-zinc-800 shadow-xl overflow-hidden">
           <div className="flex border-b border-zinc-100 dark:border-zinc-800">
-            <button
-              type="button"
-              onClick={() => switchMode("login")}
-              className={`flex-1 py-4 text-sm font-bold transition-all flex items-center justify-center gap-2 ${
-                mode === "login"
-                  ? "text-zinc-900 dark:text-zinc-50 border-b-2 border-zinc-900 dark:border-zinc-50"
-                  : "text-zinc-400 dark:text-zinc-505 hover:text-zinc-600"
-              }`}
-            >
+            <div className="flex-1 py-4 text-sm font-bold flex items-center justify-center gap-2 text-zinc-900 dark:text-zinc-50 border-b-2 border-zinc-900 dark:border-zinc-50">
               <LogIn className="w-4 h-4" /> Masuk
-            </button>
-            <button
-              type="button"
-              onClick={() => switchMode("register")}
-              className={`flex-1 py-4 text-sm font-bold transition-all flex items-center justify-center gap-2 ${
-                mode === "register"
-                  ? "text-zinc-900 dark:text-zinc-50 border-b-2 border-zinc-900 dark:border-zinc-50"
-                  : "text-zinc-400 dark:text-zinc-550 hover:text-zinc-600"
-              }`}
-            >
-              <UserPlus className="w-4 h-4" /> Daftar Akun
-            </button>
+            </div>
           </div>
-
-          <LoginForm mode={mode} onSubmit={handleSubmit} error={error} />
+          <LoginForm mode="login" onSubmit={handleSubmit} error={error} />
         </div>
 
         <div className="mt-5 text-center">
