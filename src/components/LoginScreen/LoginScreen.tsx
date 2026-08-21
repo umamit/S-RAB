@@ -27,9 +27,7 @@ export default function LoginScreen() {
 
       <div className="relative w-full max-w-md">
         <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-14 h-14 bg-zinc-900 dark:bg-zinc-50 rounded-2xl shadow-lg mb-4">
-            <span className="text-zinc-50 dark:text-zinc-900 font-black text-2xl tracking-tighter">S</span>
-          </div>
+          <img src="/logo.png" alt="S-RAB Logo" className="w-14 h-14 object-contain rounded-2xl shadow-lg mb-4 mx-auto" />
           <h1 className="text-2xl font-black tracking-tight text-zinc-900 dark:text-zinc-50">S-RAB</h1>
           <p className="text-sm text-zinc-500 dark:text-zinc-400 mt-1">Platform Estimator Konstruksi Modern</p>
         </div>
