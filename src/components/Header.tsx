@@ -3,12 +3,13 @@ import { useState } from "react";
 import { useRABStore } from "@/lib/store";
 import { exportProjectToExcel } from "@/lib/excel-export";
 import confetti from "canvas-confetti";
-import { LogOut, BookOpen, Download, BarChart2, Copy } from "lucide-react";
+import { LogOut, BookOpen, Download, BarChart2, Copy, Share2 } from "lucide-react";
 import ProjectSelector from "./Header/ProjectSelector";
 import UserGuideModal from "./Header/UserGuideModal";
 import SaveIndicator from "./Header/SaveIndicator";
 import RekapLintasModal from "./RekapLintas/RekapLintasModal";
 import ThemeToggle from "./Header/ThemeToggle";
+import ShareProjectModal from "./Header/ShareProjectModal";
 
 interface HeaderProps {
   onOpenNewProjectModal: () => void;
@@ -18,6 +19,7 @@ export default function Header({ onOpenNewProjectModal }: HeaderProps) {
   const { projects, activeProjectId, deleteProject, setActiveProject, currentUser, logoutUser, importProject, duplicateProject } = useRABStore();
   const [isGuideOpen, setIsGuideOpen] = useState(false);
   const [isRekapOpen, setIsRekapOpen] = useState(false);
+  const [isShareOpen, setIsShareOpen] = useState(false);
 
   const activeProject = projects.find((p) => p.id === activeProjectId);
 
@@ -101,8 +103,14 @@ export default function Header({ onOpenNewProjectModal }: HeaderProps) {
               <span className="hidden sm:inline">Duplikat</span>
             </button>
 
+            <button onClick={() => setIsShareOpen(true)} type="button"
+              className="flex items-center gap-1 px-2 py-1 text-[11px] border border-zinc-200 dark:border-zinc-800 hover:bg-zinc-50 dark:hover:bg-zinc-900 rounded-lg font-semibold transition-colors whitespace-nowrap" title="Bagikan Proyek (Kolaborasi)">
+              <Share2 className="w-3.5 h-3.5 text-zinc-500" />
+              <span className="hidden sm:inline">Bagikan</span>
+            </button>
+
             <button onClick={handleDelete} type="button" title="Hapus Proyek"
-              className="p-1 border border-red-200 hover:bg-red-50 dark:border-red-950 dark:hover:bg-red-950/20 text-red-600 dark:text-red-400 rounded-lg transition-colors">
+              className="p-1 border border-red-200 hover:bg-red-50 dark:border-red-955 dark:hover:bg-red-955/20 text-red-600 dark:text-red-400 rounded-lg transition-colors">
               <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
               </svg>
@@ -129,6 +137,9 @@ export default function Header({ onOpenNewProjectModal }: HeaderProps) {
 
       <UserGuideModal isOpen={isGuideOpen} onClose={() => setIsGuideOpen(false)} />
       <RekapLintasModal isOpen={isRekapOpen} onClose={() => setIsRekapOpen(false)} />
+      {activeProject && (
+        <ShareProjectModal isOpen={isShareOpen} onClose={() => setIsShareOpen(false)} projectId={activeProject.id} projectName={activeProject.name} />
+      )}
     </header>
   );
 }

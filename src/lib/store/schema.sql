@@ -44,3 +44,24 @@ ALTER TABLE public.projects ADD COLUMN IF NOT EXISTS audit_logs JSONB NOT NULL D
 ALTER TABLE public.projects ADD COLUMN IF NOT EXISTS latitude NUMERIC;
 ALTER TABLE public.projects ADD COLUMN IF NOT EXISTS longitude NUMERIC;
 
+-- Table for Project Sharing / Collaboration
+CREATE TABLE IF NOT EXISTS public.project_shares (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    project_id TEXT NOT NULL REFERENCES public.projects(id) ON DELETE CASCADE,
+    shared_to_email TEXT NOT NULL,
+    role TEXT NOT NULL CHECK (role IN ('editor', 'verifier', 'viewer')),
+    created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+    UNIQUE(project_id, shared_to_email)
+);
+
+ALTER TABLE public.project_shares ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "Owners can manage project shares"
+ON public.project_shares FOR ALL TO authenticated
+USING (
+    EXISTS (
+        SELECT 1 FROM public.projects
+        WHERE id = project_id AND user_id = auth.uid()
+    )
+);
+
