@@ -47,7 +47,7 @@ export default function ProjectSelector({
         id="project-select"
         value={activeProjectId || ""}
         onChange={(e) => onSetActiveProject(e.target.value || null)}
-        className="flex-1 sm:w-64 px-3 py-1.5 text-sm bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-lg focus:outline-none focus:ring-1 focus:ring-zinc-400 dark:focus:ring-zinc-700 transition-all font-medium"
+        className="flex-1 sm:w-48 px-3 py-1.5 text-sm bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-lg focus:outline-none focus:ring-1 focus:ring-zinc-400 dark:focus:ring-zinc-700 transition-all font-medium"
       >
         {projects.map((p) => (
           <option key={p.id} value={p.id}>
