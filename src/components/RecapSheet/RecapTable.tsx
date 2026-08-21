@@ -77,7 +77,8 @@ export default function RecapTable({
                       className="bg-white dark:bg-zinc-900 border border-zinc-300 dark:border-zinc-700 px-2 py-0.5 rounded text-sm w-full max-w-sm focus:outline-none" />
                   ) : (
                     <div className="flex items-center gap-2">
-                      <button onClick={() => onSetActiveSub(sub.id)} type="button" className="hover:underline text-left hover:text-zinc-950 dark:hover:text-zinc-50">{sub.name.toUpperCase()}</button>
+                      <button onClick={() => onSetActiveSub(sub.id)} type="button" className="hover:underline text-left hover:text-zinc-950 dark:hover:text-zinc-50 print:hidden">{sub.name.toUpperCase()}</button>
+                      <span className="hidden print:inline">{sub.name.toUpperCase()}</span>
                       <button onClick={() => onStartEdit(sub.id, sub.name)} type="button" className="text-zinc-400 hover:text-zinc-650 dark:hover:text-zinc-355 p-1 opacity-0 group-hover:opacity-100 transition-opacity print:hidden"><Settings className="w-3.5 h-3.5" /></button>
                     </div>
                   )}

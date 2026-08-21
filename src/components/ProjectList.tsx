@@ -50,7 +50,7 @@ export default function ProjectList({ onOpenNewProjectModal }: ProjectListProps)
   const { projects, activeProjectId, setActiveProject } = useRABStore();
 
   return (
-    <div className="w-full md:w-80 border-r border-zinc-200 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-950/20 flex flex-col h-full">
+    <div className="w-full md:w-80 border-r border-zinc-200 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-950/20 flex flex-col h-full print:hidden">
       {/* Header section of Sidebar */}
       <div className="p-4 border-b border-zinc-200 dark:border-zinc-800 flex justify-between items-center bg-white dark:bg-zinc-950">
         <h2 className="text-sm font-semibold tracking-tight text-zinc-500 dark:text-zinc-400 uppercase">
