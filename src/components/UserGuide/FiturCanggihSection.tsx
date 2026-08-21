@@ -81,6 +81,30 @@ export default function FiturCanggihSection() {
           Gunakan dropdown <strong>{"\"Urutkan Pekerjaan\""}</strong> untuk mengatur urutan baris berdasarkan kriteria: Harga Satuan Termahal/Termurah, Total Harga Terbesar, atau Volume Terbesar. Pilihan ini memudahkan peninjauan item berbiaya tinggi.
         </div>
       </LangkahCard>
+
+      {/* Poin 7: Geolocation & Peta Lokasi */}
+      <LangkahCard title="Peta Lokasi &amp; Geolocation Proyek">
+        <div>
+          <strong className="text-zinc-855 dark:text-zinc-200 block mb-0.5">Pemetaan Koordinat:</strong>
+          Masukkan koordinat **Latitude** dan **Longitude** pada Parameter Proyek di tab Rekapitulasi Utama.
+        </div>
+        <div className="border-t border-zinc-150 dark:border-zinc-800/80 pt-2 mt-2">
+          <strong className="text-zinc-855 dark:text-zinc-200 block mb-0.5">Visualisasi Peta Live:</strong>
+          Sistem akan merender peta Google Maps tersemat secara live untuk mempermudah pemantauan letak fisik lokasi proyek oleh klien maupun tim lapangan.
+        </div>
+      </LangkahCard>
+
+      {/* Poin 8: Kolaborasi & Earned Value */}
+      <LangkahCard title="Bagikan Akses &amp; Analisis Kinerja (EVA)">
+        <div>
+          <strong className="text-zinc-855 dark:text-zinc-200 block mb-0.5">Kolaborasi Hak Akses (Multi-role):</strong>
+          Klik **Bagikan** di header, masukkan email rekan kerja dan pilih peran mereka: **Editor** (ubah anggaran), **Verifier** (edit progres harian), atau **Viewer** (hanya baca).
+        </div>
+        <div className="border-t border-zinc-150 dark:border-zinc-800/80 pt-2 mt-2">
+          <strong className="text-zinc-855 dark:text-zinc-200 block mb-0.5">Evaluasi Kinerja (CPI &amp; SPI):</strong>
+          Pantau indeks efisiensi biaya (**CPI**) dan efisiensi waktu (**SPI**) di tab Realisasi Progres untuk mendeteksi deviasi anggaran dan delay jadwal secara ilmiah.
+        </div>
+      </LangkahCard>
     </div>
   );
 }
