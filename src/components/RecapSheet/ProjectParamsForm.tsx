@@ -106,7 +106,7 @@ export default function ProjectParamsForm({
             step="1"
             value={thresholdInput}
             onChange={(e) => setThresholdInput(e.target.value)}
-            className="w-full pl-[88px] pr-8 py-2 bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-lg text-xs focus:outline-none focus:ring-1 focus:ring-zinc-400 font-semibold"
+            className="w-full pl-[94px] pr-8 py-2 bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-lg text-xs focus:outline-none focus:ring-1 focus:ring-zinc-400 font-semibold"
           />
           <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
             <span className="text-zinc-400 text-xs">-%</span>
@@ -124,7 +124,7 @@ export default function ProjectParamsForm({
             id="pph-rate-input"
             value={pphInput}
             onChange={(e) => setPphInput(e.target.value)}
-            className="w-full pl-[62px] pr-2 py-2 bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-lg text-xs font-semibold focus:outline-none focus:ring-1 focus:ring-zinc-400"
+            className="w-full pl-[78px] pr-2 py-2 bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-lg text-xs font-semibold focus:outline-none focus:ring-1 focus:ring-zinc-400"
           >
             <option value="0">0% (Tanpa PPh)</option>
             <option value="0.02">2% (Kecil - SBU)</option>
