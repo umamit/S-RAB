@@ -37,6 +37,8 @@ export const syncProjectToSupabase = async (project: Project) => {
       pph_rate: project.pphRate !== undefined ? project.pphRate : 0.02,
       bast_details: project.bastDetails || null,
       audit_logs: project.auditLogs || [],
+      latitude: project.latitude,
+      longitude: project.longitude,
     });
   } catch (err) {
     console.error("Failed to sync project to Supabase:", err);
@@ -84,6 +86,8 @@ export const fetchProjectsFromSupabase = async (): Promise<Project[]> => {
       pphRate: row.pph_rate !== undefined ? Number(row.pph_rate) : 0.02,
       bastDetails: row.bast_details || null,
       auditLogs: row.audit_logs || [],
+      latitude: row.latitude !== null ? Number(row.latitude) : undefined,
+      longitude: row.longitude !== null ? Number(row.longitude) : undefined,
     }));
   } catch (err) {
     console.error("Error fetching projects from Supabase:", err);

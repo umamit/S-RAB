@@ -73,4 +73,6 @@ export interface Project {
   ccos?: CCO[];
   bastDetails?: BASTDetails;
   auditLogs?: AuditLog[];
+  latitude?: number;
+  longitude?: number;
 }

@@ -5,6 +5,7 @@ import { Printer } from "lucide-react";
 import RecapTable, { SubProjectCost } from "./RecapTable";
 import RecapForm from "./RecapForm";
 import ProjectParamsForm from "./ProjectParamsForm";
+import ProjectMap from "./ProjectMap";
 
 interface RecapSheetProps {
   project: Project;
@@ -36,8 +37,15 @@ export default function RecapSheet({ project, triggerPrint }: RecapSheetProps) {
     addSubProject(project.id, name);
   };
 
-  const handleSaveParams = (profitRate: number, taxRate: number, alertThreshold: number, pphRate: number) => {
-    updateProject(project.id, { profitRate, taxRate, alertThreshold, pphRate });
+  const handleSaveParams = (
+    profitRate: number,
+    taxRate: number,
+    alertThreshold: number,
+    pphRate: number,
+    latitude?: number,
+    longitude?: number
+  ) => {
+    updateProject(project.id, { profitRate, taxRate, alertThreshold, pphRate, latitude, longitude });
   };
 
   const handleStartEdit = (id: string, name: string) => {
@@ -114,16 +122,19 @@ export default function RecapSheet({ project, triggerPrint }: RecapSheetProps) {
         </div>
 
         <div>
-          <h3 className="text-xs font-bold uppercase tracking-wider text-zinc-400 dark:text-zinc-500 mb-3">Parameter Proyek (Overhead & Pajak)</h3>
+          <h3 className="text-xs font-bold uppercase tracking-wider text-zinc-400 dark:text-zinc-500 mb-3">Parameter Proyek (Overhead, Pajak, Geolocation)</h3>
           <ProjectParamsForm
             profitRate={project.profitRate}
             taxRate={project.taxRate}
             alertThreshold={project.alertThreshold ?? 5}
             pphRate={project.pphRate ?? 0.02}
+            latitude={project.latitude}
+            longitude={project.longitude}
             onSave={handleSaveParams}
           />
         </div>
       </div>
+      <ProjectMap latitude={project.latitude} longitude={project.longitude} />
     </div>
   );
 }
