@@ -3,6 +3,7 @@ import { useState, useRef } from "react";
 import { useRABStore } from "@/lib/store";
 import { compressImage } from "@/lib/utils/imageCompressor";
 import { uploadPhoto } from "@/lib/utils/storageUploader";
+import WorkerCountInput from "./WorkerCountInput";
 
 interface DailyLogFormProps {
   projectId: string;
@@ -88,15 +89,6 @@ export default function DailyLogForm({ projectId, onSubmit }: DailyLogFormProps)
     }
   };
 
-  const mkInp = (id: string, label: string, val: number, setVal: (v: number) => void) => (
-    <div className="flex justify-between items-center bg-white dark:bg-zinc-900 px-2 py-1.5 rounded-lg border border-zinc-200 dark:border-zinc-800">
-      <label htmlFor={id} className="font-semibold text-zinc-650 dark:text-zinc-400">{label}</label>
-      <input id={id} type="number" min={0} value={val || ""}
-        onChange={(e) => setVal(Math.max(0, parseInt(e.target.value) || 0))}
-        className="w-10 text-right bg-transparent focus:outline-none font-bold" />
-    </div>
-  );
-
   return (
     <form onSubmit={handleSubmit} className="lg:col-span-1 space-y-4 print:hidden bg-zinc-50/50 dark:bg-zinc-900/10 p-5 rounded-2xl border border-zinc-200/60 dark:border-zinc-800/80">
       <h3 className="text-xs font-bold uppercase tracking-wider text-zinc-700 dark:text-zinc-300">Buat Laporan Baru</h3>
@@ -122,10 +114,10 @@ export default function DailyLogForm({ projectId, onSubmit }: DailyLogFormProps)
       <div className="space-y-2 pt-1">
         <span className="text-[10px] uppercase font-bold tracking-wider text-zinc-450">Tenaga Kerja</span>
         <div className="grid grid-cols-2 gap-2 text-xs">
-          {mkInp("count-pekerja", "Pekerja", pekerjaCount, setPekerjaCount)}
-          {mkInp("count-tukang", "Tukang", tukangCount, setTukangCount)}
-          {mkInp("count-kepala", "Kep. Tukang", kepalaTukangCount, setKepalaTukangCount)}
-          {mkInp("count-mandor", "Mandor", mandorCount, setMandorCount)}
+          <WorkerCountInput id="count-pekerja" label="Pekerja" val={pekerjaCount} setVal={setPekerjaCount} />
+          <WorkerCountInput id="count-tukang" label="Tukang" val={tukangCount} setVal={setTukangCount} />
+          <WorkerCountInput id="count-kepala" label="Kep. Tukang" val={kepalaTukangCount} setVal={setKepalaTukangCount} />
+          <WorkerCountInput id="count-mandor" label="Mandor" val={mandorCount} setVal={setMandorCount} />
         </div>
       </div>
 
