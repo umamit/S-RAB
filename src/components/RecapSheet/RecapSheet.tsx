@@ -1,15 +1,17 @@
 "use client";
 import { useState } from "react";
 import { Project, useRABStore, SubProject } from "@/lib/store";
+import { Printer } from "lucide-react";
 import RecapTable, { SubProjectCost } from "./RecapTable";
 import RecapForm from "./RecapForm";
 import ProjectParamsForm from "./ProjectParamsForm";
 
 interface RecapSheetProps {
   project: Project;
+  triggerPrint?: (mode: any, subId?: string | null) => void;
 }
 
-export default function RecapSheet({ project }: RecapSheetProps) {
+export default function RecapSheet({ project, triggerPrint }: RecapSheetProps) {
   const { addSubProject, deleteSubProject, updateSubProjectName, setActiveSubProject, updateProject } = useRABStore();
   const [editingSubId, setEditingSubId] = useState<string | null>(null);
   const [editingVal, setEditingVal] = useState("");
@@ -65,10 +67,21 @@ export default function RecapSheet({ project }: RecapSheetProps) {
   };
 
   return (
-    <div className="space-y-8 bg-white dark:bg-zinc-950 p-6 rounded-2xl border border-zinc-200 dark:border-zinc-800 shadow-sm print:p-0 print:border-none print:shadow-none">
-      <div className="border-b border-zinc-100 dark:border-zinc-800 pb-4 print:pb-2 print:border-b-2 print:border-zinc-800">
-        <h2 className="text-lg font-bold tracking-tight text-zinc-900 dark:text-zinc-50 uppercase print:text-center print:text-lg">Rekapitulasi Rencana Anggaran Biaya (RAB)</h2>
-        <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-1 print:hidden">Rangkuman anggaran keseluruhan dari semua sub-pekerjaan/divisi proyek konstruksi.</p>
+    <div className="space-y-8 bg-white dark:bg-zinc-955 p-6 rounded-2xl border border-zinc-200 dark:border-zinc-800 shadow-sm print:p-0 print:border-none print:shadow-none">
+      <div className="border-b border-zinc-100 dark:border-zinc-800 pb-4 flex justify-between items-start print:pb-2 print:border-b-2 print:border-zinc-800">
+        <div>
+          <h2 className="text-lg font-bold tracking-tight text-zinc-900 dark:text-zinc-50 uppercase print:text-center print:text-lg">Rekapitulasi Rencana Anggaran Biaya (RAB)</h2>
+          <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-1 print:hidden">Rangkuman anggaran keseluruhan dari semua sub-pekerjaan/divisi proyek konstruksi.</p>
+        </div>
+        {triggerPrint && (
+          <button
+            onClick={() => triggerPrint("recap-only")}
+            type="button"
+            className="text-[11px] font-semibold bg-zinc-50 hover:bg-zinc-100 dark:bg-zinc-900 dark:hover:bg-zinc-800 border border-zinc-200 dark:border-zinc-800 rounded-lg px-2.5 py-1.5 flex items-center gap-1.5 text-zinc-700 dark:text-zinc-300 shadow-sm transition-all print:hidden"
+          >
+            <Printer className="w-3.5 h-3.5" /> Cetak Ringkasan
+          </button>
+        )}
       </div>
 
       <RecapTable
@@ -91,6 +104,7 @@ export default function RecapSheet({ project }: RecapSheetProps) {
         onKeyDown={handleKeyDown}
         onSetActiveSub={handleSetActiveSub}
         onDeleteSub={handleDeleteSub}
+        triggerPrint={triggerPrint}
       />
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 pt-6 border-t border-zinc-100 dark:border-zinc-800 print:hidden">

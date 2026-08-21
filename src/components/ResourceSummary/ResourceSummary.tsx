@@ -3,9 +3,11 @@ import React from "react";
 import { Project } from "@/lib/store";
 import ResourceChart from "./ResourceChart";
 import ResourceTable from "./ResourceTable";
+import { Printer } from "lucide-react";
 
 interface ResourceSummaryProps {
   project: Project;
+  triggerPrint?: (mode: any) => void;
 }
 
 interface AggregatedResource {
@@ -16,7 +18,7 @@ interface AggregatedResource {
   totalCost: number;
 }
 
-export default function ResourceSummary({ project }: ResourceSummaryProps) {
+export default function ResourceSummary({ project, triggerPrint }: ResourceSummaryProps) {
   const materialsMap: Record<string, AggregatedResource> = {};
   const laborMap: Record<string, AggregatedResource> = {};
   const toolsMap: Record<string, AggregatedResource> = {};
@@ -82,14 +84,25 @@ export default function ResourceSummary({ project }: ResourceSummaryProps) {
   const toolPercent = totalResourceCost > 0 ? (totalToolsCost / totalResourceCost) * 100 : 0;
 
   return (
-    <div className="space-y-8 bg-white dark:bg-zinc-950 p-6 rounded-2xl border border-zinc-200 dark:border-zinc-800 shadow-sm print:p-0 print:border-none print:shadow-none">
-      <div className="border-b border-zinc-100 dark:border-zinc-800 pb-4 print:pb-2 print:border-b-2 print:border-zinc-800 flex justify-between items-end flex-wrap gap-2">
+    <div className="space-y-8 bg-white dark:bg-zinc-955 p-6 rounded-2xl border border-zinc-200 dark:border-zinc-800 shadow-sm print:p-0 print:border-none print:shadow-none">
+      <div className="border-b border-zinc-150 dark:border-zinc-800 pb-4 print:pb-2 print:border-b-2 print:border-zinc-800 flex justify-between items-end flex-wrap gap-2">
         <div>
           <h2 className="text-lg font-bold tracking-tight text-zinc-900 dark:text-zinc-50 uppercase print:text-center print:text-lg">Komparasi & Rekapitulasi Sumber Daya</h2>
           <p className="text-xs text-zinc-500 mt-1 print:hidden">Rangkuman akumulatif seluruh bahan baku, upah kerja, dan biaya sewa peralatan hasil ekstraksi koefisien AHSP SNI.</p>
         </div>
-        <div className="text-[10px] bg-zinc-50 dark:bg-zinc-900 text-zinc-500 border border-zinc-200 dark:border-zinc-800 px-2.5 py-1 rounded-lg print:hidden font-semibold">
-          Teranalisa AHSP: {itemsWithAhspCount} dari {totalItemsCount} item ({totalItemsCount > 0 ? ((itemsWithAhspCount / totalItemsCount) * 100).toFixed(0) : 0}%)
+        <div className="flex items-center gap-2 print:hidden">
+          <div className="text-[10px] bg-zinc-50 dark:bg-zinc-900 text-zinc-500 border border-zinc-200 dark:border-zinc-800 px-2.5 py-1 rounded-lg font-semibold">
+            Teranalisa AHSP: {itemsWithAhspCount} dari {totalItemsCount} item ({totalItemsCount > 0 ? ((itemsWithAhspCount / totalItemsCount) * 100).toFixed(0) : 0}%)
+          </div>
+          {triggerPrint && (
+            <button
+              onClick={() => triggerPrint("resource-only")}
+              type="button"
+              className="text-[11px] font-semibold bg-zinc-50 hover:bg-zinc-100 dark:bg-zinc-900 dark:hover:bg-zinc-800 border border-zinc-200 dark:border-zinc-800 rounded-lg px-2.5 py-1 flex items-center gap-1.5 shadow-sm transition-all"
+            >
+              <Printer className="w-3.5 h-3.5" /> Cetak Kebutuhan
+            </button>
+          )}
         </div>
       </div>
 

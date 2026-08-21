@@ -9,11 +9,16 @@ interface AddendumDetailProps {
   addendumTotal: number;
   onClose: () => void;
   onDelete: () => void;
+  triggerPrint?: (mode: any, subId?: string | null, itemId?: string | null) => void;
 }
 
-export default function AddendumDetail({ addendum, addendumTotal, onClose, onDelete }: AddendumDetailProps) {
+export default function AddendumDetail({ addendum, addendumTotal, onClose, onDelete, triggerPrint }: AddendumDetailProps) {
   const handlePrint = () => {
-    window.print();
+    if (triggerPrint) {
+      triggerPrint("addendum-only", null, addendum.id);
+    } else {
+      window.print();
+    }
   };
 
   return (

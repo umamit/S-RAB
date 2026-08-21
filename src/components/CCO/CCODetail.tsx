@@ -11,13 +11,22 @@ interface CCODetailProps {
   ccoTotal: number;
   onClose: () => void;
   onDelete: () => void;
+  triggerPrint?: (mode: any, subId?: string | null, itemId?: string | null) => void;
 }
 
-export default function CCODetail({ cco, projectId, ccoTotal, onClose, onDelete }: CCODetailProps) {
+export default function CCODetail({ cco, projectId, ccoTotal, onClose, onDelete, triggerPrint }: CCODetailProps) {
   const { updateCCOStatus } = useRABStore();
 
   const handleStatusChange = (newStatus: CCOStatus) => {
     updateCCOStatus(projectId, cco.id, newStatus);
+  };
+
+  const handlePrint = () => {
+    if (triggerPrint) {
+      triggerPrint("cco-only", null, cco.id);
+    } else {
+      window.print();
+    }
   };
 
   return (
@@ -36,7 +45,7 @@ export default function CCODetail({ cco, projectId, ccoTotal, onClose, onDelete 
             <option value="Disetujui">Disetujui</option>
             <option value="Ditolak">Ditolak</option>
           </select>
-          <button onClick={() => window.print()} className="px-3 py-1.5 bg-zinc-205 hover:bg-zinc-300 dark:bg-zinc-800 dark:hover:bg-zinc-700 text-zinc-700 dark:text-zinc-300 font-bold rounded-lg text-[11px] flex items-center gap-1">
+          <button onClick={handlePrint} className="px-3 py-1.5 bg-zinc-205 hover:bg-zinc-300 dark:bg-zinc-800 dark:hover:bg-zinc-700 text-zinc-700 dark:text-zinc-300 font-bold rounded-lg text-[11px] flex items-center gap-1">
             <Printer className="w-3.5 h-3.5" /> Cetak
           </button>
           <button onClick={onDelete} className="px-3 py-1.5 bg-red-650 hover:bg-red-700 text-white font-bold rounded-lg text-[11px] flex items-center gap-1">

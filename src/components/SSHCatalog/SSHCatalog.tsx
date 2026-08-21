@@ -1,14 +1,15 @@
 "use client";
 import { useState } from "react";
 import { Project, useRABStore } from "@/lib/store";
-import { Coins, Search } from "lucide-react";
+import { Coins, Search, Printer } from "lucide-react";
 import SSHTable, { SSHResource } from "./SSHTable";
 
 interface SSHCatalogProps {
   project: Project;
+  triggerPrint?: (mode: any) => void;
 }
 
-export default function SSHCatalog({ project }: SSHCatalogProps) {
+export default function SSHCatalog({ project, triggerPrint }: SSHCatalogProps) {
   const updateGlobalResourcePrice = useRABStore((state) => state.updateGlobalResourcePrice);
   const [searchTerm, setSearchTerm] = useState("");
   const [editingKey, setEditingKey] = useState<string | null>(null);
@@ -73,23 +74,34 @@ export default function SSHCatalog({ project }: SSHCatalogProps) {
 
   return (
     <div className="space-y-6">
-      <div className="flex flex-col sm:flex-row gap-4 justify-between items-start sm:items-center bg-white dark:bg-zinc-950 p-5 rounded-2xl border border-zinc-200 dark:border-zinc-800 shadow-sm">
+      <div className="flex flex-col sm:flex-row gap-4 justify-between items-start sm:items-center bg-white dark:bg-zinc-950 p-5 rounded-2xl border border-zinc-200 dark:border-zinc-800 shadow-sm print:border-none print:shadow-none print:p-0">
         <div className="space-y-1">
           <h2 className="text-md font-bold tracking-tight text-zinc-900 dark:text-zinc-50 flex items-center gap-2">
-            <Coins className="w-5 h-5 text-amber-500" />
+            <Coins className="w-5 h-5 text-amber-500 print:hidden" />
             Kamus Harga SSH Global (Master Price List)
           </h2>
           <p className="text-xs text-zinc-500 dark:text-zinc-400">
             Daftar harga satuan dasar eceran untuk semua bahan baku, upah kerja, dan alat yang digunakan dalam seluruh analisa AHSP proyek ini.
           </p>
         </div>
-        {hasAnyResources && (
-          <div className="relative max-w-xs w-full">
-            <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-zinc-400" />
-            <input type="text" placeholder="Cari bahan/upah..." value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full pl-9 pr-4 py-2 bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-lg text-xs focus:outline-none focus:ring-1 focus:ring-zinc-400" />
-          </div>
-        )}
+        <div className="flex items-center gap-2 max-w-sm w-full print:hidden">
+          {hasAnyResources && (
+            <div className="relative flex-1">
+              <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-zinc-400" />
+              <input type="text" placeholder="Cari bahan/upah..." value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)}
+                className="w-full pl-9 pr-4 py-2 bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-lg text-xs focus:outline-none focus:ring-1 focus:ring-zinc-400" />
+            </div>
+          )}
+          {triggerPrint && hasAnyResources && (
+            <button
+              onClick={() => triggerPrint("ssh-only")}
+              type="button"
+              className="text-[11px] font-semibold bg-zinc-50 hover:bg-zinc-100 dark:bg-zinc-900 dark:hover:bg-zinc-800 border border-zinc-200 dark:border-zinc-800 rounded-lg px-2.5 py-2 flex items-center gap-1.5 shadow-sm transition-all"
+            >
+              <Printer className="w-3.5 h-3.5" /> Cetak SSH
+            </button>
+          )}
+        </div>
       </div>
 
       {!hasAnyResources ? (

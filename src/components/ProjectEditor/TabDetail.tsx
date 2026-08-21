@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import { Plus } from "lucide-react";
+import { Plus, Printer } from "lucide-react";
 import type { Project } from "@/lib/store";
 import { useRABStore } from "@/lib/store";
 import { formatRupiah } from "@/lib/excel-export";
@@ -11,9 +11,10 @@ import type { EditState, CatEditState } from "./types";
 interface TabDetailProps {
   project: Project;
   totalDirectCost: number;
+  triggerPrint: (mode: any, subId?: string | null) => void;
 }
 
-export default function TabDetail({ project, totalDirectCost }: TabDetailProps) {
+export default function TabDetail({ project, totalDirectCost, triggerPrint }: TabDetailProps) {
   const { addCategory, deleteCategory, updateCategory, addItem, setActiveSubProject, addSubProject } = useRABStore();
   const [editState, setEditState] = useState<EditState>(null);
   const [editVal, setEditVal] = useState("");
@@ -85,9 +86,18 @@ export default function TabDetail({ project, totalDirectCost }: TabDetailProps) 
 
       {/* Categories & Items */}
       <div className="space-y-8 bg-white dark:bg-zinc-955 p-6 rounded-2xl border border-zinc-200 dark:border-zinc-800 shadow-sm">
-        <div className="border-b border-zinc-150 dark:border-zinc-800 pb-4">
-          <h2 className="text-lg font-bold tracking-tight text-zinc-900 dark:text-zinc-50 uppercase">Rincian: {activeSubProject.name}</h2>
-          <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-1">Sel dengan garis bawah putus-putus dikalkulasi oleh Harga Satuan SNI.</p>
+        <div className="border-b border-zinc-150 dark:border-zinc-800 pb-4 flex justify-between items-start">
+          <div>
+            <h2 className="text-lg font-bold tracking-tight text-zinc-900 dark:text-zinc-50 uppercase">Rincian: {activeSubProject.name}</h2>
+            <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-1">Sel dengan garis bawah putus-putus dikalkulasi oleh Harga Satuan SNI.</p>
+          </div>
+          <button
+            onClick={() => triggerPrint("single-sub", activeSubProject.id)}
+            type="button"
+            className="text-[11px] font-semibold bg-zinc-50 hover:bg-zinc-100 dark:bg-zinc-900 dark:hover:bg-zinc-800 border border-zinc-200 dark:border-zinc-800 rounded-lg px-2.5 py-1.5 flex items-center gap-1.5 text-zinc-700 dark:text-zinc-300 shadow-sm transition-all"
+          >
+            <Printer className="w-3.5 h-3.5" /> Cetak Divisi
+          </button>
         </div>
 
         <div className="space-y-6">
@@ -96,24 +106,12 @@ export default function TabDetail({ project, totalDirectCost }: TabDetailProps) 
             const categoryWeight = totalDirectCost > 0 ? (categorySubtotal / totalDirectCost) * 100 : 0;
             return (
               <ItemRow
-                key={category.id}
-                project={project}
-                category={category}
-                activeSubProject={activeSubProject}
-                totalDirectCost={totalDirectCost}
-                categorySubtotal={categorySubtotal}
-                categoryWeight={categoryWeight}
-                editState={editState}
-                setEditState={setEditState}
-                editVal={editVal}
-                setEditVal={setEditVal}
-                catEditState={catEditState}
-                setCatEditState={setCatEditState}
-                catEditVal={catEditVal}
-                setCatEditVal={setCatEditVal}
-                ahspItem={ahspItem}
-                setAhspItem={setAhspItem}
-                onCategorySave={handleCategorySave}
+                key={category.id} project={project} category={category}
+                activeSubProject={activeSubProject} totalDirectCost={totalDirectCost}
+                categorySubtotal={categorySubtotal} categoryWeight={categoryWeight}
+                editState={editState} setEditState={setEditState} editVal={editVal} setEditVal={setEditVal}
+                catEditState={catEditState} setCatEditState={setCatEditState} catEditVal={catEditVal} setCatEditVal={setCatEditVal}
+                ahspItem={ahspItem} setAhspItem={setAhspItem} onCategorySave={handleCategorySave}
                 onAddItem={() => {
                   if (activeSubProject) addItem(project.id, activeSubProject.id, category.id, { name: "Item baru (klik untuk edit)", unit: "m'", quantity: 1, unitPrice: 100000 });
                 }}

@@ -71,13 +71,18 @@ export default function SSHTable({
                         className="w-32 px-2 py-1 text-right bg-zinc-50 dark:bg-zinc-900 border border-zinc-300 dark:border-zinc-700 rounded text-xs focus:outline-none focus:ring-1 focus:ring-zinc-400"
                       />
                     ) : (
-                      <button
-                        onClick={() => onStartEdit(key, r.unitPrice)}
-                        className="hover:bg-zinc-100 dark:hover:bg-zinc-850 px-2.5 py-1 rounded transition-colors group inline-flex items-center gap-1.5 text-zinc-900 dark:text-zinc-100 font-semibold"
-                      >
-                        {formatRupiah(r.unitPrice)}
-                        <Edit2 className="w-3 h-3 text-zinc-400 opacity-0 group-hover:opacity-100 transition-opacity" />
-                      </button>
+                      <>
+                        <button
+                          onClick={() => onStartEdit(key, r.unitPrice)}
+                          className="hover:bg-zinc-100 dark:hover:bg-zinc-850 px-2.5 py-1 rounded transition-colors group inline-flex items-center gap-1.5 text-zinc-900 dark:text-zinc-100 font-semibold print:hidden"
+                        >
+                          {formatRupiah(r.unitPrice)}
+                          <Edit2 className="w-3 h-3 text-zinc-400 opacity-0 group-hover:opacity-100 transition-opacity" />
+                        </button>
+                        <span className="hidden print:inline text-zinc-900 dark:text-zinc-100 font-semibold">
+                          {formatRupiah(r.unitPrice)}
+                        </span>
+                      </>
                     )}
                   </td>
                 </tr>

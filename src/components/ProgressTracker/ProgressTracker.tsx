@@ -6,12 +6,14 @@ import ProgressKPI from "./ProgressKPI";
 import ProgressTable, { ProgressCategory } from "./ProgressTable";
 import DeviationAlert from "./DeviationAlert";
 import BudgetAlert from "./BudgetAlert";
+import { Printer } from "lucide-react";
 
 interface ProgressTrackerProps {
   project: Project;
+  triggerPrint?: (mode: any) => void;
 }
 
-export default function ProgressTracker({ project }: ProgressTrackerProps) {
+export default function ProgressTracker({ project, triggerPrint }: ProgressTrackerProps) {
   const { updateWeeklyProgress, updateWeeklyFinancial } = useRABStore();
   const numWeeks = project.durationWeeks || 12;
   const [selectedWeek, setSelectedWeek] = useState(1);
@@ -27,18 +29,11 @@ export default function ProgressTracker({ project }: ProgressTrackerProps) {
   }
 
   const allCategories: ProgressCategory[] = project.subProjects.flatMap((sub) =>
-    sub.categories.map((cat) => {
-      const catSubtotal = cat.items.reduce((sum, item) => sum + item.total, 0);
-      return {
-        subProjectId: sub.id,
-        subProjectName: sub.name,
-        categoryId: cat.id,
-        categoryName: cat.name,
-        weight: totalProjectDirectCost > 0 ? (catSubtotal / totalProjectDirectCost) * 100 : 0,
-        startWeek: cat.startWeek || 1,
-        durationWeeks: cat.durationWeeks || 1,
-      };
-    })
+    sub.categories.map((cat) => ({
+      subProjectId: sub.id, subProjectName: sub.name, categoryId: cat.id, categoryName: cat.name,
+      weight: totalProjectDirectCost > 0 ? (cat.items.reduce((sum, item) => sum + item.total, 0) / totalProjectDirectCost) * 100 : 0,
+      startWeek: cat.startWeek || 1, durationWeeks: cat.durationWeeks || 1,
+    }))
   );
 
   const weeklyPlannedWeights = Array(numWeeks).fill(0);
@@ -101,19 +96,30 @@ export default function ProgressTracker({ project }: ProgressTrackerProps) {
   return (
     <div className="space-y-8 bg-white dark:bg-zinc-950 p-6 rounded-2xl border border-zinc-200 dark:border-zinc-800 shadow-sm print:p-0 print:border-none print:shadow-none">
       <BudgetAlert isOverBudget={isOverBudget} budgetDeficit={budgetDeficit} />
-      <div className="border-b border-zinc-100 dark:border-zinc-800 pb-4 print:pb-2 print:border-b-2 print:border-zinc-800 flex justify-between items-baseline flex-wrap gap-2">
+      <div className="border-b border-zinc-150 dark:border-zinc-800 pb-4 print:pb-2 print:border-b-2 print:border-zinc-800 flex justify-between items-baseline flex-wrap gap-2">
         <div>
           <h2 className="text-lg font-bold tracking-tight text-zinc-900 dark:text-zinc-50 uppercase print:text-center print:text-lg">Laporan Progres Fisik Bulanan / Mingguan</h2>
           <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-1 print:hidden">Input persentase realisasi penyelesaian kumulatif pekerjaan di lapangan untuk memantau keterlambatan proyek.</p>
         </div>
-        <div className="flex items-center gap-2 text-xs font-semibold text-zinc-700 dark:text-zinc-300 print:hidden">
-          <label htmlFor="progress-week-select" className="uppercase tracking-wider">Pilih Minggu Evaluasi:</label>
-          <select id="progress-week-select" value={selectedWeek} onChange={(e) => setSelectedWeek(parseInt(e.target.value) || 1)}
-            className="bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-lg px-3 py-1 font-bold focus:outline-none">
-            {Array(numWeeks).fill(0).map((_, idx) => (
-              <option key={idx + 1} value={idx + 1}>Minggu ke-{idx + 1}</option>
-            ))}
-          </select>
+        <div className="flex items-center gap-3 text-xs font-semibold text-zinc-700 dark:text-zinc-300 print:hidden">
+          <div className="flex items-center gap-2">
+            <label htmlFor="progress-week-select" className="uppercase tracking-wider">Pilih Minggu Evaluasi:</label>
+            <select id="progress-week-select" value={selectedWeek} onChange={(e) => setSelectedWeek(parseInt(e.target.value) || 1)}
+              className="bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-lg px-3 py-1 font-bold focus:outline-none">
+              {Array(numWeeks).fill(0).map((_, idx) => (
+                <option key={idx + 1} value={idx + 1}>Minggu ke-{idx + 1}</option>
+              ))}
+            </select>
+          </div>
+          {triggerPrint && (
+            <button
+              onClick={() => triggerPrint("progress-only")}
+              type="button"
+              className="text-[11px] font-semibold bg-zinc-50 hover:bg-zinc-100 dark:bg-zinc-900 dark:hover:bg-zinc-800 border border-zinc-200 dark:border-zinc-800 rounded-lg px-2.5 py-1.5 flex items-center gap-1.5 shadow-sm transition-all"
+            >
+              <Printer className="w-3.5 h-3.5" /> Cetak Progress
+            </button>
+          )}
         </div>
       </div>
 

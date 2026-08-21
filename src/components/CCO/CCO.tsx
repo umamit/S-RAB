@@ -6,13 +6,14 @@ import { formatRupiah } from "@/lib/excel-export";
 import CCOForm from "./CCOForm";
 import CCODetail from "./CCODetail";
 import CCOStatusBadge from "./CCOStatusBadge";
-import { Layers } from "lucide-react";
+import { Layers, Printer } from "lucide-react";
 
 interface CCOProps {
   project: Project;
+  triggerPrint?: (mode: any, subId?: string | null, itemId?: string | null) => void;
 }
 
-export default function CCO({ project }: CCOProps) {
+export default function CCO({ project, triggerPrint }: CCOProps) {
   const { deleteCCO } = useRABStore();
   const [showForm, setShowForm] = useState(false);
   const [selectedCCO, setSelectedCCO] = useState<CCOType | null>(null);
@@ -87,6 +88,7 @@ export default function CCO({ project }: CCOProps) {
           ccoTotal={calculateCCOTotal(selectedCCO)}
           onClose={() => setSelectedCCO(null)}
           onDelete={() => handleDelete(selectedCCO.id)}
+          triggerPrint={triggerPrint}
         />
       ) : (
         <div className="space-y-4">
@@ -117,6 +119,15 @@ export default function CCO({ project }: CCOProps) {
                       >
                         Detail
                       </button>
+                      {triggerPrint && (
+                        <button
+                          onClick={() => triggerPrint("cco-only", null, c.id)}
+                          type="button"
+                          className="p-1 hover:text-zinc-950 dark:hover:text-zinc-50 text-zinc-400"
+                        >
+                          <Printer className="w-3.5 h-3.5" />
+                        </button>
+                      )}
                       <button onClick={() => handleDelete(c.id)} className="text-zinc-300 hover:text-red-500 p-1 transition-colors">
                         ✕
                       </button>

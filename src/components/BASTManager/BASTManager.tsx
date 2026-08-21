@@ -6,9 +6,10 @@ import BASTPrintView from "./BASTPrintView";
 
 interface BASTManagerProps {
   project: Project;
+  triggerPrint: (mode: any) => void;
 }
 
-export default function BASTManager({ project }: BASTManagerProps) {
+export default function BASTManager({ project, triggerPrint }: BASTManagerProps) {
   const { updateProject } = useRABStore();
   const [number, setNumber] = useState(project.bastDetails?.number || "");
   const [date, setDate] = useState(project.bastDetails?.date || new Date().toISOString().split("T")[0]);
@@ -34,7 +35,7 @@ export default function BASTManager({ project }: BASTManagerProps) {
   };
 
   const handlePrint = () => {
-    window.print();
+    triggerPrint("bast-only");
   };
 
   return (

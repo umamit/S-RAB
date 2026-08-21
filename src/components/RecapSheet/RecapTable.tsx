@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import { formatRupiah } from "@/lib/excel-export";
-import { Settings, Trash2 } from "lucide-react";
+import { Settings, Trash2, Printer } from "lucide-react";
 import type { Addendum, CCO } from "@/lib/store";
 import RecapTotals from "./RecapTotals";
 
@@ -30,6 +30,7 @@ interface RecapTableProps {
   onKeyDown: (e: React.KeyboardEvent, id: string) => void;
   onSetActiveSub: (id: string) => void;
   onDeleteSub: (id: string, name: string) => void;
+  triggerPrint?: (mode: any, subId?: string | null) => void;
 }
 
 export default function RecapTable({
@@ -51,6 +52,7 @@ export default function RecapTable({
   onKeyDown,
   onSetActiveSub,
   onDeleteSub,
+  triggerPrint,
 }: RecapTableProps) {
   return (
     <div className="border border-zinc-200 dark:border-zinc-800 rounded-xl overflow-hidden shadow-sm print:shadow-none print:border-none print:rounded-none">
@@ -79,7 +81,12 @@ export default function RecapTable({
                     <div className="flex items-center gap-2">
                       <button onClick={() => onSetActiveSub(sub.id)} type="button" className="hover:underline text-left hover:text-zinc-950 dark:hover:text-zinc-50 print:hidden">{sub.name.toUpperCase()}</button>
                       <span className="hidden print:inline">{sub.name.toUpperCase()}</span>
-                      <button onClick={() => onStartEdit(sub.id, sub.name)} type="button" className="text-zinc-400 hover:text-zinc-650 dark:hover:text-zinc-355 p-1 opacity-0 group-hover:opacity-100 transition-opacity print:hidden"><Settings className="w-3.5 h-3.5" /></button>
+                      <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity print:hidden">
+                        <button onClick={() => onStartEdit(sub.id, sub.name)} type="button" className="text-zinc-400 hover:text-zinc-650 dark:hover:text-zinc-355 p-1"><Settings className="w-3.5 h-3.5" /></button>
+                        {triggerPrint && (
+                          <button onClick={() => triggerPrint("single-sub", sub.id)} type="button" className="text-zinc-400 hover:text-zinc-650 dark:hover:text-zinc-355 p-1"><Printer className="w-3.5 h-3.5" /></button>
+                        )}
+                      </div>
                     </div>
                   )}
                 </td>

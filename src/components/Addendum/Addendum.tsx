@@ -5,13 +5,14 @@ import { useRABStore } from "@/lib/store";
 import { formatRupiah } from "@/lib/excel-export";
 import AddendumForm from "./AddendumForm";
 import AddendumDetail from "./AddendumDetail";
-import { Layers } from "lucide-react";
+import { Layers, Printer } from "lucide-react";
 
 interface AddendumProps {
   project: Project;
+  triggerPrint?: (mode: any, subId?: string | null, itemId?: string | null) => void;
 }
 
-export default function Addendum({ project }: AddendumProps) {
+export default function Addendum({ project, triggerPrint }: AddendumProps) {
   const { deleteAddendum } = useRABStore();
   const [showForm, setShowForm] = useState(false);
   const [selectedAddendum, setSelectedAddendum] = useState<AddendumType | null>(null);
@@ -87,6 +88,7 @@ export default function Addendum({ project }: AddendumProps) {
           addendumTotal={calculateAddendumTotal(selectedAddendum)}
           onClose={() => setSelectedAddendum(null)}
           onDelete={() => handleDelete(selectedAddendum.id)}
+          triggerPrint={triggerPrint}
         />
       ) : (
         <div className="space-y-4">
@@ -114,6 +116,15 @@ export default function Addendum({ project }: AddendumProps) {
                       >
                         Detail
                       </button>
+                      {triggerPrint && (
+                        <button
+                          onClick={() => triggerPrint("addendum-only", null, add.id)}
+                          type="button"
+                          className="p-1 hover:text-zinc-950 dark:hover:text-zinc-50 text-zinc-400"
+                        >
+                          <Printer className="w-3.5 h-3.5" />
+                        </button>
+                      )}
                       <button
                         onClick={() => handleDelete(add.id)}
                         className="text-zinc-300 hover:text-red-500 p-1 transition-colors"
