@@ -11,6 +11,7 @@ import Addendum from "@/components/Addendum";
 import CCO from "@/components/CCO";
 import BASTPrintView from "@/components/BASTManager/BASTPrintView";
 import PrintSubProject from "./PrintSubProject";
+import ScheduleManager from "@/components/ScheduleManager";
 
 interface PrintViewProps {
   project: Project;
@@ -32,6 +33,7 @@ export default function PrintView({
   const showProgress = printMode === "all" || printMode === "progress-only";
   const showResource = printMode === "all" || printMode === "resource-only";
   const showSSH = printMode === "ssh-only";
+  const showSchedule = printMode === "schedule-only";
   const showTermin = printMode === "termin-only";
   const showAddendum = printMode === "addendum-only";
   const showCCO = printMode === "cco-only";
@@ -86,6 +88,13 @@ export default function PrintView({
       {showSSH && (
         <div className="space-y-4">
           <SSHCatalog project={project} />
+        </div>
+      )}
+
+      {/* Schedule & S-Curve */}
+      {showSchedule && (
+        <div className="space-y-4">
+          <ScheduleManager project={project} />
         </div>
       )}
 

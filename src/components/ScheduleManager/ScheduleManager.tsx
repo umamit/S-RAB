@@ -11,9 +11,10 @@ import GanttChart from "./GanttChart";
 
 interface ScheduleManagerProps {
   project: Project;
+  triggerPrint?: (mode: any) => void;
 }
 
-export default function ScheduleManager({ project }: ScheduleManagerProps) {
+export default function ScheduleManager({ project, triggerPrint }: ScheduleManagerProps) {
   const { updateCategorySchedule, updateProjectDuration } = useRABStore();
   const { directCost: totalProjectDirectCost } = calculateProjectTotals(project);
   const numWeeks = project.durationWeeks || 12;
@@ -82,7 +83,7 @@ export default function ScheduleManager({ project }: ScheduleManagerProps) {
 
   return (
     <div className="space-y-8 bg-white dark:bg-zinc-950 p-6 rounded-2xl border border-zinc-200 dark:border-zinc-800 shadow-sm print:p-0 print:border-none print:shadow-none">
-      <ScheduleHeader numWeeks={numWeeks} onDurationChange={handleDurationChange} />
+      <ScheduleHeader numWeeks={numWeeks} onDurationChange={handleDurationChange} triggerPrint={triggerPrint} />
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <SCurveChart
           totalProjectDirectCost={totalProjectDirectCost}

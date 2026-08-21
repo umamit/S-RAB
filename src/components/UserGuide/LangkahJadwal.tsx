@@ -23,6 +23,10 @@ export default function LangkahJadwal() {
           <strong className="text-zinc-850 dark:text-zinc-200 block mb-0.5">Visualisasi Gantt Chart Real-Time:</strong>
           Di bawah Kurva S, sistem menyediakan visualisasi **Gantt Chart**. Grafik ini menggambarkan bar jadwal rencana (abu-abu/gelap) dan menumpangkan bar progres fisik riil lapangan (hijau/kuning) secara langsung di tiap sel minggu. Ini memudahkan verifikasi deviasi kemajuan fisik per item kategori pekerjaan secara visual.
         </div>
+        <div className="border-t border-zinc-150 dark:border-zinc-800/80 pt-2 mt-2">
+          <strong className="text-zinc-850 dark:text-zinc-200 block mb-0.5">Mencetak Jadwal &amp; Kurva S (PDF):</strong>
+          Klik tombol <strong>Cetak Jadwal</strong> di kanan atas tab Jadwal untuk langsung mencetak linimasa Kurva S, tabel alokasi bobot mingguan, dan Gantt Chart ke format PDF siap lampir.
+        </div>
       </LangkahCard>
 
       {/* Section 3: Laporan Harian */}

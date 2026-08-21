@@ -29,6 +29,7 @@ export type PrintMode =
   | "addendum-only" 
   | "cco-only" 
   | "ssh-only"
+  | "schedule-only"
   | "termin-only";
 
 interface ProjectEditorProps {
@@ -65,7 +66,7 @@ export default function ProjectEditor({ project }: ProjectEditorProps) {
       {/* Screen View */}
       <div className="print:hidden">
         {activeTab === "recap"    && <RecapSheet project={project} triggerPrint={triggerPrint} />}
-        {activeTab === "schedule" && <ScheduleManager project={project} />}
+        {activeTab === "schedule" && <ScheduleManager project={project} triggerPrint={triggerPrint} />}
         {activeTab === "daily"    && <DailyLogManager project={project} triggerPrint={triggerPrint} />}
         {activeTab === "progress" && <ProgressTracker project={project} triggerPrint={triggerPrint} />}
         {activeTab === "termin"   && <PaymentTerms project={project} triggerPrint={triggerPrint} />}

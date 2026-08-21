@@ -1,12 +1,13 @@
-"use client";
 import React from "react";
+import { Printer } from "lucide-react";
 
 interface ScheduleHeaderProps {
   numWeeks: number;
   onDurationChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  triggerPrint?: (mode: any) => void;
 }
 
-export default function ScheduleHeader({ numWeeks, onDurationChange }: ScheduleHeaderProps) {
+export default function ScheduleHeader({ numWeeks, onDurationChange, triggerPrint }: ScheduleHeaderProps) {
   return (
     <div className="border-b border-zinc-100 dark:border-zinc-800 pb-4 print:pb-2 print:border-b-2 print:border-zinc-800 flex justify-between items-baseline flex-wrap gap-2">
       <div>
@@ -18,18 +19,30 @@ export default function ScheduleHeader({ numWeeks, onDurationChange }: ScheduleH
         </p>
       </div>
 
-      <div className="flex items-center gap-2 text-xs font-semibold text-zinc-700 dark:text-zinc-300 print:hidden">
-        <label htmlFor="proj-duration-input" className="uppercase tracking-wider">Durasi Proyek:</label>
-        <input
-          id="proj-duration-input"
-          type="number"
-          min={4}
-          max={26}
-          value={numWeeks}
-          onChange={onDurationChange}
-          className="w-16 px-2 py-1 bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-lg text-center"
-        />
-        <span>Minggu</span>
+      <div className="flex items-center gap-3 text-xs font-semibold text-zinc-700 dark:text-zinc-300 print:hidden">
+        <div className="flex items-center gap-2">
+          <label htmlFor="proj-duration-input" className="uppercase tracking-wider">Durasi Proyek:</label>
+          <input
+            id="proj-duration-input"
+            type="number"
+            min={4}
+            max={26}
+            value={numWeeks}
+            onChange={onDurationChange}
+            className="w-16 px-2 py-1 bg-zinc-50 dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-lg text-center"
+          />
+          <span>Minggu</span>
+        </div>
+
+        {triggerPrint && (
+          <button
+            onClick={() => triggerPrint("schedule-only")}
+            type="button"
+            className="text-[11px] font-semibold bg-zinc-50 hover:bg-zinc-100 dark:bg-zinc-900 dark:hover:bg-zinc-800 border border-zinc-200 dark:border-zinc-800 rounded-lg px-2.5 py-1.5 flex items-center gap-1.5 shadow-sm transition-all"
+          >
+            <Printer className="w-3.5 h-3.5" /> Cetak Jadwal
+          </button>
+        )}
       </div>
     </div>
   );
