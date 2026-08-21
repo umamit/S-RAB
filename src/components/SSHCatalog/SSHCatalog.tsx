@@ -74,7 +74,7 @@ export default function SSHCatalog({ project, triggerPrint }: SSHCatalogProps) {
 
   return (
     <div className="space-y-6">
-      <div className="flex flex-col sm:flex-row gap-4 justify-between items-start sm:items-center bg-white dark:bg-zinc-950 p-5 rounded-2xl border border-zinc-200 dark:border-zinc-800 shadow-sm print:border-none print:shadow-none print:p-0">
+      <div className="flex flex-col lg:flex-row gap-4 justify-between items-start lg:items-center bg-white dark:bg-zinc-950 p-5 rounded-2xl border border-zinc-200 dark:border-zinc-800 shadow-sm print:border-none print:shadow-none print:p-0">
         <div className="space-y-1">
           <h2 className="text-md font-bold tracking-tight text-zinc-900 dark:text-zinc-50 flex items-center gap-2">
             <Coins className="w-5 h-5 text-amber-500 print:hidden" />

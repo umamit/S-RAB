@@ -24,7 +24,7 @@ export default function TemplateSelector({ customTemplates, onApplyTemplate }: T
   };
 
   return (
-    <div className="px-6 py-4 border-b border-zinc-100 dark:border-zinc-900 flex flex-col sm:flex-row gap-3 items-start sm:items-center bg-white dark:bg-zinc-950">
+    <div className="px-6 py-4 border-b border-zinc-100 dark:border-zinc-900 flex flex-col md:flex-row gap-3 items-start md:items-center bg-white dark:bg-zinc-950">
       <label htmlFor="ahsp-preset" className="text-xs font-semibold text-zinc-500 dark:text-zinc-400 uppercase tracking-wider shrink-0">
         Gunakan Template:
       </label>

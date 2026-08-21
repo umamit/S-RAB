@@ -16,7 +16,7 @@ export default function FilterBar({
   setSortBy,
 }: FilterBarProps) {
   return (
-    <div className="flex flex-col sm:flex-row gap-3 items-center justify-between bg-white dark:bg-zinc-950 p-4 rounded-xl border border-zinc-200 dark:border-zinc-800 shadow-xs text-xs">
+    <div className="flex flex-col md:flex-row flex-wrap gap-3 items-center justify-between bg-white dark:bg-zinc-950 p-4 rounded-xl border border-zinc-200 dark:border-zinc-800 shadow-xs text-xs">
       <div className="relative w-full sm:max-w-xs">
         <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
           <Search className="w-3.5 h-3.5 text-zinc-400" />
