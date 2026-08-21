@@ -45,7 +45,7 @@ export default function Header({ onOpenNewProjectModal }: HeaderProps) {
   };
 
   return (
-    <header className="sticky top-0 z-30 w-full border-b border-zinc-200 dark:border-zinc-800 bg-white/80 dark:bg-zinc-950/80 backdrop-blur-md px-6 py-4 flex flex-col sm:flex-row gap-4 justify-between items-center">
+    <header className="sticky top-0 z-30 w-full border-b border-zinc-200 dark:border-zinc-800 bg-white/80 dark:bg-zinc-950/80 backdrop-blur-md px-6 py-4 flex flex-col lg:flex-row gap-4 justify-between items-center">
       <div className="flex items-center gap-3">
         <img src="/logo.png" alt="S-RAB Logo" className="w-9 h-9 object-contain rounded-lg shadow-sm" />
         <div>
