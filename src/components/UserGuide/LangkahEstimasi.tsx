@@ -44,6 +44,14 @@ export default function LangkahEstimasi() {
           <strong className="text-zinc-850 dark:text-zinc-200 block mb-0.5">Pajak Pertambahan Nilai (PPN) &amp; PPh Final 4(2):</strong>
           Di bagian **Parameter Proyek**, Anda dapat mengatur tarif PPN (default 12%) dan tarif PPh Final Pasal 4 Ayat (2) atas Jasa Konstruksi (kategori kecil 2%, menengah/besar 3%, non-SBU 4%). Nilai potongan PPh 4(2) final dan nilai bersih kontrak setelah dipotong pajak akan otomatis dihitung di bawah Grand Total Rekapitulasi.
         </div>
+        <div className="border-t border-zinc-150 dark:border-zinc-800/80 pt-2 mt-2">
+          <strong className="text-zinc-850 dark:text-zinc-200 block mb-0.5">🤖 AI Smart BOQ Parser (Groq GPT OSS 120B + RAG):</strong>
+          Klik tombol <strong>🤖 AI Smart Parser</strong> di kanan atas tab Rincian Detail (BOQ). Anda dapat menempelkan teks daftar kuantitas mentah atau mengunggah file CSV. Sistem bertenaga Groq AI LPU akan mengurai kategori, item, volume, serta memetakan template <strong>AHSP SNI PUPR</strong> yang relevan secara otomatis dalam waktu &lt; 1 detik.
+        </div>
+        <div className="border-t border-zinc-150 dark:border-zinc-800/80 pt-2 mt-2">
+          <strong className="text-zinc-850 dark:text-zinc-200 block mb-0.5">📐 Kalkulator Dimensi Cepat (Quick Take-Off):</strong>
+          Arahkan kursor ke sel kolom <strong>Volume</strong> pada baris item pekerjaan dan klik ikon kalkulator <strong>📐</strong>. Tersedia 3 formula praktis: <em>Dinding ($m^2$)</em> dengan pengurang bukaan pintu/jendela, <em>Kubikasi Beton/Pondasi ($m^3$)</em>, dan <em>Lantai/Plafon ($m^2$)</em> dengan faktor <em>waste</em> (%). Klik <strong>Terapkan Volume</strong> untuk mengisi volume tabel secara instan.
+        </div>
       </LangkahCard>
 
       {/* Section 4.5: AHSP Kustom */}
