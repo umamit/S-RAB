@@ -77,6 +77,11 @@ export function calculateWeeklyProgressData(
   const isOverBudget = cumulativeActualCost > cumulativePlannedBudget;
   const budgetDeficit = cumulativeActualCost - cumulativePlannedBudget;
 
+  const earnedValue = (cumulativeActualWeight / 100) * totalProjectDirectCost;
+  const plannedValue = (plannedProgress / 100) * totalProjectDirectCost;
+  const cpi = cumulativeActualCost > 0 ? earnedValue / cumulativeActualCost : 1;
+  const spi = plannedValue > 0 ? earnedValue / plannedValue : 1;
+
   return {
     allCategories,
     cumulativePlannedWeights,
@@ -88,5 +93,9 @@ export function calculateWeeklyProgressData(
     isOverBudget,
     budgetDeficit,
     currentWeekRecord,
+    earnedValue,
+    plannedValue,
+    cpi,
+    spi,
   };
 }

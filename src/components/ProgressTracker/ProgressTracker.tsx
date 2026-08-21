@@ -37,6 +37,8 @@ export default function ProgressTracker({ project, triggerPrint }: ProgressTrack
     isOverBudget,
     budgetDeficit,
     currentWeekRecord,
+    cpi,
+    spi,
   } = calculateWeeklyProgressData(project, selectedWeek, totalProjectDirectCost);
 
   const handleProgressChange = (categoryId: string, valStr: string) => {
@@ -95,7 +97,7 @@ export default function ProgressTracker({ project, triggerPrint }: ProgressTrack
               placeholder="0"
               value={actualCostInput}
               onChange={(e) => setActualCostInput(e.target.value)}
-              className="pl-8 pr-3 py-1.5 w-48 bg-white dark:bg-zinc-950 border border-zinc-200 dark:border-zinc-800 rounded-lg text-sm font-semibold focus:outline-none"
+              className="pl-8 pr-3 py-1.5 w-48 bg-white dark:bg-zinc-955 border border-zinc-200 dark:border-zinc-800 rounded-lg text-sm font-semibold focus:outline-none"
             />
           </div>
           <button type="submit" className="px-3 py-1.5 bg-zinc-950 hover:bg-zinc-800 text-white dark:bg-zinc-50 dark:hover:bg-zinc-200 dark:text-zinc-950 font-bold rounded-lg text-xs transition-colors">
@@ -105,7 +107,7 @@ export default function ProgressTracker({ project, triggerPrint }: ProgressTrack
       </div>
 
       <DeviationAlert deviation={deviation} threshold={project.alertThreshold ?? 5} />
-      <ProgressKPI plannedProgress={plannedProgress} cumulativeActualWeight={cumulativeActualWeight} deviation={deviation} />
+      <ProgressKPI plannedProgress={plannedProgress} cumulativeActualWeight={cumulativeActualWeight} deviation={deviation} cpi={cpi} spi={spi} />
       <ProgressTable allCategories={allCategories} selectedWeek={selectedWeek} numWeeks={numWeeks} currentWeekRecord={currentWeekRecord} onProgressChange={handleProgressChange} />
     </div>
   );
