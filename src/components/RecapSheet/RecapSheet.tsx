@@ -1,11 +1,12 @@
 "use client";
 import { useState } from "react";
 import { Project, useRABStore, SubProject } from "@/lib/store";
-import { Printer } from "lucide-react";
+import { Printer, Shield } from "lucide-react";
 import RecapTable, { SubProjectCost } from "./RecapTable";
 import RecapForm from "./RecapForm";
 import ProjectParamsForm from "./ProjectParamsForm";
 import ProjectMap from "./ProjectMap";
+import AIAuditModal from "@/components/AIAuditor/AIAuditModal";
 
 interface RecapSheetProps {
   project: Project;
@@ -16,6 +17,7 @@ export default function RecapSheet({ project, triggerPrint }: RecapSheetProps) {
   const { addSubProject, deleteSubProject, updateSubProjectName, setActiveSubProject, updateProject } = useRABStore();
   const [editingSubId, setEditingSubId] = useState<string | null>(null);
   const [editingVal, setEditingVal] = useState("");
+  const [isAuditOpen, setIsAuditOpen] = useState(false);
 
   const calculateSubProjectDirectCost = (sub: SubProject) => {
     return sub.categories.reduce((acc, cat) => acc + cat.items.reduce((sum, item) => sum + item.total, 0), 0);
@@ -33,20 +35,12 @@ export default function RecapSheet({ project, triggerPrint }: RecapSheetProps) {
   const tax = directWithProfit * project.taxRate;
   const grandTotal = directWithProfit + tax;
 
-  const handleAddSub = (name: string) => {
-    addSubProject(project.id, name);
-  };
+  const handleAddSub = (name: string) => addSubProject(project.id, name);
 
   const handleSaveParams = (
-    profitRate: number,
-    taxRate: number,
-    alertThreshold: number,
-    pphRate: number,
-    latitude?: number,
-    longitude?: number
-  ) => {
-    updateProject(project.id, { profitRate, taxRate, alertThreshold, pphRate, latitude, longitude });
-  };
+    profitRate: number, taxRate: number, alertThreshold: number,
+    pphRate: number, latitude?: number, longitude?: number
+  ) => updateProject(project.id, { profitRate, taxRate, alertThreshold, pphRate, latitude, longitude });
 
   const handleStartEdit = (id: string, name: string) => {
     setEditingSubId(id);
@@ -54,8 +48,7 @@ export default function RecapSheet({ project, triggerPrint }: RecapSheetProps) {
   };
 
   const handleSaveEdit = (id: string) => {
-    if (!editingVal.trim()) return;
-    updateSubProjectName(project.id, id, editingVal.trim());
+    if (editingVal.trim()) updateSubProjectName(project.id, id, editingVal.trim());
     setEditingSubId(null);
   };
 
@@ -64,14 +57,9 @@ export default function RecapSheet({ project, triggerPrint }: RecapSheetProps) {
     else if (e.key === "Escape") setEditingSubId(null);
   };
 
-  const handleSetActiveSub = (id: string) => {
-    setActiveSubProject(project.id, id);
-  };
-
+  const handleSetActiveSub = (id: string) => setActiveSubProject(project.id, id);
   const handleDeleteSub = (id: string, name: string) => {
-    if (confirm(`Hapus sub-pekerjaan "${name}" beserta seluruh isinya?`)) {
-      deleteSubProject(project.id, id);
-    }
+    if (confirm(`Hapus sub-pekerjaan "${name}" beserta semua kategorinya?`)) deleteSubProject(project.id, id);
   };
 
   return (
@@ -81,15 +69,24 @@ export default function RecapSheet({ project, triggerPrint }: RecapSheetProps) {
           <h2 className="text-lg font-bold tracking-tight text-zinc-900 dark:text-zinc-50 uppercase print:text-center print:text-lg">Rekapitulasi Rencana Anggaran Biaya (RAB)</h2>
           <p className="text-xs text-zinc-500 dark:text-zinc-400 mt-1 print:hidden">Rangkuman anggaran keseluruhan dari semua sub-pekerjaan/divisi proyek konstruksi.</p>
         </div>
-        {triggerPrint && (
+        <div className="flex items-center gap-2 print:hidden">
           <button
-            onClick={() => triggerPrint("recap-only")}
+            onClick={() => setIsAuditOpen(true)}
             type="button"
-            className="text-[11px] font-semibold bg-zinc-50 hover:bg-zinc-100 dark:bg-zinc-900 dark:hover:bg-zinc-800 border border-zinc-200 dark:border-zinc-800 rounded-lg px-2.5 py-1.5 flex items-center gap-1.5 text-zinc-700 dark:text-zinc-300 shadow-sm transition-all print:hidden"
+            className="text-[11px] font-bold bg-emerald-50 hover:bg-emerald-100 dark:bg-emerald-950/30 dark:hover:bg-emerald-950/50 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-900/60 rounded-lg px-2.5 py-1.5 flex items-center gap-1.5 shadow-sm transition-all"
           >
-            <Printer className="w-3.5 h-3.5" /> Cetak Ringkasan
+            <Shield className="w-3.5 h-3.5 text-emerald-500" /> 🛡️ Audit AI
           </button>
-        )}
+          {triggerPrint && (
+            <button
+              onClick={() => triggerPrint("recap-only")}
+              type="button"
+              className="text-[11px] font-semibold bg-zinc-50 hover:bg-zinc-100 dark:bg-zinc-900 dark:hover:bg-zinc-800 border border-zinc-200 dark:border-zinc-800 rounded-lg px-2.5 py-1.5 flex items-center gap-1.5 text-zinc-700 dark:text-zinc-300 shadow-sm transition-all"
+            >
+              <Printer className="w-3.5 h-3.5" /> Cetak Ringkasan
+            </button>
+          )}
+        </div>
       </div>
 
       <RecapTable
@@ -104,7 +101,6 @@ export default function RecapSheet({ project, triggerPrint }: RecapSheetProps) {
         ccos={project.ccos}
         pphRate={project.pphRate}
         editingSubId={editingSubId}
-
         editingVal={editingVal}
         setEditingVal={setEditingVal}
         onStartEdit={handleStartEdit}
@@ -135,6 +131,8 @@ export default function RecapSheet({ project, triggerPrint }: RecapSheetProps) {
         </div>
       </div>
       <ProjectMap latitude={project.latitude} longitude={project.longitude} />
+
+      <AIAuditModal isOpen={isAuditOpen} onClose={() => setIsAuditOpen(false)} project={project} />
     </div>
   );
 }

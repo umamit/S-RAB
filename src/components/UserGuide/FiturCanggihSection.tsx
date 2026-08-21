@@ -105,6 +105,18 @@ export default function FiturCanggihSection() {
           Pantau indeks efisiensi biaya (**CPI**) dan efisiensi waktu (**SPI**) di tab Realisasi Progres untuk mendeteksi deviasi anggaran dan delay jadwal secara ilmiah.
         </div>
       </LangkahCard>
+
+      {/* Poin 9: AI Cost & Coefficient Auditor */}
+      <LangkahCard title="AI Cost &amp; Coefficient Auditor">
+        <div>
+          <strong className="text-zinc-855 dark:text-zinc-200 block mb-0.5">Audit Kewajaran RAB:</strong>
+          Klik tombol <strong>🛡️ Audit AI</strong> di tab Rekapitulasi Utama. AI Groq (GPT OSS 120B) akan menganalisis seluruh item pekerjaan untuk mendeteksi anomali harga pasar, risiko keselamatan struktur (seperti takaran semen/besi), dan kelengkapan item pekerjaan secara instan.
+        </div>
+        <div className="border-t border-zinc-150 dark:border-zinc-800/80 pt-2 mt-2">
+          <strong className="text-zinc-855 dark:text-zinc-200 block mb-0.5">Skor Kesehatan RAB:</strong>
+          Sistem menampilkan meteran skor kesehatan anggaran (0-100%) dan memberikan daftar rekomendasi perbaikan terperinci (Kritis, Waspada, dan Saran Efisiensi).
+        </div>
+      </LangkahCard>
     </div>
   );
 }
