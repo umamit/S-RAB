@@ -42,6 +42,15 @@ Semua berkas `.ts` dan `.tsx` di proyek S-RAB kini patuh 100% pada batas maksima
 
 ---
 
+### Audit & Perbaikan Layout Overlap
+Kami merapikan breakpoint responsif pada komponen utama yang berada di dalam area konten agar tidak terjadi tumpang tindih elemen visual saat menu sidebar terbuka di layar ukuran menengah:
+*   **[`Header.tsx`](file:///Users/husnitausman/Documents/antigravity/RAB/src/components/Header.tsx)**: Mengubah breakpoint dari `sm:` ke `lg:` agar pilihan proyek dan tombol tindakan tidak bertabrakan dengan logo teks.
+*   **[`SSHCatalog.tsx`](file:///Users/husnitausman/Documents/antigravity/RAB/src/components/SSHCatalog/SSHCatalog.tsx)**: Mengubah breakpoint dari `sm:` ke `lg:` agar tombol cetak dan input cari terlipat rapi ke bawah saat lebar layar terbatas.
+*   **[`FilterBar.tsx`](file:///Users/husnitausman/Documents/antigravity/RAB/src/components/ProjectEditor/FilterBar.tsx)**: Mengubah breakpoint dari `sm:` ke `md:` dan menambahkan `flex-wrap` agar kotak pencarian dan sorting dropdown membungkus dengan benar.
+*   **[`TemplateSelector.tsx`](file:///Users/husnitausman/Documents/antigravity/RAB/src/components/AHSPDrawer/TemplateSelector.tsx)**: Mengubah breakpoint dari `sm:` ke `md:` agar opsi pilihan preset tidak menyusut paksa di dalam drawer.
+
+---
+
 ## 🧪 Hasil Verifikasi & Build
 *   Semua pengujian tipe data TypeScript lulus sempurna (`npx tsc --noEmit` sukses).
 *   Proses kompilasi Next.js Turbopack build selesai dengan **status sukses** tanpa error.
