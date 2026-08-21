@@ -9,7 +9,7 @@ type TabType = "detail" | "recap" | "schedule" | "daily" | "progress" | "guide" 
 
 const TABS: { id: TabType; label: string; Icon: React.ComponentType<{ className?: string }> }[] = [
   { id: "recap",    label: "Rekapitulasi Utama",  Icon: Layers },
-  { id: "detail",   label: "Rincian Detail",       Icon: FileSpreadsheet },
+  { id: "detail",   label: "Rincian Detail (BOQ)", Icon: FileSpreadsheet },
   { id: "schedule", label: "Jadwal & Kurva S",     Icon: LineChart },
   { id: "daily",    label: "Laporan Harian",       Icon: ClipboardList },
   { id: "progress", label: "Realisasi Progres",    Icon: TrendingUp },

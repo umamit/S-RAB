@@ -74,7 +74,7 @@ export default function FiturCanggihSection() {
       <LangkahCard title="Pencarian &amp; Pengurutan Item (RAB)">
         <div>
           <strong className="text-zinc-850 dark:text-zinc-200 block mb-0.5">Mencari Pekerjaan:</strong>
-          Ketik kata kunci nama pekerjaan di kotak pencarian <strong>{"\"Cari item pekerjaan...\""}</strong> pada tab Rincian Detail. Kategori pekerjaan yang tidak memiliki item yang cocok akan disembunyikan secara otomatis agar tampilan bersih.
+          Ketik kata kunci nama pekerjaan di kotak pencarian <strong>{"\"Cari item pekerjaan...\""}</strong> pada tab Rincian Detail (BOQ). Kategori pekerjaan yang tidak memiliki item yang cocok akan disembunyikan secara otomatis agar tampilan bersih.
         </div>
         <div className="border-t border-zinc-150 dark:border-zinc-800/80 pt-2 mt-2">
           <strong className="text-zinc-850 dark:text-zinc-200 block mb-0.5">Mengurutkan Item:</strong>

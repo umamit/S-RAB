@@ -107,7 +107,7 @@ export default function ResourceSummary({ project, triggerPrint }: ResourceSumma
       </div>
 
       {totalResourceCost === 0 ? (
-        <div className="text-center py-20 text-xs text-zinc-400 border border-dashed border-zinc-200 dark:border-zinc-800 rounded-2xl bg-zinc-50/20">Belum ada data sumber daya. Aktifkan Analisis AHSP SNI pada pekerjaan di tab "Rincian Detail" dan isi volume pekerjaan untuk melihat rekapitulasi.</div>
+        <div className="text-center py-20 text-xs text-zinc-400 border border-dashed border-zinc-200 dark:border-zinc-800 rounded-2xl bg-zinc-50/20">Belum ada data sumber daya. Aktifkan Analisis AHSP SNI pada pekerjaan di tab "Rincian Detail (BOQ)" dan isi volume pekerjaan untuk melihat rekapitulasi.</div>
       ) : (
         <div className="space-y-8">
           <ResourceChart totalMaterialsCost={totalMaterialsCost} totalLaborCost={totalLaborCost} totalToolsCost={totalToolsCost} matPercent={matPercent} labPercent={labPercent} toolPercent={toolPercent} />

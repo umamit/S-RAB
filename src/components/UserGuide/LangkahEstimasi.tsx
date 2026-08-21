@@ -26,7 +26,7 @@ export default function LangkahEstimasi() {
         </div>
         <div>
           <strong className="text-zinc-850 dark:text-zinc-200 block mb-0.5">Mengedit Item Pekerjaan (Inline Editor):</strong>
-          Buka tab **Rincian Detail**. Klik langsung pada teks sel manapun (Nama Pekerjaan, Satuan, Volume Rencana, atau Harga) untuk mengedit nilainya secara instan. Tekan **Enter** untuk menyimpan.
+          Buka tab **Rincian Detail (BOQ)**. Klik langsung pada teks sel manapun (Nama Pekerjaan, Satuan, Volume Rencana, atau Harga) untuk mengedit nilainya secara instan. Tekan **Enter** untuk menyimpan.
         </div>
         <div>
           <strong className="text-zinc-850 dark:text-zinc-200 block mb-0.5">Menggunakan Analisa Harga Satuan (AHSP):</strong>
@@ -34,7 +34,7 @@ export default function LangkahEstimasi() {
         </div>
         <div className="border-t border-zinc-150 dark:border-zinc-800/80 pt-2 mt-2">
           <strong className="text-zinc-850 dark:text-zinc-200 block mb-0.5">Mengatur Volume Realisasi:</strong>
-          Di tab **Rincian Detail**, klik langsung pada sel di kolom **Vol Realisasi** untuk mencatat jumlah volume fisik pekerjaan yang telah diselesaikan secara aktual di lapangan. Jika volume realisasi melebihi rencana awal, sistem akan menandainya dengan warna merah (over-run).
+          Di tab **Rincian Detail (BOQ)**, klik langsung pada sel di kolom **Vol Realisasi** untuk mencatat jumlah volume fisik pekerjaan yang telah diselesaikan secara aktual di lapangan. Jika volume realisasi melebihi rencana awal, sistem akan menandainya dengan warna merah (over-run).
         </div>
         <div className="border-t border-zinc-150 dark:border-zinc-800/80 pt-2 mt-2">
           <strong className="text-zinc-850 dark:text-zinc-200 block mb-0.5">Menambahkan Bahan & Tenaga Kerja Baru:</strong>

@@ -19,7 +19,7 @@ export default function LangkahPenggunaanSection() {
             <strong className="text-zinc-800 dark:text-zinc-200">Ekspor Excel:</strong> Menghasilkan file `.xlsx` dengan tab cover Rekapitulasi, tab sub-proyek detail, serta daftar kebutuhan bahan &amp; upah terintegrasi rumus otomatis.
           </li>
           <li>
-            <strong className="text-zinc-800 dark:text-zinc-200">Cetak PDF:</strong> Klik tombol <strong>Cetak PDF</strong> di kanan atas layar untuk menghasilkan satu dokumen bundel laporan terpadu (Cover Rekapitulasi + Rincian Detail + Laporan Harian + Laporan Progres Mingguan + Rekapitulasi Bahan) yang siap dicetak atau disimpan sebagai PDF.
+            <strong className="text-zinc-800 dark:text-zinc-200">Cetak PDF:</strong> Klik tombol <strong>Cetak PDF</strong> di kanan atas layar untuk menghasilkan satu dokumen bundel laporan terpadu (Cover Rekapitulasi + Rincian Detail (BOQ) + Laporan Harian + Laporan Progres Mingguan + Rekapitulasi Bahan) yang siap dicetak atau disimpan sebagai PDF.
           </li>
           <li>
             <strong className="text-zinc-800 dark:text-zinc-200">Bagikan Proyek (JSON):</strong> Klik <strong>Ekspor JSON</strong> di header untuk mengunduh satu file `.json` berisi seluruh data proyek aktif. Rekan kerja dapat membukanya melalui tombol <strong>Impor JSON</strong> di samping daftar proyek — data akan masuk sebagai proyek baru tanpa menimpa data yang sudah ada.

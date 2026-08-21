@@ -16,7 +16,7 @@ export default function TaktisPLSection() {
         </div>
         <div>
           <strong className="text-zinc-800 dark:text-zinc-200 block mb-0.5">2. Kunci Anggaran di Bawah Pagu:</strong>
-          Sesuaikan kuantitas volume pekerjaan di tab *Rincian Detail* agar nilai Grand Total akhir berada sedikit di bawah pagu kontrak setelah ditambah PPN dan Overhead.
+          Sesuaikan kuantitas volume pekerjaan di tab *Rincian Detail (BOQ)* agar nilai Grand Total akhir berada sedikit di bawah pagu kontrak setelah ditambah PPN dan Overhead.
         </div>
         <div>
           <strong className="text-zinc-800 dark:text-zinc-200 block mb-0.5">3. Setel Kurva S Durasi Pendek:</strong>
