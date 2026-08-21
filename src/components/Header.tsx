@@ -47,7 +47,7 @@ export default function Header({ onOpenNewProjectModal }: HeaderProps) {
   return (
     <header className="sticky top-0 z-30 w-full border-b border-zinc-200 dark:border-zinc-800 bg-white/80 dark:bg-zinc-950/80 backdrop-blur-md px-6 py-4 flex flex-col sm:flex-row gap-4 justify-between items-center">
       <div className="flex items-center gap-3">
-        <div className="w-9 h-9 rounded-lg bg-zinc-900 dark:bg-zinc-50 flex items-center justify-center font-bold text-lg text-white dark:text-zinc-950 shadow-md shadow-black/10">S</div>
+        <img src="/logo.png" alt="S-RAB Logo" className="w-9 h-9 object-contain rounded-lg shadow-sm" />
         <div>
           <h1 className="font-bold text-md tracking-tight text-zinc-950 dark:text-zinc-50 leading-none">S-RAB</h1>
           <span className="text-[10px] text-zinc-400 font-medium uppercase tracking-widest whitespace-nowrap block mt-0.5">Estimator Platform</span>
