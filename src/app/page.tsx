@@ -8,6 +8,7 @@ import BudgetSummary from "@/components/BudgetSummary";
 import ProjectEditor from "@/components/ProjectEditor";
 import AddProjectModal from "@/components/AddProjectModal";
 import LoginScreen from "@/components/LoginScreen";
+import AICopilotWidget from "@/components/AICopilot/AICopilotWidget";
 import { supabase, fetchProjectsFromSupabase, syncProjectToSupabase } from "@/lib/supabaseClient";
 
 export default function Home() {
@@ -37,20 +38,11 @@ export default function Home() {
         };
 
         let dbProjects = await fetchProjectsFromSupabase();
-
-        // Auto-seed Supabase database with mock data if database is empty for this user
         if (dbProjects.length === 0) {
           const { mockProjects } = require("@/lib/store/mockData");
-          const initialProjects = mockProjects.map((p: any) => ({
-            ...p,
-            userId: session.user.id,
-            id: `proj-initial-${Date.now()}`
-          }));
-
-          for (const proj of initialProjects) {
-            await syncProjectToSupabase(proj);
-          }
-          dbProjects = initialProjects;
+          const initial = mockProjects.map((p: any) => ({ ...p, userId: session.user.id, id: `proj-initial-${Date.now()}` }));
+          for (const proj of initial) await syncProjectToSupabase(proj);
+          dbProjects = initial;
         }
 
         useRABStore.setState({
@@ -144,6 +136,9 @@ export default function Home() {
         isOpen={isNewProjectModalOpen}
         onClose={() => setIsNewProjectModalOpen(false)}
       />
+
+      {/* Floating AI Copilot Assistant */}
+      <AICopilotWidget />
     </div>
   );
 }

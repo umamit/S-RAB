@@ -117,6 +117,18 @@ export default function FiturCanggihSection() {
           Sistem menampilkan meteran skor kesehatan anggaran (0-100%) dan memberikan daftar rekomendasi perbaikan terperinci (Kritis, Waspada, dan Saran Efisiensi).
         </div>
       </LangkahCard>
+
+      {/* Poin 10: AI Estimator Chat Copilot */}
+      <LangkahCard title="AI Estimator Chat Copilot">
+        <div>
+          <strong className="text-zinc-855 dark:text-zinc-200 block mb-0.5">Asisten Tanya Jawab Proyek 24/7:</strong>
+          Klik tombol melayang <strong>🤖 AI Copilot</strong> di pojok kanan bawah. Anda dapat bertanya apapun tentang proyek (seperti total kebutuhan semen, 3 item termahal, atau strategi penghematan 10%).
+        </div>
+        <div className="border-t border-zinc-150 dark:border-zinc-800/80 pt-2 mt-2">
+          <strong className="text-zinc-855 dark:text-zinc-200 block mb-0.5">Pembuatan Draf Dokumen Resmi:</strong>
+          AI Copilot dapat langsung menyusun draf teks Surat Penawaran Harga (SPH), Berita Acara Rapat Evaluasi (SCM), maupun ringkasan eksekutif untuk dipresentasikan ke klien.
+        </div>
+      </LangkahCard>
     </div>
   );
 }
