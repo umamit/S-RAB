@@ -18,6 +18,8 @@ export default function LangkahEstimasi() {
             <li><strong>Pembangunan Ruko 2 Lantai</strong> — Struktur &amp; Arsitektur (pondasi, beton, dinding, lantai)</li>
             <li><strong>Pekerjaan Jalan Paving Block</strong> — Tanah, leveling, lapisan base &amp; paving</li>
             <li><strong>Pekerjaan Drainase &amp; Gorong-Gorong</strong> — Persiapan, galian, saluran pasangan, gorong-gorong beton, finishing</li>
+            <li><strong>Pembuatan Website &amp; Integrasi AI</strong> — Alur lengkap 8 langkah pengerjaan (PWA, ZXing, RAG Chatbot, PDF, &amp; PostHog)</li>
+            <li><strong>Portal Sekolah &amp; CMS Dinamis</strong> — Alur lengkap 8 langkah pengerjaan (Prisma ORM, Supabase Auth/Storage, Groq AI, &amp; XYFlow)</li>
             <li><strong>Template Kosong</strong> — Mulai dari RAB kosong, susun sendiri dari nol</li>
           </ul>
           Sistem akan otomatis mengisi sub-proyek, kategori, dan item pekerjaan awal untuk menghemat waktu input.
