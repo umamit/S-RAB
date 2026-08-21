@@ -75,7 +75,7 @@ export default function RecapSheet({ project, triggerPrint }: RecapSheetProps) {
             type="button"
             className="text-[11px] font-bold bg-emerald-50 hover:bg-emerald-100 dark:bg-emerald-950/30 dark:hover:bg-emerald-950/50 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-900/60 rounded-lg px-2.5 py-1.5 flex items-center gap-1.5 shadow-sm transition-all"
           >
-            <Shield className="w-3.5 h-3.5 text-emerald-500" /> 🛡️ Audit AI
+            <Shield className="w-3.5 h-3.5 text-emerald-500" /> Audit AI
           </button>
           {triggerPrint && (
             <button

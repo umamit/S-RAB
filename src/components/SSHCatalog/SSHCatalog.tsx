@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 import { Project, useRABStore } from "@/lib/store";
-import { Coins, Search, Printer } from "lucide-react";
+import { Coins, Search, Printer, Package, HardHat, Wrench } from "lucide-react";
 import SSHTable, { SSHResource } from "./SSHTable";
 
 interface SSHCatalogProps {
@@ -111,9 +111,9 @@ export default function SSHCatalog({ project, triggerPrint }: SSHCatalogProps) {
         </div>
       ) : (
         <div className="space-y-6">
-          <SSHTable title="Bahan Baku / Material" emoji="📦" list={filterList(materials)} editingKey={editingKey} editValue={editValue} setEditValue={setEditValue} onStartEdit={handleStartEdit} onSaveEdit={handleSaveEdit} onKeyDown={handleKeyDown} />
-          <SSHTable title="Tenaga Kerja / Harian (OH)" emoji="👷" list={filterList(labors)} editingKey={editingKey} editValue={editValue} setEditValue={setEditValue} onStartEdit={handleStartEdit} onSaveEdit={handleSaveEdit} onKeyDown={handleKeyDown} />
-          <SSHTable title="Peralatan / Sewa" emoji="🛠️" list={filterList(tools)} editingKey={editingKey} editValue={editValue} setEditValue={setEditValue} onStartEdit={handleStartEdit} onSaveEdit={handleSaveEdit} onKeyDown={handleKeyDown} />
+          <SSHTable title="Bahan Baku / Material" Icon={Package} list={filterList(materials)} editingKey={editingKey} editValue={editValue} setEditValue={setEditValue} onStartEdit={handleStartEdit} onSaveEdit={handleSaveEdit} onKeyDown={handleKeyDown} />
+          <SSHTable title="Tenaga Kerja / Harian (OH)" Icon={HardHat} list={filterList(labors)} editingKey={editingKey} editValue={editValue} setEditValue={setEditValue} onStartEdit={handleStartEdit} onSaveEdit={handleSaveEdit} onKeyDown={handleKeyDown} />
+          <SSHTable title="Peralatan / Sewa" Icon={Wrench} list={filterList(tools)} editingKey={editingKey} editValue={editValue} setEditValue={setEditValue} onStartEdit={handleStartEdit} onSaveEdit={handleSaveEdit} onKeyDown={handleKeyDown} />
         </div>
       )}
     </div>

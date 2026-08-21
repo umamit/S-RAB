@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import { X, Shield, RefreshCw } from "lucide-react";
+import { X, Shield, RefreshCw, AlertCircle } from "lucide-react";
 import type { Project } from "@/lib/store";
 import { runAIAudit, type AuditReportResult } from "@/lib/ai/rabAuditService";
 import AuditScoreCard from "./AuditScoreCard";
@@ -61,8 +61,9 @@ export default function AIAuditModal({ isOpen, onClose, project }: AIAuditModalP
         </div>
 
         {error && (
-          <div className="p-3 bg-red-50 dark:bg-red-950/30 border border-red-200 dark:border-red-900/60 rounded-xl text-xs text-red-600 dark:text-red-400 font-semibold">
-            ⚠️ {error}
+          <div className="p-3 bg-red-50 dark:bg-red-950/30 border border-red-200 dark:border-red-900/60 rounded-xl text-xs text-red-600 dark:text-red-400 font-semibold flex items-center gap-2">
+            <AlertCircle className="w-4 h-4 shrink-0" />
+            <span>{error}</span>
           </div>
         )}
 

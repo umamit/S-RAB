@@ -2,6 +2,7 @@
 import React from "react";
 import type { Project } from "@/lib/store";
 import type { ScheduleCategory } from "./ScheduleTable";
+import { AlertTriangle } from "lucide-react";
 
 interface GanttChartProps {
   project: Project;
@@ -11,36 +12,37 @@ interface GanttChartProps {
 
 export default function GanttChart({ project, allCategories, numWeeks }: GanttChartProps) {
   return (
-    <div className="border border-zinc-200 dark:border-zinc-800 rounded-xl overflow-hidden bg-white dark:bg-zinc-950 shadow-sm col-span-1 lg:col-span-3">
-      <div className="bg-zinc-55 dark:bg-zinc-900/40 p-4 border-b border-zinc-200 dark:border-zinc-800 flex justify-between items-center">
-        <h3 className="text-xs font-bold uppercase tracking-wider text-zinc-700 dark:text-zinc-300">Gantt Chart Linimasa &amp; Realisasi</h3>
-        <span className="text-[10px] text-zinc-400 font-semibold uppercase">Hijau = Progres Fisik Lapangan</span>
+    <div className="lg:col-span-3 p-5 rounded-2xl bg-zinc-50/50 dark:bg-zinc-900/10 border border-zinc-200 dark:border-zinc-800 shadow-xs space-y-4">
+      <div className="flex justify-between items-center flex-wrap gap-2">
+        <h3 className="text-xs font-bold uppercase tracking-wider text-zinc-700 dark:text-zinc-300">
+          Linimasa &amp; Progress Bar Kategori (Gantt Chart)
+        </h3>
+        <span className="text-[10px] text-zinc-400">Bar Hijau = Realisasi Fisik Lapangan | Bar Gelap = Rencana</span>
       </div>
 
-      <div className="overflow-x-auto">
-        <table className="w-full text-left border-collapse text-[11px]">
+      <div className="overflow-x-auto rounded-xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-950">
+        <table className="w-full text-xs text-left border-collapse">
           <thead>
-            <tr className="bg-zinc-50 dark:bg-zinc-900/10 border-b border-zinc-200 dark:border-zinc-800 text-zinc-500 font-semibold uppercase tracking-wider">
-              <th className="py-2.5 px-3 min-w-[120px] sm:min-w-[200px] sticky left-0 bg-white dark:bg-zinc-950 border-r border-zinc-200 dark:border-zinc-800">Kategori Pekerjaan</th>
+            <tr className="bg-zinc-50 dark:bg-zinc-900/60 border-b border-zinc-200 dark:border-zinc-800 text-[10px] font-bold uppercase tracking-wider text-zinc-500">
+              <th className="py-2.5 px-3 sticky left-0 bg-zinc-50 dark:bg-zinc-900/60 border-r border-zinc-200 dark:border-zinc-800 z-10">Kategori Pekerjaan</th>
               <th className="py-2.5 px-3 w-16 text-right border-r border-zinc-200 dark:border-zinc-800">Bobot</th>
               {Array.from({ length: numWeeks }).map((_, w) => (
-                <th key={w} className="py-2.5 px-1 text-center w-14 border-r border-zinc-200 dark:border-zinc-800">M-{w + 1}</th>
+                <th key={w} className="py-2.5 px-1 text-center min-w-[34px] border-r border-zinc-100 dark:border-zinc-800/60">
+                  M{w + 1}
+                </th>
               ))}
             </tr>
           </thead>
-          <tbody className="divide-y divide-zinc-100 dark:divide-zinc-800/80 font-medium text-zinc-700 dark:text-zinc-355">
+          <tbody className="divide-y divide-zinc-100 dark:divide-zinc-800/60">
             {allCategories.map((cat) => {
-              const start = cat.startWeek;
-              const duration = cat.durationWeeks;
-              const end = start + duration - 1;
-
-              // Ambil progres aktual terakhir
-              const latestWeekNumber = project.weeklyProgress && project.weeklyProgress.length > 0
-                ? Math.max(...project.weeklyProgress.map((wp) => wp.weekNumber))
-                : 1;
-              const latestWeekRecord = project.weeklyProgress?.find((wp) => wp.weekNumber === latestWeekNumber);
-              const latestProgressPct = latestWeekRecord?.actualCategoryProgress[cat.categoryId] ?? 0;
-              const isDelayed = latestWeekNumber > end && latestProgressPct < 100;
+              const start = Math.max(1, Math.min(numWeeks, cat.startWeek));
+              const duration = Math.max(1, cat.durationWeeks);
+              const end = Math.min(numWeeks, start + duration - 1);
+              
+              const currentMaxWeek = project.weeklyProgress?.length || 0;
+              const lastRecord = project.weeklyProgress?.find((wp) => wp.weekNumber === currentMaxWeek);
+              const actualPct = lastRecord?.actualCategoryProgress[cat.categoryId] ?? 0;
+              const isDelayed = currentMaxWeek > end && actualPct < 100;
 
               return (
                 <tr key={cat.categoryId} className="hover:bg-zinc-50/40 dark:hover:bg-zinc-900/10 h-10">
@@ -49,8 +51,8 @@ export default function GanttChart({ project, allCategories, numWeeks }: GanttCh
                       <span className="flex items-center gap-1.5 truncate">
                         {cat.categoryName}
                         {isDelayed && (
-                          <span className="shrink-0 bg-red-150 text-red-700 dark:bg-red-950/40 dark:text-red-400 px-1 py-0.5 rounded text-[8px] font-extrabold tracking-tight uppercase" title="Pekerjaan terlambat melewati jadwal rencana">
-                            ⚠️ Terlambat
+                          <span className="shrink-0 bg-red-150 text-red-700 dark:bg-red-950/40 dark:text-red-400 px-1 py-0.5 rounded text-[8px] font-extrabold tracking-tight uppercase flex items-center gap-0.5" title="Pekerjaan terlambat melewati jadwal rencana">
+                            <AlertTriangle className="w-2.5 h-2.5" /> Terlambat
                           </span>
                         )}
                       </span>

@@ -101,7 +101,7 @@ export default function TabDetail({ project, totalDirectCost, triggerPrint }: Ta
               type="button"
               className="text-[11px] font-bold bg-amber-50 hover:bg-amber-100 dark:bg-amber-950/30 dark:hover:bg-amber-950/50 text-amber-700 dark:text-amber-300 border border-amber-200 dark:border-amber-900/60 rounded-lg px-2.5 py-1.5 flex items-center gap-1.5 shadow-sm transition-all"
             >
-              <Sparkles className="w-3.5 h-3.5 text-amber-500" /> 🤖 AI Smart Parser
+              <Sparkles className="w-3.5 h-3.5 text-amber-500" /> AI Smart Parser
             </button>
             <button
               onClick={() => triggerPrint("single-sub", activeSubProject.id)}

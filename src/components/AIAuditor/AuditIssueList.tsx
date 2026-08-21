@@ -80,10 +80,10 @@ export default function AuditIssueList({ issues }: AuditIssueListProps) {
                 )}
               </div>
               <p className="text-zinc-700 dark:text-zinc-300 leading-relaxed font-medium">
-                🔍 {issue.finding}
+                {issue.finding}
               </p>
               <div className="p-2.5 rounded-lg bg-zinc-50 dark:bg-zinc-900/60 border border-zinc-150 dark:border-zinc-800/80 text-[11px] text-zinc-650 dark:text-zinc-350">
-                <strong className="text-emerald-600 dark:text-emerald-400">💡 Rekomendasi: </strong>
+                <strong className="text-emerald-600 dark:text-emerald-400">Rekomendasi: </strong>
                 {issue.recommendation}
               </div>
             </div>

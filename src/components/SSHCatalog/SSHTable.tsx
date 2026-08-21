@@ -12,7 +12,7 @@ interface SSHResource {
 
 interface SSHTableProps {
   title: string;
-  emoji: string;
+  Icon: React.ComponentType<{ className?: string }>;
   list: SSHResource[];
   editingKey: string | null;
   editValue: string;
@@ -24,7 +24,7 @@ interface SSHTableProps {
 
 export default function SSHTable({
   title,
-  emoji,
+  Icon,
   list,
   editingKey,
   editValue,
@@ -38,8 +38,8 @@ export default function SSHTable({
   return (
     <div className="bg-white dark:bg-zinc-950 rounded-2xl border border-zinc-200 dark:border-zinc-800 overflow-hidden shadow-sm">
       <div className="px-5 py-4 border-b border-zinc-100 dark:border-zinc-800 bg-zinc-50/50 dark:bg-zinc-900/20">
-        <h3 className="text-xs font-bold text-zinc-800 dark:text-zinc-200 uppercase tracking-wider">
-          {emoji} {title}
+        <h3 className="text-xs font-bold text-zinc-800 dark:text-zinc-200 uppercase tracking-wider flex items-center gap-2">
+          <Icon className="w-4 h-4 text-zinc-500" /> {title}
         </h3>
       </div>
       <div className="overflow-x-auto">
